@@ -824,13 +824,13 @@
     "provider": "pexels",
     "sourceId": "pexels:28585594",
     "title": "Portrait of a young girl smiling in a blue dress with lace collar.",
-    "author": "Mehmet Alt\u0131nta\u015f",
+    "author": "Mehmet Altıntaş",
     "authorUrl": "https://www.pexels.com/@mehmet-altintas-392989477",
     "sourceUrl": "https://www.pexels.com/photo/young-girl-in-blue-dress-smiling-outdoors-28585594/",
     "license": "Pexels License",
     "licenseUrl": "https://www.pexels.com/license/",
     "attributionRequired": false,
-    "creditLine": "Photo by Mehmet Alt\u0131nta\u015f on Pexels",
+    "creditLine": "Photo by Mehmet Altıntaş on Pexels",
     "downloadedAt": "2026-09-04T07:15:55.800Z",
     "files": [
       "public/images/girl-blue-kurta-420w.avif",
@@ -1283,6 +1283,81 @@
       "public/images/classroom-blocks-hero.avif",
       "public/images/classroom-blocks-hero.webp",
       "public/images/classroom-blocks-hero.jpg"
+    ]
+  },
+  {
+    "file": "indore-skyline",
+    "provider": "wikimedia-commons",
+    "sourceId": "commons:Indore Skyline (11792762613).jpg",
+    "title": "Indore Skyline (11792762613)",
+    "author": "John Hoey from Framingham, MA, United States",
+    "authorUrl": "https://commons.wikimedia.org/wiki/File:Indore_Skyline_(11792762613).jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Indore_Skyline_(11792762613).jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "attributionRequired": true,
+    "creditLine": "Indore Skyline (11792762613) by John Hoey from Framingham, MA, United States, CC BY 2.0, via Wikimedia Commons",
+    "downloadedAt": "2026-09-09T12:39:58.574Z",
+    "files": [
+      "public/images/indore-skyline-480w.avif",
+      "public/images/indore-skyline-480w.webp",
+      "public/images/indore-skyline-480w.jpg",
+      "public/images/indore-skyline-768w.avif",
+      "public/images/indore-skyline-768w.webp",
+      "public/images/indore-skyline-768w.jpg",
+      "public/images/indore-skyline.avif",
+      "public/images/indore-skyline.webp",
+      "public/images/indore-skyline.jpg"
+    ]
+  },
+  {
+    "file": "indore-lake",
+    "provider": "wikimedia-commons",
+    "sourceId": "commons:Lake view Regional park, Indore.jpg",
+    "title": "Lake view Regional park, Indore",
+    "author": "Sonika Dhakad",
+    "authorUrl": "https://commons.wikimedia.org/wiki/File:Lake_view_Regional_park,_Indore.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lake_view_Regional_park,_Indore.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attributionRequired": true,
+    "creditLine": "Lake view Regional park, Indore by Sonika Dhakad, CC BY-SA 4.0, via Wikimedia Commons",
+    "downloadedAt": "2026-09-09T12:40:03.884Z",
+    "files": [
+      "public/images/indore-lake-480w.avif",
+      "public/images/indore-lake-480w.webp",
+      "public/images/indore-lake-480w.jpg",
+      "public/images/indore-lake-768w.avif",
+      "public/images/indore-lake-768w.webp",
+      "public/images/indore-lake-768w.jpg",
+      "public/images/indore-lake.avif",
+      "public/images/indore-lake.webp",
+      "public/images/indore-lake.jpg"
+    ]
+  },
+  {
+    "file": "indore-street",
+    "provider": "wikimedia-commons",
+    "sourceId": "commons:Subhash Marg in Indore, India.JPG",
+    "title": "Subhash Marg in Indore, India",
+    "author": "Kprateek88",
+    "authorUrl": "https://commons.wikimedia.org/wiki/File:Subhash_Marg_in_Indore,_India.JPG",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Subhash_Marg_in_Indore,_India.JPG",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "attributionRequired": true,
+    "creditLine": "Subhash Marg in Indore, India by Kprateek88, CC BY-SA 3.0, via Wikimedia Commons",
+    "downloadedAt": "2026-09-09T12:40:06.891Z",
+    "files": [
+      "public/images/indore-street-480w.avif",
+      "public/images/indore-street-480w.webp",
+      "public/images/indore-street-480w.jpg",
+      "public/images/indore-street-768w.avif",
+      "public/images/indore-street-768w.webp",
+      "public/images/indore-street-768w.jpg",
+      "public/images/indore-street.avif",
+      "public/images/indore-street.webp",
+      "public/images/indore-street.jpg"
     ]
   }
 ]

@@ -2,10 +2,8 @@ import { Seo } from '@/lib/Seo'
 import { pageSeo } from '@/data/seo'
 import { organizationSchema } from '@/lib/schema'
 import { Container, Section, SectionHeader } from '@/components/ui/layout'
-import { Card, Chip, cardBackdropCycle, cardShapeCycle } from '@/components/ui/Card'
-import { LiveDot } from '@/animations/interactions'
-import { MapPin } from 'lucide-react'
-import { cn } from '@/lib/cn'
+import { Card, cardBackdropCycle, cardShapeCycle } from '@/components/ui/Card'
+import { ZoneCard } from '@/sections/campuses/ZoneCard'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ContentImageSection } from '@/components/ui/ContentImageSection'
 import { TextLink } from '@/components/ui/Button'
@@ -34,19 +32,6 @@ import { routes } from '@/data/routes'
  * The list itself is transcribed from NCERT Guidelines Chapter 6.
  * Source: NCERT Curriculum Summary S7; Website Reference Document S4.
  */
-/**
- * A colour and a ring per zone, cycled.
- *
- * Three cards carrying the same paragraph verbatim need something to tell them
- * apart other than the place name, and the name is the one thing a reader is
- * scanning for. Colour does that work without adding words.
- */
-const ZONE_ACCENTS = [
-  { chip: 'bg-terracotta-200 text-terracotta-800', ring: 'border-terracotta-200/30' },
-  { chip: 'bg-haldi-200 text-haldi-600', ring: 'border-haldi-200/35' },
-  { chip: 'bg-neem-200 text-neem-600', ring: 'border-neem-200/35' },
-]
-
 export function CampusesPage() {
   return (
     <>
@@ -71,74 +56,24 @@ export function CampusesPage() {
             standfirst="Each campus will have its own page, its own address and its own map as soon as it is ready."
           />
 
-          {/* WHY THERE IS NO PHOTOGRAPH OF EACH ZONE HERE.
-              A picture of Kanadia Road, Rau or Bicholi Mardana would be the
-              obvious way to fill these cards, and none exists that we can use:
-              Wikimedia Commons returns nothing at all for two of the three, and
-              for Rau only a Navratri procession and an unrelated portrait.
-              Dropping a generic Indore street in and heading it "Kanadia Road"
-              would be showing a place that is not the place, on the one page
-              that promises the opposite two paragraphs above: photographs and a
-              map the day the campus is ready, and until then no building you
-              cannot visit.
+          {/* Three location cards: picture, place, directions, map.
 
-              So each zone gets a marker rather than a view. The pin, the tinted
-              ground and the faint contour behind it say "a located place" and
-              claim nothing about what it looks like. */}
-          <RevealGroup className="mt-block grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {zones.map((zone, i) => {
-              const accent = ZONE_ACCENTS[i % ZONE_ACCENTS.length]
-              return (
-              <RevealItem key={zone.slug} className="h-full">
-                <Card
-                  className="flex h-full flex-col"
-                  object={zone.slug}
-                  shape={cardShapeCycle[i % cardShapeCycle.length]}
-                  backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}
-                >
-                  {/* A contour, not a map: enough to read as ground without
-                      pretending to be this ground. */}
-                  <span
-                    className={cn(
-                      'pointer-events-none absolute -bottom-6 -right-5 -z-10 size-28 rounded-full border-[6px]',
-                      accent.ring,
-                    )}
-                    aria-hidden="true"
-                  />
-                  <span
-                    className={cn(
-                      'mb-4 grid size-11 place-items-center rounded-xl shadow-soft',
-                      accent.chip,
-                    )}
-                    aria-hidden="true"
-                  >
-                    <MapPin className="size-5" strokeWidth={1.9} />
-                  </span>
+              WHAT THEY MAY CLAIM is the whole design of them. No campus has an
+              address yet, so every part of the card is about the zone instead —
+              real OpenStreetMap coordinates for the locality, a map centred on
+              it, a directions link that searches for it. Each card says as much
+              in a line under the copy, because a card shaped like a campus
+              listing that is not one would undo the promise made two paragraphs
+              above it.
 
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-display text-h2 font-semibold text-indigo-ink-700">
-                      {zone.name}
-                    </h3>
-                    {/* The one pulsing indicator on the site. It marks a state
-                        that is genuinely current and genuinely changing — these
-                        campuses are in preparation right now — rather than
-                        decorating a static label, which is a site pretending to
-                        have live data. */}
-                    <Chip tone="muted" className="whitespace-nowrap">
-                      <LiveDot tone="terracotta" />
-                      In preparation
-                    </Chip>
-                  </div>
-                  <p className="mt-4 flex-1 text-body text-ink-500">
-                    A campus is planned for this zone. Register your interest and we will tell you
-                    the moment admissions open here.
-                  </p>
-                  <p className="mt-5 text-sm font-semibold text-terracotta-600">{zone.keyword}</p>
-                </Card>
-              </RevealItem>
-              )
-            })}
-          </RevealGroup>
+              Not a `RevealGroup`: the cards carry their own staggered entrance
+              in Motion, which also drives the hover lift and the picture's zoom,
+              so one system owns the whole card rather than two overlapping. */}
+          <div className="mt-block grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {zones.map((zone, i) => (
+              <ZoneCard key={zone.slug} zone={zone} index={i} />
+            ))}
+          </div>
 
         </Container>
       </Section>

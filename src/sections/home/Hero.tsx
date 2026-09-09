@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Check, MapPin, Layers, Ban } from 'lucide-react'
 import { Container } from '@/components/ui/layout'
 import { ButtonLink } from '@/components/ui/Button'
@@ -9,6 +9,7 @@ import { Kite, Leaf, Cloud } from '@/components/art/objects'
 import { SectionDivider } from '@/components/ui/SectionDivider'
 import { Ambient, Blob, Float } from '@/animations/Scroll'
 import { useHeroIntro } from '@/animations/gsap'
+import { useNavTone } from '@/layouts/nav-tone'
 import { heroCopy } from '@/data/positioning'
 import { primaryCta } from '@/data/site'
 import { programs } from '@/data/admissions'
@@ -72,6 +73,17 @@ export function Hero() {
   const scopeRef = useRef<HTMLElement>(null)
   useHeroIntro(scopeRef)
 
+  // The navbar floats over this band with no ground of its own, and this band
+  // is now shaded. Ink-on-transparent links measured 2.1:1 against the shaded
+  // photograph. `dark-hero` is the switch the page headers already use for
+  // exactly this: it flips the wordmark and the links to light while the reader
+  // is at the top, and back the moment the bar gains its own surface.
+  const { setTone } = useNavTone()
+  useEffect(() => {
+    setTone('dark-hero')
+    return () => setTone('light-hero')
+  }, [setTone])
+
   return (
     <section
       ref={scopeRef}
@@ -128,39 +140,31 @@ export function Hero() {
           imgClassName="[object-position:72%_52%]! md:[object-position:66%_50%]! lg:[object-position:58%_46%]!"
         />
 
-        {/* A very light overall wash, only enough to take the edge off the
-            footage at the frame edges — but only from `lg`. The lighter value
-            was on `sm` first, which is wrong: the radial below is sized as a
-            percentage of the band, so on a tablet it covers proportionally
-            less while the text still spans most of the width. Measured at
-            768x1024 the standfirst came in at 2.6:1 against a floor of 3. The
-            step belongs at `lg`, where the column actually narrows. */}
-        <div className="absolute inset-0 bg-khadi-100/26 lg:bg-khadi-100/6" />
+        {/* A shade, not a veil.
 
-        {/* The one that does the real work, and the one that was wrong. It used
-            to be an ellipse half the width and 42% of the height of the band,
-            solid cream out to 22% of its radius and only reaching transparent
-            at the frame edge — which is not a scrim behind the text, it is a
-            cream veil over the whole picture. The footage was paying its
-            download and showing almost nothing for it.
+            The cream wash this replaced had to be dense to hold dark text up,
+            and dense cream over a photograph is exactly what "the background is
+            not visible" meant: the picture went milky everywhere the words
+            were. Shading the ground instead and lifting the type off it costs
+            the picture far less, because a light shade keeps a photograph's own
+            contrast where a light veil flattens it.
 
-            Tight and explicit instead: near-opaque under the words, still 86%
-            at the standfirst, then falling away to nothing by the frame edge.
-            Written in rgba rather than a token because the stops need four
-            different alphas of one colour, which a single `var()` cannot
-            express.
+            Below `lg` the column is centred and full width, so the shade has to
+            be even. */}
+        <div className="absolute inset-0 bg-indigo-ink-800/45 lg:hidden" />
 
-            The middle stop was set by the standfirst, not the headline, and
-            for a while it was the only thing holding the veil up: at `ink-500`
-            over a very bright classroom that line measured 2.5:1 at 768px, and
-            every attempt to lighten the picture pushed it under. Darkening the
-            paragraph instead moved the constraint off the scrim, which is why
-            these numbers are roughly half what they were. */}
-        <div className="absolute inset-0 bg-[radial-gradient(48%_44%_at_50%_47%,rgba(250,246,238,0.82)_0%,rgba(250,246,238,0.6)_42%,rgba(250,246,238,0.18)_72%,rgba(250,246,238,0)_100%)]" />
+        {/* From `lg` it is one edge. The words are in the left third and the
+            child is on the right, so the shade is gone by 62% and the half of
+            the picture anyone actually looks at carries nothing at all. */}
+        <div className="absolute inset-0 hidden bg-[linear-gradient(100deg,rgba(16,36,56,0.72)_0%,rgba(16,36,56,0.6)_26%,rgba(16,36,56,0.3)_45%,rgba(16,36,56,0)_62%)] lg:block" />
 
-        {/* Top and bottom only: the navbar needs something to sit on, and the
-            foot has to reach the facts strip without a visible edge. */}
-        <div className="absolute inset-0 bg-linear-to-b from-khadi-100/70 via-transparent to-khadi-100/28" />
+        {/* A real strip of shade under the navbar. The bar is transparent over
+            this band and the top of the picture is a bright classroom wall, so
+            at 35% the links measured 2.5:1 whichever colour they were: too
+            light for the dark set, too dark for the light set. Deep enough for
+            the light set to win, and only across the height of the bar. */}
+        <div className="absolute inset-x-0 top-0 h-[calc(var(--nav-h)+3.5rem)] bg-linear-to-b from-indigo-ink-900/80 via-indigo-ink-900/50 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-indigo-ink-900/25 to-transparent" />
       </div>
 
       {/* The screen. Everything inside this div fits between the navbar and the
@@ -181,11 +185,12 @@ export function Hero() {
           block-level section is already the full width of the page without
           it. */}
       <div className="relative flex h-[100svh] min-h-[30rem] flex-col justify-center overflow-hidden pb-10 pt-[calc(var(--nav-h)+1.5rem)]">
-        {/* A soft terracotta wash behind the fold, so the band has a top edge. */}
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[58%] bg-linear-to-b from-terracotta-50/60 to-transparent"
-          aria-hidden="true"
-        />
+        {/* The cream wash that used to sit here has gone with the cream band it
+            was drawn for. It covered the top 58% of the fold in
+            `terracotta-50`, which over a photograph is a milky film across the
+            whole upper half — the last of the "white overlay" still visible
+            after the others came off. The band takes its top edge from the
+            shade under the navbar instead. */}
 
         {/* Two fields of colour wandering behind the composition on long,
             mismatched cycles, so the fold is never completely still. Behind
@@ -206,18 +211,11 @@ export function Hero() {
         </div>
 
         <Container size="composition" className="relative">
-          {/* The floor: a pool of light under the whole composition, so the two
-              children read as standing in the same place instead of hovering at
-              two unrelated heights.
-
-              A radial gradient rather than an ellipse filled with a linear one.
-              The filled shape had an edge, and at its widest point that edge
-              cut straight across the headline as a visible lens; fading to
-              transparent on every side leaves nothing to catch. */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-[6%] bottom-[-16%] top-[54%] hidden bg-[radial-gradient(closest-side,var(--color-khadi-50),transparent)] lg:block"
-          />
+          {/* The cream pool of light that used to sit here is gone. It was
+              drawn for a composition with two photographs standing on it and a
+              cream band behind them; over a shaded photograph it was simply a
+              pale disc in the middle of the picture, which is the "white
+              overlay in the centre" that kept showing up. */}
 
           {/* Drawn objects. Decorative, aria-hidden, and the only things on this
               screen still moving once the entrance has finished. Anchored to the
@@ -225,17 +223,22 @@ export function Hero() {
               they drifted further from the picture the wider the screen got, and
               at 1920 they were decorating nothing. */}
           <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-            <Float index={0} y={9} className="absolute left-[1%] top-[4%] hidden lg:block">
-              <Cloud className="h-9 opacity-70" />
+            {/* All four sit right of the words now. They were composed for a
+                centred headline with a photograph either side, so with the text
+                moved into the left third they landed on it: a cloud across the
+                first promise pill and a leaf through the standfirst. The right
+                half is the half with nothing written on it. */}
+            <Float index={0} y={9} className="absolute right-[40%] top-[4%] hidden lg:block">
+              <Cloud className="h-9 opacity-60" />
             </Float>
-            <Float index={1} y={7} className="absolute -top-7 right-[13%] hidden xl:block">
-              <Cloud className="h-6 opacity-50" />
+            <Float index={1} y={7} className="absolute right-[7%] top-[2%] hidden xl:block">
+              <Cloud className="h-6 opacity-45" />
             </Float>
-            <Float index={2} y={13} rotate={4} className="absolute right-[3%] top-[16%] hidden lg:block">
+            <Float index={2} y={13} rotate={4} className="absolute right-[2%] top-[20%] hidden lg:block">
               <Kite className="h-16" />
             </Float>
-            <Float index={3} y={11} rotate={-5} className="absolute bottom-[12%] left-[3%] hidden lg:block">
-              <Leaf className="h-11 opacity-80" />
+            <Float index={3} y={11} rotate={-5} className="absolute bottom-[18%] right-[2%] hidden xl:block">
+              <Leaf className="h-11 opacity-70" />
             </Float>
           </div>
 
@@ -248,15 +251,20 @@ export function Hero() {
               whole fold now says on its own, and at far greater size. Two
               cut-out frames on top of a full-bleed photograph read as pictures
               stuck on a picture. */}
-          <div className="relative flex justify-center">
+          {/* Left, not centred. The photograph puts its child on the right and
+              its quiet, blurred half on the left, so a centred column sits over
+              the subject and has to be veiled to stay readable. Moved across,
+              the words take the half that was already empty and the half with
+              the child in it needs no scrim at all. */}
+          <div className="relative flex justify-start">
             {/* ---- The words ---- */}
-            <div className="w-full max-w-2xl text-center">
+            <div className="w-full max-w-xl text-center lg:max-w-[52rem] lg:text-left xl:max-w-[58rem]">
               {/* Pills rather than three loose ticks. Given a shape they read as
                   one row of claims; loose, they read as debris above the
                   headline. */}
               <ul
                 data-hero-item
-                className="mx-auto flex flex-wrap items-center justify-center gap-2"
+                className="mx-auto flex flex-wrap items-center justify-center gap-2 lg:mx-0 lg:flex-nowrap lg:justify-start"
               >
                 {promises.map((promise) => (
                   <li
@@ -274,7 +282,15 @@ export function Hero() {
                 ))}
               </ul>
 
-              <h1 id="hero-title" className="mt-5 text-display text-indigo-ink-700">
+              {/* A step down from `text-display` at `lg`. The emphasis line is the
+                  longest phrase on the site and at full display size it broke
+                  across two rows however wide the column got; a hair smaller it
+                  sets on one, which is what the drawn underline beneath it was
+                  measured for. */}
+              <h1
+                id="hero-title"
+                className="mt-5 text-display text-khadi-50 lg:text-[clamp(2.4rem,1.1rem+2.5vw,3.1rem)]"
+              >
                 <span className="block overflow-hidden pb-[0.08em]">
                   <span data-hero-line className="block font-normal">
                     {heroCopy.h1Lead}
@@ -288,30 +304,27 @@ export function Hero() {
                     line. A rule that overshoots by a few percent is a hand-drawn
                     flourish; a headline set one word per line is a bug.
                   */}
-                  <span data-hero-line className="relative block text-terracotta-600">
+                  <span data-hero-line className="relative block text-haldi-300">
                     {heroCopy.h1Emphasis}
                     {/* Sized to the last line of the phrase, not to the
                         column. At 92% it ran a full word past "copying" at
                         either end and stopped reading as an underline. */}
-                    <Underline className="w-[62%] text-terracotta-300/80" />
+                    <Underline className="w-[62%] text-haldi-300/70" />
                   </span>
                 </span>
               </h1>
 
-              {/* `indigo-ink-700`, not the `ink-500` this paragraph uses elsewhere on
-                  the site. Over a photograph the scrim exists almost entirely to
-                  hold this one line up: it is body-sized and mid-toned, where the
-                  headline above it is large and near-black and clears its floor
-                  almost anywhere. Darkening it by two steps buys about three
-                  points of contrast, which is three points the veil over the
-                  picture no longer has to buy. */}
-              <p data-hero-item className="mx-auto mt-6 max-w-xl text-lead text-indigo-ink-700/90">
+              {/* Light on the shade, like the heading. This paragraph is the
+                  band's tightest contrast either way round — body-sized where
+                  the headline is large — so it takes the brightest of the
+                  khadi steps rather than a muted one. */}
+              <p data-hero-item className="mx-auto mt-6 max-w-xl text-lead text-khadi-100 lg:mx-0 lg:max-w-lg">
                 {heroCopy.standfirst}
               </p>
 
               <div
                 data-hero-item
-                className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
+                className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row lg:items-start lg:justify-start"
               >
                 <ButtonLink to={primaryCta.href} size="lg" withArrow>
                   {primaryCta.label}
