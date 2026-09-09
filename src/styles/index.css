@@ -1,0 +1,640 @@
+@import "tailwindcss";
+
+@import "@fontsource-variable/fraunces/index.css";
+@import "@fontsource-variable/plus-jakarta-sans/index.css";
+@import "@fontsource/tiro-devanagari-hindi/400.css";
+
+/* ==========================================================================
+   Metric-matched fallback faces
+
+   Both webfaces load with `font-display: swap`, so text paints in a system
+   font first and swaps when the real face arrives. The two have different
+   advance widths, so the swap reflowed the line and everything beside it
+   moved — it was the largest layout shift on the site.
+
+   `size-adjust` scales the fallback so its average advance width matches the
+   real face, which makes the swap almost invisible and takes the reflow out of
+   CLS entirely. The percentages are measured, not guessed: run
+   `node scripts/font-metrics.mjs` against a running server to re-derive them if
+   either family is ever changed.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Jakarta Fallback";
+  src: local("Arial");
+  size-adjust: 102.9%;
+  ascent-override: 96%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Fraunces Fallback";
+  src: local("Georgia");
+  size-adjust: 105.3%;
+  ascent-override: 94%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+/* ==========================================================================
+   Metric-matched fallback faces
+
+   Both webfaces load with `font-display: swap`, so text paints in a system
+   font first and swaps when the real face arrives. The two have different
+   advance widths, so the swap reflowed the line and everything beside it
+   moved — it was the largest layout shift on the site.
+
+   `size-adjust` scales the fallback so its average advance width matches the
+   real face, which makes the swap almost invisible and takes the reflow out of
+   CLS entirely. The percentages are measured, not guessed: run
+   `node scripts/font-metrics.mjs` against a running server to re-derive them if
+   either family is ever changed.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Jakarta Fallback";
+  src: local("Arial");
+  size-adjust: 102.9%;
+  ascent-override: 96%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Fraunces Fallback";
+  src: local("Georgia");
+  size-adjust: 105.3%;
+  ascent-override: 94%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+/* ==========================================================================
+   LBS KidZ Design System
+
+   Palette direction is fixed by the source documents:
+   "soft earthy tones with a signature accent (khadi white, warm terracotta,
+    deep blue)" and "avoiding the cluttered primary-color look common to
+    preschool websites".
+   Source: Website Reference Document S7; Project Decisions Log S7.
+
+   Everything below is a token. No component may invent a size, gap, radius or
+   duration of its own: if a value is needed twice it belongs here, and if it is
+   needed once it almost certainly should have been one of these.
+   ========================================================================== */
+
+@theme {
+  /* --- Khadi: the paper-like ground of the whole site ------------------- */
+  --color-khadi-50:  #FDFBF7;
+  --color-khadi-100: #FAF6EE;
+  --color-khadi-200: #F3EDE0;
+  --color-khadi-300: #E8DFCC;
+  --color-khadi-400: #D8CBB0;
+  --color-khadi-500: #BFAE8E;
+
+  /* --- Terracotta: the signature accent --------------------------------- */
+  --color-terracotta-50:  #FBF1EC;
+  --color-terracotta-100: #F6DFD3;
+  --color-terracotta-200: #EDBFA8;
+  --color-terracotta-300: #E09C7C;
+  --color-terracotta-400: #D07A52;
+  --color-terracotta-500: #C05B34;
+  --color-terracotta-600: #A44826;
+  --color-terracotta-700: #85391E;
+  --color-terracotta-800: #632A16;
+
+  /* --- Indigo/deep blue: authority, trust, the legacy voice -------------- */
+  --color-indigo-ink-50:  #EEF3F8;
+  --color-indigo-ink-100: #D6E2EE;
+  --color-indigo-ink-200: #ADC3DA;
+  --color-indigo-ink-300: #7A9BBD;
+  --color-indigo-ink-400: #46709A;
+  --color-indigo-ink-500: #26507A;
+  --color-indigo-ink-600: #1B3A5C;
+  --color-indigo-ink-700: #16324F;
+  --color-indigo-ink-800: #102438;
+  --color-indigo-ink-900: #0A1826;
+
+  /* --- Haldi: warmth, joy, the child-facing highlight -------------------- */
+  --color-haldi-100: #FBEFD2;
+  --color-haldi-200: #F5DDA3;
+  --color-haldi-300: #EDC76B;
+  --color-haldi-400: #DFAE43;
+  --color-haldi-500: #C9942C;
+  /* Text weight. The 500 is a fill colour: on haldi-100 it measures 2.37:1,
+     well under the 4.5:1 AA floor. This is the lightest haldi that clears it. */
+  --color-haldi-600: #8A6113;
+
+  /* --- Neem: growth, nature, CG-6 (regard for the environment) ---------- */
+  --color-neem-100: #E4EDE4;
+  --color-neem-200: #C4D8C6;
+  --color-neem-300: #9CBCA1;
+  --color-neem-400: #6B8F71;
+  --color-neem-500: #52735A;
+  /* Same reason as haldi-600: the 500 measures 4.43:1 on neem-100. */
+  --color-neem-600: #3B5442;
+
+  /* --- Lilac and blush: decorative pastels, backdrops only --------------
+     The five families above cover the brand. A card-backdrop system needs a
+     wider spread of pastels than a brand palette wants to own, and eight of the
+     ten tints it uses already exist here at the 100-200 weights — terracotta
+     100/200 are the peach and the warm orange, haldi 100/200 the lemon and the
+     yellow, neem 100/200 the green and the mint, indigo-ink 100/200 the pastel
+     and sky blues, khadi 300 the warm beige. These two are the only hues with
+     no equivalent.
+
+     They are deliberately confined to decoration: nothing structural, no text,
+     no border, no interactive state. That keeps the brand direction — khadi,
+     terracotta, deep blue — intact while the backdrops get their full range.
+     Saturation is matched to the existing 100/200 weights, so a lilac disc sits
+     at the same volume as a haldi one and no card shouts louder than its
+     neighbour. */
+  --color-lilac-100: #E9E5F4;
+  --color-lilac-200: #D5CEEA;
+  --color-blush-100: #F9E5E8;
+  --color-blush-200: #F2CFD5;
+
+  /* --- Ink: text ------------------------------------------------------- */
+  --color-ink-400: #6E6459;
+  --color-ink-500: #554C43;
+  --color-ink-600: #3D362F;
+  --color-ink-700: #2A2320;
+  --color-ink-900: #17120F;
+
+  /* --- Typography ------------------------------------------------------- */
+  --font-display: "Fraunces Variable", "Fraunces", "Fraunces Fallback", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans Variable", "Plus Jakarta Sans", "Jakarta Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-deva: "Tiro Devanagari Hindi", "Nirmala UI", serif;
+
+  /* --- Type scale -------------------------------------------------------
+     One fluid ramp for the whole site, so a heading is chosen by its role
+     ("this is a section title") rather than by picking a pixel size that
+     happened to look right in one place. Each step interpolates between a
+     360px phone and a 1440px desktop, which removes the per-breakpoint
+     `sm: lg:` size stacks that were the main source of typographic drift.
+
+     Ceilings are deliberately modest. A display line that fills the screen
+     reads as a template rather than as confidence, and it is the quickest way
+     to push a page past the fold for nothing in return.
+
+     Roles:
+       display  the homepage H1, and nothing else
+       h1       every inner page title
+       h2       section titles
+       h3       card and sub-section titles
+       h4       small headings inside cards
+       lead     standfirsts and pull quotes
+       body     default paragraph
+       small    captions, notes, meta
+       label    eyebrows, chips, uppercase micro-copy
+     ---------------------------------------------------------------------- */
+  --text-2xs: 0.6875rem;
+
+  --text-display: clamp(2.125rem, 1.45rem + 3vw, 3.375rem);
+  --text-display--line-height: 1.06;
+  --text-display--letter-spacing: -0.022em;
+
+  --text-h1: clamp(1.875rem, 1.4rem + 2.1vw, 2.75rem);
+  --text-h1--line-height: 1.12;
+  --text-h1--letter-spacing: -0.02em;
+
+  --text-h2: clamp(1.625rem, 1.36rem + 1.18vw, 2.25rem);
+  --text-h2--line-height: 1.16;
+  --text-h2--letter-spacing: -0.018em;
+
+  --text-h3: clamp(1.1875rem, 1.11rem + 0.35vw, 1.4375rem);
+  --text-h3--line-height: 1.28;
+  --text-h3--letter-spacing: -0.012em;
+
+  --text-h4: clamp(1rem, 0.97rem + 0.16vw, 1.125rem);
+  --text-h4--line-height: 1.38;
+  --text-h4--letter-spacing: -0.006em;
+
+  --text-lead: clamp(1rem, 0.96rem + 0.2vw, 1.1875rem);
+  --text-lead--line-height: 1.62;
+
+  --text-body: clamp(0.9375rem, 0.915rem + 0.1vw, 1.0625rem);
+  --text-body--line-height: 1.68;
+
+  --text-small: clamp(0.8125rem, 0.8rem + 0.06vw, 0.875rem);
+  --text-small--line-height: 1.6;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.3;
+  --text-label--letter-spacing: 0.14em;
+
+  /* --- Spacing rhythm ---------------------------------------------------
+     Four named steps, every one fluid. Sections used to carry a
+     `py-16 sm:py-20 lg:py-24` stack: three numbers to keep in step per
+     section, and a visible jump at each breakpoint. One clamp per step
+     removes both problems, and it is what makes 110% and 125% browser zoom
+     behave — the vw term shrinks with the CSS viewport, so a zoomed page
+     tightens its rhythm instead of stretching to three screens.
+     --------------------------------------------------------------------- */
+  --spacing-section: clamp(3.25rem, 5.2vw, 5.5rem);
+  --spacing-section-sm: clamp(2.5rem, 3.6vw, 3.75rem);
+  --spacing-section-lg: clamp(4rem, 7vw, 7rem);
+  /** Between a section's header and the content it introduces. */
+  --spacing-block: clamp(2rem, 3.2vw, 3rem);
+  /** Between sibling cards and grid cells. */
+  --spacing-gutter: clamp(1rem, 1.6vw, 1.5rem);
+  /** Page gutter, matched to the Container's own horizontal padding. */
+  --spacing-edge: clamp(1.25rem, 3.2vw, 2.5rem);
+
+  /* --- Control heights. One ladder for buttons, inputs and selects, so a
+         button beside a field always lines up. --------------------------- */
+  --spacing-control-sm: 2.75rem;
+  --spacing-control-md: 3rem;
+  --spacing-control-lg: 3.375rem;
+
+  /* --- Containers -------------------------------------------------------
+     `wide` is the working measure for text-bearing pages. `composition` is for
+     bands that are pictures rather than prose — the hero, the full-bleed
+     photograph — where capping at 84rem strands a third of a large screen. */
+  --container-narrow: 46rem;
+  --container-measure: 62rem;
+  --container-wide: 84rem;
+  --container-composition: 96rem;
+
+  /* --- Radius: soft, rounded, never bubbly ------------------------------ */
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.625rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.125rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-3xl: 2.75rem;
+
+  /* --- Shadows: warm-tinted, never neutral grey ------------------------- */
+  --shadow-soft: 0 1px 2px rgba(42, 35, 32, 0.04), 0 4px 16px -6px rgba(42, 35, 32, 0.08);
+  --shadow-card: 0 2px 4px rgba(42, 35, 32, 0.03), 0 12px 32px -12px rgba(42, 35, 32, 0.12);
+  --shadow-lift: 0 4px 8px rgba(42, 35, 32, 0.05), 0 24px 48px -16px rgba(42, 35, 32, 0.18);
+  /* Photographs carry a deeper, warmer shadow than cards, because they sit
+     forward of the page rather than on it. */
+  --shadow-photo: 0 8px 20px -8px rgba(42, 35, 32, 0.16), 0 32px 64px -24px rgba(42, 35, 32, 0.26);
+  --shadow-inset-hair: inset 0 0 0 1px rgba(42, 35, 32, 0.07);
+
+  /* --- Motion -----------------------------------------------------------
+     One easing language shared by GSAP, CSS transitions and the keyframes
+     below.
+
+     The split between the two animation systems is deliberate. GSAP owns
+     everything tied to scroll position or to a timeline — reveals, parallax,
+     the horizontal day, the drawn timeline, the composed hero float. CSS owns
+     the two-keyframe ambient drifts on site-wide chrome, because those run on
+     every page including the ones GSAP has no other reason to load on, and a
+     keyframe costs nothing.
+     --------------------------------------------------------------------- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --animate-drift: drift 14s var(--ease-in-out-soft) infinite;
+  --animate-sway: sway 9s var(--ease-in-out-soft) infinite;
+  --animate-bob: bob 7s var(--ease-in-out-soft) infinite;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -10px, 0); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-1.5deg); }
+  50%      { transform: rotate(1.5deg); }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-2deg); }
+  50%      { transform: translate3d(0, -8px, 0) rotate(2deg); }
+}
+
+/**
+ * A short rise on arrival, for a panel whose content has just been replaced.
+ *
+ * Used where a block swaps rather than enters — the class panel beside the
+ * programme diamonds. Without it the text changes in place and the eye misses
+ * that anything happened; with it the panel reads as a new card being dealt.
+ * Kept under half a second because it runs every few seconds on its own.
+ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ==========================================================================
+   Layout constants that are not Tailwind theme namespaces
+   ========================================================================== */
+
+:root {
+  /**
+   * The page header block, held at roughly 46vh across the whole site.
+   *
+   * A bare percentage breaks in both directions: on a short laptop at 125% zoom
+   * it collapses under the text it has to hold, and on a tall monitor it
+   * becomes a dead band. The clamp gives it a floor and a ceiling.
+   *
+   * WHY 46 AND NOT 40. At 40vh the floor was 360px against a 900px viewport,
+   * and a header carrying a two-line title measured 413 — so pages with a long
+   * title stood 53px taller than pages without one, and the set never read as
+   * one component. The floor now clears the tallest natural content, which is
+   * what makes every header the same height rather than "the same height
+   * unless the title wraps".
+   *
+   * It also has to hold more than it used to look like it did: the divider at
+   * the foot is up to 104px deep, and the bottom padding now reserves it
+   * (see PageHeader) rather than letting the curve paint over the standfirst.
+   */
+  /* The floor is 25.5rem and not 24: measured at 1280x800 the clamp bottoms
+     out, and a header with a two-line title stood 403px against 384 for a
+     one-line one. 408px clears the taller of the two, which costs a short
+     viewport 24px and buys the set actually being one height. */
+  --page-header-h: clamp(25.5rem, 46vh, 30rem);
+
+  /** Fixed navbar height. Drives scroll-padding and the header's top inset. */
+  --nav-h: 4.5rem;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --nav-h: 5rem;
+  }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  * {
+    border-color: var(--color-khadi-300);
+  }
+
+  /**
+   * NO `scroll-behavior: smooth` HERE, and it is not an oversight.
+   *
+   * It used to be, and it silently broke navigation. The property turns every
+   * programmatic scroll into an animation, including the two the router
+   * performs: the reset to the top on a new page, and the restore on Back.
+   * Half this site's routes are lazily loaded, so the incoming page renders a
+   * beat after the scroll begins, the document's height changes underneath it,
+   * and the browser abandons the animation part-way through.
+   *
+   * Measured from 1800px down, four navigations in a row landed between 1721
+   * and 1800: the reader arrived at a new page already most of the way down it.
+   * Back was worse, dropping them at the top instead of where they had been.
+   * With this one declaration removed, both work.
+   *
+   * `scroll-padding-top` stays, so in-page anchors still land clear of the
+   * fixed navbar. They jump rather than glide now. Anything that genuinely
+   * wants the glide asks for it directly, as the footer's Back to top does.
+   */
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--nav-h) + 1.5rem);
+  }
+
+  body {
+    background-color: var(--color-khadi-100);
+    color: var(--color-ink-700);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    /* Guards against any single element pushing the page sideways. */
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    color: var(--color-indigo-ink-700);
+    text-wrap: balance;
+    letter-spacing: -0.015em;
+  }
+
+  p, li {
+    text-wrap: pretty;
+  }
+
+  /* Visible, branded focus ring on every interactive element. */
+  :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-terracotta-500);
+    outline-offset: 3px;
+    border-radius: var(--radius-xs);
+  }
+
+  ::selection {
+    background-color: var(--color-haldi-200);
+    color: var(--color-ink-900);
+  }
+
+  img, svg, video {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+/* ==========================================================================
+   Scroll reveal
+
+   The hidden state lives in CSS rather than in JavaScript, so an element is
+   never painted at full opacity and then snapped back once the animation
+   library arrives. GSAP clears it as each element crosses into view.
+
+   If GSAP fails, is blocked, or simply takes too long, the failsafe in
+   `useScrollReveal` puts `.reveal-ready` on <html> and everything becomes
+   visible at once. Content on this site is never left dependent on an
+   animation succeeding.
+   ========================================================================== */
+
+[data-reveal] {
+  opacity: 0;
+}
+
+html.reveal-ready [data-reveal],
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@utility text-balance-none {
+  text-wrap: initial;
+}
+
+/* The khadi paper grain. A single inline SVG turbulence, no image request. */
+@utility bg-khadi-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+@utility hairline {
+  box-shadow: var(--shadow-inset-hair);
+}
+
+/* Used for the "SIMPLE" pillar letters and other single-glyph marks. */
+@utility font-numeral {
+  font-family: var(--font-display);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   Photograph shapes.
+
+   Photographs are never plain rectangles here. Every silhouette is built from
+   an asymmetric border-radius rather than an SVG clip path: they cost nothing
+   to composite, they animate on the GPU, and a shape never has to be
+   re-authored when the aspect ratio changes.
+   -------------------------------------------------------------------------- */
+
+@utility shape-arch {
+  border-radius: 999px 999px var(--radius-xl) var(--radius-xl);
+}
+
+@utility shape-leaf {
+  border-radius: var(--radius-3xl) var(--radius-lg) var(--radius-3xl) var(--radius-lg);
+}
+
+@utility shape-leaf-alt {
+  border-radius: var(--radius-lg) var(--radius-3xl) var(--radius-lg) var(--radius-3xl);
+}
+
+@utility shape-petal {
+  border-radius: 42% 58% 46% 54% / 48% 44% 56% 52%;
+}
+
+@utility shape-pill {
+  border-radius: 999px;
+}
+
+/**
+ * Evenly and generously rounded — a soft rectangle rather than a silhouette
+ * with a signature corner. It exists because the hero needs its two frames to
+ * be obviously different shapes, and every other option in this file is a
+ * variation on "one or two corners held tight", which at a glance reads as the
+ * same shape twice. Fixed rem radii, so it is safe inside a `PhotoOnColour`
+ * ring where a 999px or percentage radius would resolve differently on the
+ * frame and the picture and leave the band of colour uneven.
+ */
+@utility shape-soft {
+  border-radius: 2.5rem;
+}
+
+/**
+ * The cut corner, at photograph scale. Three corners generous, one held tight —
+ * the same signature the buttons carry, so an image and a control read as
+ * belonging to one system rather than two.
+ */
+@utility shape-cut {
+  border-radius: var(--radius-3xl) var(--radius-3xl) var(--radius-3xl) var(--radius-sm);
+}
+
+@utility shape-cut-alt {
+  border-radius: var(--radius-3xl) var(--radius-sm) var(--radius-3xl) var(--radius-3xl);
+}
+
+/**
+ * Two opposite corners swept wide while the other two stay tight. Reads as a
+ * leaf or an eye, and it is the strongest silhouette in this file.
+ *
+ * WHY 40% AND NOT 999px. It was 999px, which the browser then clamps to fit the
+ * box — and the clamp lands at roughly half the shorter side, so the two curves
+ * between them removed 31.4% of the picture. Measured against every other shape
+ * here, which remove between 0.5% and 8.1%, it was not a strong shape; it was a
+ * different order of thing. On a photograph of one child it cut the top of a
+ * head off.
+ *
+ * A percentage rather than a fixed length, because the amount removed scales
+ * with the ratio of the radius to the box: a 12rem radius that trims 9% off a
+ * 494px frame trims 49% off a 200px one, so a thumbnail would be mangled by the
+ * same rule that looked right on a hero. At 40% the corners are elliptical,
+ * removing a steady 6.9% at any size, and the sweep still reads as a leaf.
+ *
+ * Not 50%: that is where a corner radius meets its neighbour and the silhouette
+ * collapses into a plain ellipse, which is the failure the old note about
+ * percentages was warning about.
+ */
+@utility shape-crest {
+  border-radius: 40% var(--radius-md) 40% var(--radius-md);
+}
+
+@utility shape-crest-alt {
+  border-radius: var(--radius-md) 40% var(--radius-md) 40%;
+}
+
+/* --------------------------------------------------------------------------
+   Blobs.
+
+   The reference language builds its whole image system on soft asymmetric
+   silhouettes rather than on rectangles or arches. Three variants, so a row of
+   them never reads as the same shape stamped three times — the eye picks up a
+   repeated organic outline much faster than a repeated rectangle.
+
+   Percentages, not lengths, so the silhouette holds its character at any size:
+   a fixed radius on a 900px panel and a 120px avatar are two different shapes.
+   -------------------------------------------------------------------------- */
+
+@utility shape-blob {
+  border-radius: 58% 42% 46% 54% / 52% 46% 54% 48%;
+}
+
+@utility shape-blob-alt {
+  border-radius: 44% 56% 56% 44% / 46% 54% 46% 54%;
+}
+
+@utility shape-blob-soft {
+  border-radius: 48% 52% 44% 56% / 56% 44% 56% 44%;
+}
+
+/* --------------------------------------------------------------------------
+   The cut corner.
+
+   Three corners fully rounded and one held tight. It is the single most
+   recognisable thing in the reference material and it costs nothing: one
+   border-radius shorthand, applied to every button and to the panels that
+   need to feel related to them.
+
+   The tight corner is always bottom-left. A shape whose odd corner moves
+   around stops being a signature and starts looking like a mistake.
+   -------------------------------------------------------------------------- */
+
+@utility corner-cut {
+  border-radius: 999px 999px 999px var(--radius-sm);
+}
+
+@utility corner-cut-lg {
+  border-radius: var(--radius-2xl) var(--radius-2xl) var(--radius-2xl) var(--radius-sm);
+}
+
+@utility corner-cut-panel {
+  border-radius: var(--radius-3xl) var(--radius-3xl) var(--radius-3xl) var(--radius-md);
+}
+
+/* --------------------------------------------------------------------------
+   Compositor hint, applied only where a scrubbed transform actually runs.
+   -------------------------------------------------------------------------- */
+
+@utility gpu-layer {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}

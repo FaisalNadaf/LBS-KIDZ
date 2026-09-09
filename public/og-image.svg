@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#FAF6EE"/>
+  <rect x="0" y="0" width="1200" height="14" fill="#C05B34"/>
+
+  <!-- Wheat motif -->
+  <g transform="translate(940 150) scale(3.4)" fill="none" stroke="#6B8F71" stroke-width="1.7"
+     stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+    <path d="M24 94V26"/>
+    <path d="M24 30C15 27 11 21 12 15"/><path d="M24 30C33 27 37 21 36 15"/>
+    <path d="M24 42C15 39 11 33 12 27"/><path d="M24 42C33 39 37 33 36 27"/>
+    <path d="M24 54C15 51 11 45 12 39"/><path d="M24 54C33 51 37 45 36 39"/>
+    <path d="M24 66C15 63 11 57 12 51"/><path d="M24 66C33 63 37 57 36 51"/>
+    <path d="M24 26C20 18 21 10 24 4C27 10 28 18 24 26Z"/>
+  </g>
+
+  <!-- Logo mark -->
+  <g transform="translate(88 92)">
+    <rect width="72" height="72" rx="16" fill="#C05B34"/>
+    <g transform="translate(14 14) scale(1.4)" fill="none" stroke="#FDFBF7" stroke-width="1.9"
+       stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 29V12"/>
+      <path d="M16 15c-4-1-6-4-5.5-7.5"/><path d="M16 15c4-1 6-4 5.5-7.5"/>
+      <path d="M16 21c-4-1-6-4-5.5-7.5"/><path d="M16 21c4-1 6-4 5.5-7.5"/>
+      <path d="M16 12c-1.6-3-1.2-6 0-9 1.2 3 1.6 6 0 9Z"/>
+    </g>
+  </g>
+
+  <text x="180" y="142" font-family="Georgia, serif" font-size="42" font-weight="700" fill="#16324F">
+    LBS <tspan fill="#C05B34">KidZ</tspan>
+  </text>
+
+  <text x="88" y="292" font-family="Georgia, serif" font-size="66" font-weight="700" fill="#16324F">
+    A preschool in Indore
+  </text>
+  <text x="88" y="368" font-family="Georgia, serif" font-size="66" font-weight="700" fill="#C05B34">
+    built on a life worth copying
+  </text>
+
+  <text x="88" y="446" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="27" fill="#554C43">
+    Carrying the legacy of Shri Lal Bahadur Shastri
+  </text>
+
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="#3D362F">
+    <circle cx="96" cy="524" r="6" fill="#C05B34"/>
+    <text x="116" y="532">No examinations</text>
+    <circle cx="392" cy="524" r="6" fill="#C05B34"/>
+    <text x="412" y="532">Hindi first, English joyfully</text>
+    <circle cx="828" cy="524" r="6" fill="#C05B34"/>
+    <text x="848" y="532">No hidden charges</text>
+  </g>
+</svg>

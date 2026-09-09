@@ -1,0 +1,80 @@
+[
+  {
+    "file": "child-coloring",
+    "provider": "pexels",
+    "sourceId": "pexels:4540423",
+    "title": "Child Coloring an Artwork",
+    "author": "Ketut Subiyanto",
+    "authorUrl": "https://www.pexels.com/@ketut-subiyanto/",
+    "sourceUrl": "https://www.pexels.com/video/child-coloring-an-artwork-4540423/",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "attributionRequired": false,
+    "creditLine": "Video by Ketut Subiyanto on Pexels",
+    "downloadedAt": "2026-09-07",
+    "processing": "Trimmed to 7s from 00:02, scaled to 960px, silent, H.264 CRF 30 and VP9 CRF 40",
+    "files": [
+      "public/videos/child-coloring.mp4",
+      "public/videos/child-coloring.webm",
+      "public/videos/child-coloring.jpg"
+    ]
+  },
+  {
+    "file": "child-painting",
+    "provider": "pexels",
+    "sourceId": "pexels:3982013",
+    "title": "A Child Painting on Paper",
+    "author": "Gustavo Fring",
+    "authorUrl": "https://www.pexels.com/@gustavo-fring/",
+    "sourceUrl": "https://www.pexels.com/video/a-child-painting-on-paper-3982013/",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "attributionRequired": false,
+    "creditLine": "Video by Gustavo Fring on Pexels",
+    "downloadedAt": "2026-09-07",
+    "processing": "Trimmed to 7s from 00:02, scaled to 960px, silent, H.264 CRF 30 and VP9 CRF 40",
+    "files": [
+      "public/videos/child-painting.mp4",
+      "public/videos/child-painting.webm",
+      "public/videos/child-painting.jpg"
+    ]
+  },
+  {
+    "file": "children-classroom-play",
+    "provider": "pexels",
+    "sourceId": "pexels:8363873",
+    "title": "Children Playing in a Classroom",
+    "author": "RDNE Stock project",
+    "authorUrl": "https://www.pexels.com/@rdne/",
+    "sourceUrl": "https://www.pexels.com/video/children-playing-in-a-classroom-8363873/",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "attributionRequired": false,
+    "creditLine": "Video by RDNE Stock project on Pexels",
+    "downloadedAt": "2026-09-07",
+    "processing": "Trimmed to 7s from 00:02, scaled to 960px, silent, H.264 CRF 30. VP9 was larger than the MP4 and was dropped.",
+    "files": [
+      "public/videos/children-classroom-play.mp4",
+      "public/videos/children-classroom-play.jpg"
+    ]
+  },
+  {
+    "file": "children-schoolwork",
+    "provider": "pexels",
+    "sourceId": "pexels:1580507",
+    "title": "Children Doing School Works",
+    "author": "Adailton Batista",
+    "authorUrl": "https://www.pexels.com/@adailtonbatista/",
+    "sourceUrl": "https://www.pexels.com/video/children-doing-school-works-1580507/",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "attributionRequired": false,
+    "creditLine": "Video by Adailton Batista on Pexels",
+    "downloadedAt": "2026-09-07",
+    "processing": "Trimmed to 7s from 00:02, scaled to 960px, silent, H.264 CRF 30. VP9 was larger than the MP4 and was dropped.",
+    "files": [
+      "public/videos/children-schoolwork.mp4",
+      "public/videos/children-schoolwork.jpg"
+    ]
+  }
+]

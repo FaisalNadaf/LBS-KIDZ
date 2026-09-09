@@ -1,0 +1,40 @@
+{
+  "name": "lbs-kidz-website",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "LBS KidZ preschool website - School Excellence Program Pvt. Ltd. x Lal Bahadur Shastri Educational Society",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build && node scripts/generate-sitemap.mjs && node scripts/prerender-head.mjs",
+    "preview": "vite preview",
+    "serve": "node server.mjs",
+    "typecheck": "tsc -b --noEmit false --emitDeclarationOnly false",
+    "lint": "tsc -b"
+  },
+  "dependencies": {
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
+    "@fontsource/tiro-devanagari-hindi": "^5.3.0",
+    "framer-motion": "^13.2.0",
+    "gsap": "^3.13.0",
+    "lucide-react": "^0.469.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.9.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.13",
+    "@types/node": "^26.4.1",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.2",
+    "express": "^5.1.0",
+    "ffmpeg-static": "^5.2.0",
+    "playwright": "^1.62.1",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4.1.13",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
+  }
+}

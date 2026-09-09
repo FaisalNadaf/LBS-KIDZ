@@ -1,0 +1,26 @@
+serial: 14
+anonymous_user_id: 2f601d96-3cd9-4acd-9b49-3dfdf0751595
+oauth:
+    metadata:
+        issuer: https://login.semgrep.dev
+        authorization_endpoint: https://login.semgrep.dev/oauth2/authorize
+        token_endpoint: https://login.semgrep.dev/oauth2/token
+        registration_endpoint: https://login.semgrep.dev/oauth2/register
+    client:
+        client_id: client_01M1QYA4XPYA21STF66WSXQTEJ
+        callback_url: http://127.0.0.1/callback
+    token:
+        access_token: eyJhbGciOiJSUzI1NiIsImtpZCI6InNzb19vaWRjX2tleV9wYWlyXzAxSldYWjRHVkZIQkZBVFhZOUtQNDlHUFlRIn0.eyJzZW1ncmVwOm9yZ19pZCI6IjExMDcwNSIsImlzcyI6Imh0dHBzOi8vbG9naW4uc2VtZ3JlcC5kZXYiLCJhdWQiOiJjbGllbnRfMDFKV1haNEdaM1dQMUJGV0o1WVRFOUpXSzciLCJzdWIiOiJkZWZhdWx0LTE2OTc0MiIsInNpZCI6ImFwcF9jb25zZW50XzAxTTFRWUFHVFkzRUFIQThHVDBXS1dWM0RCIiwianRpIjoiMDFNMjJQQkFONTBOODhZWUtUNzVXNUtWV0MiLCJjbGllbnRfaWQiOiJjbGllbnRfMDFNMVFZQTRYUFlBMjFTVEY2NldTWFFURUoiLCJhdXRoX3RpbWUiOjE3ODg1ODM2OTEsInNjb3BlIjoiZW1haWwgb2ZmbGluZV9hY2Nlc3Mgb3BlbmlkIHByb2ZpbGUiLCJleHAiOjE3ODkwMzgwMjcsImlhdCI6MTc4ODk0NDQyN30.PC5GYQd8lOBVb23erndXPsIGRU90-D2o_W0yTBwziIFe1SpRZbLxUo5TNVyVbiDq1ZItjDvhogSJyfbf7tjPmUS_TID4g5XGlhqz_poW1Fmxxzwq1ba-gnwcWXa_5GOsG5vii4mdXCVFhHWBJCtqXra4gIAMsstQ6l8FOTgDhQdzAwU5YSyb2Yqlmu8zdL_osFVDpBqZLzqbf-yPWQ-cL8dvhpgSJn2yyoe0qe2yazUZ10ZMxvqVdTIIDcB9FCAghfhrGB2F1YarPUpE42q_bT8bIgeHXtivAwvStQb5DIxHkR7kQnzMOxYLVgDW5s_o2zmvR8M3aAFSVp2dm-MDNg
+        refresh_token: QFkYOVXhFDx4932TbVURx7aZ5
+        token_type: bearer
+        expiry: 2026-09-10T16:30:27.9848116+05:30
+deployment:
+    user_id: 169742
+    orgs:
+        - id: 110705
+          name: faisalfnadaf-personal-org
+          display_name: faisalfnadaf-personal-org
+          organization_id: 192379
+semgrep:
+    auth_method: oauth
+expiry: 2026-09-10T01:55:59.9077215+05:30
