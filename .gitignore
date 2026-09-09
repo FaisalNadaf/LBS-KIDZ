@@ -1,5 +1,8 @@
 node_modules
-dist
-data
+# Anchored to the repo root on purpose. Unanchored, these match at any depth,
+# and `data` silently excluded src/data/ — the site's content modules that
+# every page imports as @/data/* — which broke the deploy build.
+/dist
+/data
 .DS_Store
 *.local
