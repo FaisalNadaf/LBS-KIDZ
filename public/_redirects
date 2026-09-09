@@ -1,0 +1,4 @@
+# prerender-head.mjs writes a real dist/<route>/index.html per route, and
+# Netlify serves matching files before it applies redirects, so this fallback
+# only catches paths that exist solely in the client router.
+/*  /index.html  200

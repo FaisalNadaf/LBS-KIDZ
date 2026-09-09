@@ -1,0 +1,18 @@
+# The site has to be published from dist/, not from the repo root: the root
+# index.html is Vite's dev entry and points at /src/main.tsx, which the CDN
+# hands back as application/octet-stream (browsers refuse it as a module), and
+# favicon.svg only reaches the site root when public/ is copied at build time.
+#
+# Redirects and headers deliberately live in public/_redirects and
+# public/_headers instead of here, so that they ship inside dist/ and apply to
+# a manual drag-and-drop deploy of that folder too.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # Playwright is only used by the local audit scripts, never by the build, so
+  # there is no reason to pull ~150MB of browsers into every deploy.
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1"
