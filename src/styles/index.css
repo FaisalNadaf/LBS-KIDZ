@@ -5,6 +5,26 @@
 @import "@fontsource/tiro-devanagari-hindi/400.css";
 
 /* ==========================================================================
+   Window-shape variant
+
+   The hero photograph is `object-fit: cover`, so how much of it a reader sees
+   BESIDE the child is set by the shape of the window rather than by its width:
+   the taller the window for a given width, the harder the crop trims the sides
+   and the closer he sits to the right-hand edge. Measured across a dozen
+   viewports, his shoulder lands at 86% of the screen in a 16:9 window and at
+   98% in a 4:3 one — same widths, and nowhere at all to draw in the second.
+
+   The drawn objects that sit to his right are therefore gated on this rather
+   than on `lg` or `xl`, which predict nothing about it. 3:2 is the shape at
+   which the crop stops taking the margin away; past 7:4 it has stopped
+   altogether — the picture is scaled to the width of the window and he sits
+   at a fixed 86% of it however wide the screen gets — so the objects move
+   back in towards him rather than tracking an edge that is running away.
+   ========================================================================== */
+@custom-variant wide-window (@media (min-aspect-ratio: 3 / 2));
+@custom-variant wider-window (@media (min-aspect-ratio: 7 / 4));
+
+/* ==========================================================================
    Metric-matched fallback faces
 
    Both webfaces load with `font-display: swap`, so text paints in a system

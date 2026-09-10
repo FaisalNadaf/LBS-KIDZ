@@ -5,7 +5,7 @@ import { ButtonLink } from '@/components/ui/Button'
 import { StatTile } from '@/components/ui/Card'
 import { Photo } from '@/components/media/Photo'
 import { Underline } from '@/components/art/primitives'
-import { Kite, Leaf, Cloud } from '@/components/art/objects'
+import { Kite, Leaf, Cloud, Star } from '@/components/art/objects'
 import { SectionDivider } from '@/components/ui/SectionDivider'
 import { Ambient, Blob, Float } from '@/animations/Scroll'
 import { useHeroIntro } from '@/animations/gsap'
@@ -210,37 +210,111 @@ export function Hero() {
           </Ambient>
         </div>
 
+        {/* ---- Drawn objects ----
+            Decorative, aria-hidden, and the only things on this screen still
+            moving once the entrance has finished.
+
+            THEY BELONG TO THE PHOTOGRAPH, so they are pinned to the fold rather
+            than to the text column. Inside `Container` their box was only as
+            tall as the paragraph and no wider than 96rem, which held the whole
+            set in a band beside the words while the child — who is in a
+            full-bleed picture — was somewhere else entirely: one cloud landed
+            on his hair and the other three were pressed into the right margin,
+            the kite hard against the edge of the screen. Out here the layer is
+            the picture's own box, so they can be placed against the picture.
+
+            WHERE THEY GO IS MEASURED, not eyeballed, because `cover` moves the
+            child about. His left shoulder is the one dependable landmark: it
+            lands between 63.5% and 65.7% of the screen at every desktop size
+            tried, so anything ending before 62% is always clear of him. His
+            right shoulder is the opposite — 86% of the screen in a 16:9 window,
+            98% in a 4:3 one — which is why the objects on that side belong to
+            `wide-window` and not to a width breakpoint.
+
+            So there are two arrangements. In a squarish window the crop leaves
+            no margin past the child at all and the set thins to three: the two
+            clouds in the air above the headline, and the kite dropped into the
+            channel between the words and his shoulder. Given a 3:2 window or
+            wider there is picture on both sides of him and the full five open
+            out into a ring — the kite climbs into the window light he is turned
+            away from, the leaf comes down past his shoulder, and a star closes
+            the circle underneath.
+
+            SIZED AND SHADOWED FOR A PHOTOGRAPH, not for cream. An `h-6` cloud
+            at 45% opacity over a sunlit window is a smudge, which is what the
+            previous set measured as; these run roughly double and each carries
+            its own ink shadow, so a cream cloud holds its edge over the bright
+            half of the picture and the kite reads from across the room.
+
+            `lg` and up. Below that the words are centred and take the full
+            width, and there is no air left to put anything in. */}
+        <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
+          {/* Ten o'clock, furthest out: the smaller cloud, drifting in over the
+              empty air above the headline. */}
+          <Float
+            index={0}
+            y={8}
+            className="absolute left-[40%] top-[11%] wide-window:left-[42%] wide-window:top-[12%]"
+          >
+            <Cloud className="h-10 drop-shadow-[0_2px_6px_rgba(16,36,56,0.45)] wide-window:h-12" />
+          </Float>
+
+          {/* Eleven o'clock: the sun-behind-cloud, in the gap between the last
+              word of the headline and his hair. */}
+          <Float index={1} y={11} className="absolute left-[52%] top-[19%]">
+            <Cloud className="h-14 drop-shadow-[0_3px_8px_rgba(16,36,56,0.5)] wide-window:h-16" />
+          </Float>
+
+          {/* The kite, and the object that moves furthest between the two
+              arrangements: beside him in the channel when the crop is tight,
+              up in the sky at one o'clock when there is a margin to fly it in.
+              The largest of the five either way, because it is the one drawing
+              here anybody actually looks at. */}
+          <Float
+            index={2}
+            y={15}
+            rotate={5}
+            className="absolute left-[55%] top-[54%] wide-window:left-[92.5%] wide-window:top-[14%] wider-window:left-[90%]"
+          >
+            <Kite className="h-20 drop-shadow-[0_3px_9px_rgba(16,36,56,0.5)] wide-window:h-28" />
+          </Float>
+
+          {/* Four o'clock, past his shoulder. Nothing sensible to do with it in
+              the tight crop — the only space left there is the channel, and the
+              kite is already in it — so it waits for the margin. */}
+          <Float
+            index={3}
+            y={12}
+            rotate={-6}
+            className="absolute left-[93.5%] top-[56%] hidden wide-window:block wider-window:left-[91%]"
+          >
+            <Leaf className="h-16 drop-shadow-[0_3px_8px_rgba(16,36,56,0.55)] wider-window:h-20" />
+          </Float>
+
+          {/* Eight o'clock, and the reason there are five rather than four: with
+              two clouds up on the left and the kite and the leaf both down the
+              right, the set read as two groups either side of him rather than
+              as one ring around him. This closes it, in the quiet blurred strip
+              between the standfirst and his elbow — which is only quiet from
+              `xl`, since the paragraph is a fixed 32rem and reaches past this
+              point on a narrower screen. Small, because anything larger there
+              starts competing with the blocks he is building. */}
+          <Float
+            index={4}
+            y={9}
+            rotate={8}
+            className="absolute left-[51%] top-[57%] hidden xl:wide-window:block"
+          >
+            <Star className="h-9 drop-shadow-[0_2px_6px_rgba(16,36,56,0.5)]" />
+          </Float>
+        </div>
+
         <Container size="composition" className="relative">
           {/* The cream pool of light that used to sit here is gone. It was
               drawn for a composition with two photographs standing on it and a
               cream band behind them; over a shaded photograph it was simply a
               pale disc in the middle of the picture, which is the "white
               overlay in the centre" that kept showing up. */}
-
-          {/* Drawn objects. Decorative, aria-hidden, and the only things on this
-              screen still moving once the entrance has finished. Anchored to the
-              composition rather than to the viewport: pinned to the window edges
-              they drifted further from the picture the wider the screen got, and
-              at 1920 they were decorating nothing. */}
-          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-            {/* All four sit right of the words now. They were composed for a
-                centred headline with a photograph either side, so with the text
-                moved into the left third they landed on it: a cloud across the
-                first promise pill and a leaf through the standfirst. The right
-                half is the half with nothing written on it. */}
-            <Float index={0} y={9} className="absolute right-[40%] top-[4%] hidden lg:block">
-              <Cloud className="h-9 opacity-60" />
-            </Float>
-            <Float index={1} y={7} className="absolute right-[7%] top-[2%] hidden xl:block">
-              <Cloud className="h-6 opacity-45" />
-            </Float>
-            <Float index={2} y={13} rotate={4} className="absolute right-[2%] top-[20%] hidden lg:block">
-              <Kite className="h-16" />
-            </Float>
-            <Float index={3} y={11} rotate={-5} className="absolute bottom-[18%] right-[2%] hidden xl:block">
-              <Leaf className="h-11 opacity-70" />
-            </Float>
-          </div>
 
           {/* `relative`, so the words paint over the stage and the drawn
               objects rather than under them.

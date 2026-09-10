@@ -1,4 +1,4 @@
-serial: 14
+serial: 15
 anonymous_user_id: 2f601d96-3cd9-4acd-9b49-3dfdf0751595
 oauth:
     metadata:
@@ -23,4 +23,4 @@ deployment:
           organization_id: 192379
 semgrep:
     auth_method: oauth
-expiry: 2026-09-10T01:55:59.9077215+05:30
+expiry: 2026-09-10T18:02:47.2929474+05:30
