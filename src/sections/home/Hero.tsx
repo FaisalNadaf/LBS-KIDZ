@@ -240,11 +240,14 @@ export function Hero() {
             away from, the leaf comes down past his shoulder, and a star closes
             the circle underneath.
 
-            SIZED AND SHADOWED FOR A PHOTOGRAPH, not for cream. An `h-6` cloud
-            at 45% opacity over a sunlit window is a smudge, which is what the
-            previous set measured as; these run roughly double and each carries
-            its own ink shadow, so a cream cloud holds its edge over the bright
-            half of the picture and the kite reads from across the room.
+            SHADOWED FOR A PHOTOGRAPH, not for cream. An `h-6` cloud at 45%
+            opacity over a sunlit window is a smudge, which is what the previous
+            set measured as. What fixes that is the ink shadow every one of them
+            now carries, NOT size: a cream cloud holds its edge over the bright
+            half of the picture because it is separated from it, and drawn at
+            twice this size it stopped being a decoration and started competing
+            with the child for the picture. They sit a step or two above the old
+            sizes and no more.
 
             `lg` and up. Below that the words are centred and take the full
             width, and there is no air left to put anything in. */}
@@ -256,13 +259,13 @@ export function Hero() {
             y={8}
             className="absolute left-[40%] top-[11%] wide-window:left-[42%] wide-window:top-[12%]"
           >
-            <Cloud className="h-10 drop-shadow-[0_2px_6px_rgba(16,36,56,0.45)] wide-window:h-12" />
+            <Cloud className="h-8 drop-shadow-[0_2px_5px_rgba(16,36,56,0.45)] wide-window:h-9" />
           </Float>
 
           {/* Eleven o'clock: the sun-behind-cloud, in the gap between the last
               word of the headline and his hair. */}
           <Float index={1} y={11} className="absolute left-[52%] top-[19%]">
-            <Cloud className="h-14 drop-shadow-[0_3px_8px_rgba(16,36,56,0.5)] wide-window:h-16" />
+            <Cloud className="h-10 drop-shadow-[0_2px_6px_rgba(16,36,56,0.5)] wide-window:h-12" />
           </Float>
 
           {/* The kite, and the object that moves furthest between the two
@@ -276,7 +279,7 @@ export function Hero() {
             rotate={5}
             className="absolute left-[55%] top-[54%] wide-window:left-[92.5%] wide-window:top-[14%] wider-window:left-[90%]"
           >
-            <Kite className="h-20 drop-shadow-[0_3px_9px_rgba(16,36,56,0.5)] wide-window:h-28" />
+            <Kite className="h-14 drop-shadow-[0_2px_7px_rgba(16,36,56,0.5)] wide-window:h-20" />
           </Float>
 
           {/* Four o'clock, past his shoulder. Nothing sensible to do with it in
@@ -288,7 +291,7 @@ export function Hero() {
             rotate={-6}
             className="absolute left-[93.5%] top-[56%] hidden wide-window:block wider-window:left-[91%]"
           >
-            <Leaf className="h-16 drop-shadow-[0_3px_8px_rgba(16,36,56,0.55)] wider-window:h-20" />
+            <Leaf className="h-11 drop-shadow-[0_2px_6px_rgba(16,36,56,0.55)] wider-window:h-14" />
           </Float>
 
           {/* Eight o'clock, and the reason there are five rather than four: with
@@ -305,7 +308,7 @@ export function Hero() {
             rotate={8}
             className="absolute left-[51%] top-[57%] hidden xl:wide-window:block"
           >
-            <Star className="h-9 drop-shadow-[0_2px_6px_rgba(16,36,56,0.5)]" />
+            <Star className="h-6 drop-shadow-[0_2px_5px_rgba(16,36,56,0.5)]" />
           </Float>
         </div>
 
