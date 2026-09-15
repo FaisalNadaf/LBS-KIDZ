@@ -81,7 +81,7 @@ const alt = {
   'school-friends': 'A group of schoolchildren standing together in front of a yellow door',
   'walking-to-school': 'Children walking to school together with backpacks on',
   'circle-storytime': 'Schoolchildren gathered around an adult, listening, away from the classroom',
-  'project-model': 'Children looking at a model village they have built, its parts labelled in Hindi',
+  'project-model': 'Children looking at a model village they have built, its parts labelled in Devanagari script',
   'craft-outdoors': 'A girl in a yellow kurta kneeling on the ground to paint',
   'craft-table': "Children's hands cutting and arranging coloured paper into a flower",
   'writing-practice': 'Two girls in school uniform writing at their desks',

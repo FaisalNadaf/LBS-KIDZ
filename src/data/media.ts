@@ -489,7 +489,7 @@ export const photos = {
     height: 840,
     widths: [480, 768, 1120],
     tint: '#f8d808',
-    alt: "Children looking at a model village they have built, its parts labelled in Hindi",
+    alt: "Children looking at a model village they have built, its parts labelled in Devanagari script",
     credit: { author: "Sushanta Rokka", source: "unsplash", url: "https://unsplash.com/photos/children-look-at-a-model-house-and-educational-display-zetbexM4zt8" },
   },
   'reading-devanagari': {

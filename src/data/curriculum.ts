@@ -368,9 +368,9 @@ export const assessmentDisplayNote =
  * ---------------------------------------------------------------------- */
 
 export const languagePosition = {
-  headline: 'A strong Hindi and home-language foundation, with joyful English exposure',
+  headline: 'A strong mother-tongue foundation, with joyful English exposure',
   practice:
-    'Daily instruction is predominantly in Hindi or the child’s home language. English arrives through songs, stories and simple vocabulary, as natural exposure rather than as the instructional medium.',
+    'Daily instruction is predominantly in the child’s mother tongue. English arrives through songs, stories and simple vocabulary, as natural exposure rather than as the instructional medium.',
   reasons: [
     'A child arriving at preschool at three already carries three years of competence in their home language. Comprehension, expression, social interaction and early concept formation are all built on that base.',
     'Research in India and elsewhere shows that children taught in their home language do better, even in subjects like mathematics and science. Children taught in an unfamiliar language do not keep up.',

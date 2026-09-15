@@ -587,7 +587,7 @@ export function PhilosophySection() {
             <Reveal className="mt-6">
               <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <FeatureChip icon={<Languages className="size-5" />}>
-                  Hindi or home language,
+                  Mother tongue
                   <br className="hidden sm:block" /> as the medium
                 </FeatureChip>
                 <FeatureChip icon={<Music2 className="size-5" />}>

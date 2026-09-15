@@ -67,7 +67,7 @@ import { routes } from '@/data/routes'
  * phase-shifted, so they never bob in unison.
  */
 
-const promises = ['No examinations, ever', 'Hindi first, English joyfully', 'No hidden charges']
+const promises = ['No examinations, ever', 'Mother tongue first, English joyfully', 'No hidden charges']
 
 export function Hero() {
   const scopeRef = useRef<HTMLElement>(null)
