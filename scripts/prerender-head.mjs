@@ -23,7 +23,7 @@ const dist = join(root, 'dist')
 
 const { pageSeo, seoDefaults } = await import('../src/data/seo.ts')
 const { SITE_PHASE } = await import('../src/data/site.ts')
-const { faqs } = await import('../src/data/admissions.ts')
+const { faqs, curriculumFaqs } = await import('../src/data/admissions.ts')
 
 const shell = readFileSync(join(dist, 'index.html'), 'utf8')
 
@@ -54,17 +54,17 @@ const organization = {
   knowsLanguage: ['hi-IN', 'en-IN'],
 }
 
-const faqPage = {
+const faqPage = (set) => ({
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: faqs
+  mainEntity: set
     .filter((f) => f.schema)
     .map((f) => ({
       '@type': 'Question',
       name: f.q,
       acceptedAnswer: { '@type': 'Answer', text: f.a },
     })),
-}
+})
 
 const breadcrumbFor = (page) => {
   if (!page.breadcrumb?.length) return null
@@ -81,8 +81,27 @@ const breadcrumbFor = (page) => {
   }
 }
 
-/** Pages that carry FAQPage markup, per Keyword & AEO Strategy S6. */
-const faqRoutes = new Set(['/curriculum-nep-2020-activity-based-learning', '/preschool-admission-indore', '/faqs', '/'])
+/**
+ * Which routes carry FAQPage markup, and which questions each one carries.
+ *
+ * TWO SETS, NOT ONE. The FAQs page publishes all fourteen questions (D19 S7);
+ * Curriculum publishes its own five, in its own wording (D14 S12). They were
+ * previously one shared block, which stopped being merely untidy when the FAQ
+ * set grew: Curriculum's head would have claimed fourteen questions while its
+ * page displayed five.
+ *
+ * HOME AND ADMISSIONS ARE NOT HERE ANY MORE. Both used to be, and neither
+ * renders a single question: Home's FAQ band is not in its section list, and
+ * Admissions links to /faqs rather than repeating it. Google's FAQPage
+ * guidance requires the marked-up questions to be visible on the page carrying
+ * the markup, so this was structured data describing content a visitor could
+ * not find. If either page later grows a real FAQ block, add it back here
+ * pointing at whatever set that block actually renders.
+ */
+const faqRoutes = new Map([
+  ['/faqs', faqs],
+  ['/curriculum-nep-2020-activity-based-learning', curriculumFaqs],
+])
 
 /* ---- Emit ---- */
 
@@ -101,7 +120,8 @@ for (const [key, page] of Object.entries(pageSeo)) {
   const schemas = [organization]
   const crumbs = breadcrumbFor(page)
   if (crumbs) schemas.push(crumbs)
-  if (faqRoutes.has(page.path)) schemas.push(faqPage)
+  const faqSet = faqRoutes.get(page.path)
+  if (faqSet) schemas.push(faqPage(faqSet))
 
   const head = [
     `<title>${esc(page.title)}</title>`,

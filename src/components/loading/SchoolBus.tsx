@@ -4,13 +4,13 @@
  * Drawn to the same rules as everything in `components/art/objects.tsx`, which
  * is what stops it reading as clip-art dropped into someone else's website:
  * flat fills, one 1.8px ink outline, round caps and joins, and colours taken
- * only from the site palette. The body is haldi rather than the usual school-bus
- * chrome yellow, the stripe and the bumper are terracotta, and the glass is
- * indigo — so the bus is recognisably a school bus without introducing a hue the
+ * only from the site palette. The body is the logo orange rather than the usual
+ * school-bus chrome yellow, the stripe and the bumper are coral, and the glass is
+ * brand blue — so the bus is recognisably a school bus without introducing a hue the
  * design system does not already own.
  *
  * It also follows that file's three-part test for a drawing rather than a
- * pictogram: a second colour (the haldi-400 skirt under the haldi-300 body), one
+ * pictogram: a second colour (the orange-400 skirt under the orange-300 body), one
  * detail only this object has (the roof sign and its two warning lamps), and
  * interior lines at reduced opacity for the panel seams.
  *
@@ -44,7 +44,7 @@ function Wheel({ cx }: { cx: number }) {
           only thing inside it — a solid dark circle with a small light dot on
           top reads as a button, not a wheel. */}
       <circle cx={cx} cy={117} r={24} fill="var(--color-ink-600)" {...stroke} />
-      <circle cx={cx} cy={117} r={14.5} fill="var(--color-khadi-200)" {...stroke} />
+      <circle cx={cx} cy={117} r={14.5} fill="var(--color-mist-200)" {...stroke} />
       {/* The spokes are the part that makes the rotation legible. Without them
           a circle can spin all day and look stationary. */}
       {/* No `transform-origin` here. The stylesheet spins this group with
@@ -64,7 +64,7 @@ function Wheel({ cx }: { cx: number }) {
         <path d={`M${cx - 12.5} 117h25`} />
         <path d={`M${cx - 8.8} 108.2l17.6 17.6`} />
         <path d={`M${cx - 8.8} 125.8l17.6-17.6`} />
-        <circle cx={cx} cy={117} r={3.6} fill="var(--color-terracotta-500)" strokeWidth="1.4" />
+        <circle cx={cx} cy={117} r={3.6} fill="var(--color-coral-500)" strokeWidth="1.4" />
       </g>
     </g>
   )
@@ -96,7 +96,7 @@ export function SchoolBus({ className }: { className?: string }) {
       <ellipse cx="160" cy="143" rx="132" ry="7" fill="var(--color-ink-700)" opacity="0.1" />
 
       {/* ---- Dust behind the rear wheel ---- */}
-      <g fill="var(--color-khadi-400)" opacity="0.55">
+      <g fill="var(--color-mist-400)" opacity="0.55">
         <circle className="lbs-bus__puff" cx="30" cy="130" r="6" />
         <circle className="lbs-bus__puff" cx="12" cy="136" r="4.5" />
         <circle className="lbs-bus__puff" cx="46" cy="138" r="3.5" />
@@ -109,46 +109,46 @@ export function SchoolBus({ className }: { className?: string }) {
               "school bus" at a glance, and the one thing on this drawing that
               belongs to no other object in the set. ---- */}
       <g {...stroke}>
-        <rect x="120" y="16" width="86" height="17" rx="6" fill="var(--color-terracotta-600)" />
+        <rect x="120" y="16" width="86" height="17" rx="6" fill="var(--color-coral-600)" />
         <path
           d="M132 22h44M132 27h30"
-          stroke="var(--color-khadi-100)"
+          stroke="var(--color-mist-100)"
           strokeWidth="2.4"
           opacity="0.85"
         />
-        <circle cx="112" cy="27" r="5" fill="var(--color-haldi-300)" />
-        <circle cx="214" cy="27" r="5" fill="var(--color-terracotta-400)" />
+        <circle cx="112" cy="27" r="5" fill="var(--color-orange-300)" />
+        <circle cx="214" cy="27" r="5" fill="var(--color-coral-400)" />
       </g>
 
       {/* ---- Body ---- */}
       <g {...stroke}>
         <path
           d="M32 33h232c15 0 28 10 32 24l4 15c1 4 2 8 2 12v22c0 7-6 12-13 12H27c-7 0-13-5-13-12V51c0-10 8-18 18-18Z"
-          fill="var(--color-haldi-300)"
+          fill="var(--color-orange-300)"
         />
 
         {/* The skirt: a second value of the same hue, which is what gives the
             body an inside as well as an edge. */}
         <path
           d="M14 96h288v14c0 7-6 12-13 12H27c-7 0-13-5-13-12Z"
-          fill="var(--color-haldi-400)"
+          fill="var(--color-orange-400)"
         />
 
-        {/* The stripe. A real school bus wears black here; terracotta is the
-            site's signature accent doing the same job. */}
-        <rect x="14" y="96" width="288" height="9" fill="var(--color-terracotta-600)" stroke="none" />
+        {/* The stripe. A real school bus wears black here; the logo's coral
+            does the same job. */}
+        <rect x="14" y="96" width="288" height="9" fill="var(--color-coral-600)" stroke="none" />
         <path d="M14 96h288M14 105h288" strokeWidth="1.4" opacity="0.55" />
       </g>
 
       {/* ---- Glass ---- */}
       <g {...stroke}>
-        <rect x="30" y="45" width="56" height="38" rx="9" fill="var(--color-indigo-ink-100)" />
-        <rect x="94" y="45" width="56" height="38" rx="9" fill="var(--color-indigo-ink-100)" />
-        <rect x="158" y="45" width="46" height="38" rx="9" fill="var(--color-indigo-ink-100)" />
+        <rect x="30" y="45" width="56" height="38" rx="9" fill="var(--color-brand-100)" />
+        <rect x="94" y="45" width="56" height="38" rx="9" fill="var(--color-brand-100)" />
+        <rect x="158" y="45" width="46" height="38" rx="9" fill="var(--color-brand-100)" />
         {/* Windscreen, following the rake of the front. */}
         <path
           d="M262 45h6c9 0 17 6 20 15l3 10c1 4-2 8-6 8h-23c-4 0-7-3-7-7V52c0-4 3-7 7-7Z"
-          fill="var(--color-indigo-ink-100)"
+          fill="var(--color-brand-100)"
         />
       </g>
 
@@ -167,19 +167,19 @@ export function SchoolBus({ className }: { className?: string }) {
       </defs>
       <g opacity="0.9">
         <g clipPath="url(#lbs-bus-w1)">
-          <Passenger x={58} fill="var(--color-terracotta-400)" />
+          <Passenger x={58} fill="var(--color-coral-400)" />
         </g>
         <g clipPath="url(#lbs-bus-w2)">
-          <Passenger x={122} fill="var(--color-neem-400)" />
+          <Passenger x={122} fill="var(--color-green-400)" />
         </g>
         <g clipPath="url(#lbs-bus-w3)">
-          <Passenger x={181} fill="var(--color-indigo-ink-400)" />
+          <Passenger x={181} fill="var(--color-brand-400)" />
         </g>
       </g>
 
       {/* ---- Reflections. Drawn over the passengers, which is the right order:
               a highlight sits on the outside of the glass. ---- */}
-      <g stroke="var(--color-khadi-50)" strokeWidth="5" strokeLinecap="round" opacity="0.5">
+      <g stroke="var(--color-mist-50)" strokeWidth="5" strokeLinecap="round" opacity="0.5">
         <path className="lbs-bus__glint" d="M42 76 62 50" />
         <path className="lbs-bus__glint" d="M106 76 126 50" />
         <path className="lbs-bus__glint" d="M168 76 186 50" />
@@ -187,21 +187,21 @@ export function SchoolBus({ className }: { className?: string }) {
 
       {/* ---- Door, headlight, mirror, seams ---- */}
       <g {...stroke}>
-        <rect x="212" y="45" width="38" height="51" rx="8" fill="var(--color-indigo-ink-200)" />
+        <rect x="212" y="45" width="38" height="51" rx="8" fill="var(--color-brand-200)" />
         <path d="M231 45v51" strokeWidth="1.6" />
         <path d="M226 70h-3M236 70h3" strokeWidth="2.2" strokeLinecap="round" />
 
         {/* Headlight. Small, warm and ringed: the first version was a
             near-white rounded rect at twice this size sitting under the
             windscreen, and at speed it read as a sticker rather than a lamp.
-            The haldi-200 surround is what makes it a lens. */}
+            The orange-200 surround is what makes it a lens. */}
         <rect
           x="286"
           y="82"
           width="15"
           height="12"
           rx="5"
-          fill="var(--color-haldi-200)"
+          fill="var(--color-orange-200)"
         />
         <rect
           x="289"
@@ -209,7 +209,7 @@ export function SchoolBus({ className }: { className?: string }) {
           width="9"
           height="7"
           rx="3"
-          fill="var(--color-khadi-50)"
+          fill="var(--color-mist-50)"
           strokeWidth="1.2"
         />
 
@@ -227,14 +227,14 @@ export function SchoolBus({ className }: { className?: string }) {
         <path d="M36 41h180" strokeWidth="1.6" opacity="0.3" />
       </g>
 
-      {/* Front bumper, the last terracotta note. */}
+      {/* Front bumper, the last coral note. */}
       <rect
         x="286"
         y="107"
         width="18"
         height="11"
         rx="5"
-        fill="var(--color-terracotta-500)"
+        fill="var(--color-coral-500)"
         {...stroke}
       />
     </svg>

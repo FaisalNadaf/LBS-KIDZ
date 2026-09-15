@@ -10,7 +10,122 @@
  * Strategy S4 and the Sitemap S1.1:
  *   LBS KidZ states its OWN practice and cites NCERT as the source. It does not
  *   interpret or explain government policy on its own authority.
+ *
+ * The page-facing copy at the head of this file is from the Curriculum &
+ * Learning Approach Page Content specification (D13). That document is written
+ * for "a parent who has never heard of LBS KidZ and is simply searching for
+ * activity-based learning preschool", so its language is plain and
+ * parent-searchable where the NCERT transcriptions below it are technical. Both
+ * belong on the page: the first is what a parent reads, the second is what it
+ * rests on.
  */
+
+/* -------------------------------------------------------------------------
+ * Page-facing copy. Source: Curriculum Page Content S3, Sections 1 to 6.
+ * ---------------------------------------------------------------------- */
+
+/** Section 1 — Hero. */
+export const curriculumIntro = {
+  eyebrow: 'Curriculum & learning approach',
+  headline: 'Learning Through Play: The NEP 2020 Way',
+  standfirst: 'Activity-based, joyful, and built for how young children actually learn.',
+}
+
+/**
+ * Section 2 — Five Ways Your Child Grows.
+ *
+ * The five NCF-FS developmental domains, translated into plain parent language.
+ * The domains themselves, with their thirteen curricular goals, are set out
+ * further down this file exactly as NCERT words them; these are the same five
+ * things said the way a parent would say them, which is what this page is for.
+ */
+export const growthWays = [
+  {
+    slug: 'moving-and-doing',
+    title: 'Moving & Doing',
+    body: 'Running, jumping, drawing, building: strong little bodies and steady little hands.',
+    /** Names an icon on the page; see `GROWTH_ICONS` in CurriculumPage. */
+    icon: 'moving',
+    /** The NCF-FS domain this plain-language card corresponds to. */
+    domain: 'Physical Development',
+  },
+  {
+    slug: 'feeling-and-relating',
+    title: 'Feeling & Relating',
+    body: 'Sharing, waiting their turn, understanding feelings: their own, and other people’s.',
+    icon: 'feeling',
+    domain: 'Socio-Emotional and Ethical Development',
+  },
+  {
+    slug: 'thinking-and-solving',
+    title: 'Thinking & Solving',
+    body: 'Puzzles, patterns, early counting, and a lot of curious questions.',
+    icon: 'thinking',
+    domain: 'Cognitive Development',
+  },
+  {
+    slug: 'talking-and-understanding',
+    title: 'Talking & Understanding',
+    body: 'Stories, rhymes, new words, and the first steps toward reading.',
+    icon: 'talking',
+    domain: 'Language and Literacy Development',
+  },
+  {
+    slug: 'creating-and-belonging',
+    title: 'Creating & Belonging',
+    body: 'Art, music, movement, and a growing sense of who they are.',
+    icon: 'creating',
+    domain: 'Aesthetic and Cultural Development',
+  },
+]
+
+export const growthWaysIntro = {
+  eyebrow: 'How your child grows',
+  headline: 'Five Ways Your Child Grows Here',
+  standfirst:
+    'The five areas of development the National Curriculum Framework for the Foundational Stage is built around, in the words a parent would use.',
+}
+
+/** Section 3 — How We Teach. */
+export const howWeTeach = {
+  eyebrow: 'How we teach',
+  headline: 'Play-Based Learning, Aligned with NEP 2020',
+  body:
+    'Our daily activities follow the National Curriculum Framework for the Foundational Stage (NCF-FS), the framework developed under NEP 2020 for children aged 3 to 8. That means learning happens through play, hands-on activity, and real experience. Not worksheets, and not rote memorisation.',
+}
+
+/** Section 4 — Language at LBS KidZ. */
+export const languageAtLbsKidz = {
+  eyebrow: 'Language',
+  headline: 'A Strong Foundation in Their Mother Tongue, First',
+  body:
+    'Children learn best in the language they already feel at home in. At LBS KidZ, that means a strong foundation in your child’s mother tongue, with English introduced naturally, through songs, stories, and everyday words. Not forced early. Never held back either.',
+}
+
+/** Section 5 — How We Track Growth. */
+export const trackingGrowth = {
+  eyebrow: 'Assessment',
+  headline: 'No Exams. Just Honest, Everyday Observation',
+  body:
+    'There are no formal examinations at LBS KidZ, at any point in the preschool years. Instead, every child’s growth is observed through daily activities, whether that is an oral response, colouring, drawing or a simple task, and marked as Beginner, Progressive, or Proficient. Never as a score. It’s a system built to encourage a child, not compare them to another.',
+}
+
+/** Section 6 — A Deeper Story. */
+export const deeperStory = {
+  eyebrow: 'The deeper story',
+  headline: 'Learning, With Values Woven Through',
+  body:
+    'Every activity at LBS KidZ also carries something more: a small, daily thread of honesty, simplicity and respect, carried forward from the family legacy of Shastri Ji.',
+  linkLabel: 'Explore The LBS Way',
+}
+
+/** Section 7 — FAQs. The heading only; the questions live in `data/admissions`. */
+export const curriculumFaqIntro = {
+  eyebrow: 'Straight answers',
+  headline: 'Common Questions',
+  standfirst:
+    'The five a parent researching a preschool asks first. The full set, including the awkward ones, is on the FAQ page.',
+}
 
 /* -------------------------------------------------------------------------
  * Panchakosha mapping. Source: NCERT Curriculum Summary S1.
@@ -62,7 +177,7 @@ export const panchakoshaNote =
 export type CurricularDomain = {
   slug: string
   domain: string
-  accent: 'terracotta' | 'indigo' | 'haldi' | 'neem'
+  accent: 'sky' | 'brand' | 'orange' | 'green'
   goals: { id: string; text: string }[]
 }
 
@@ -70,7 +185,7 @@ export const curricularDomains: CurricularDomain[] = [
   {
     slug: 'physical-development',
     domain: 'Physical Development',
-    accent: 'terracotta',
+    accent: 'sky',
     goals: [
       { id: 'CG-1', text: 'Habits that keep children healthy and safe.' },
       { id: 'CG-2', text: 'Sharpness in sensorial perceptions.' },
@@ -80,7 +195,7 @@ export const curricularDomains: CurricularDomain[] = [
   {
     slug: 'socio-emotional-and-ethical-development',
     domain: 'Socio-Emotional and Ethical Development',
-    accent: 'haldi',
+    accent: 'orange',
     goals: [
       {
         id: 'CG-4',
@@ -96,7 +211,7 @@ export const curricularDomains: CurricularDomain[] = [
   {
     slug: 'cognitive-development',
     domain: 'Cognitive Development',
-    accent: 'indigo',
+    accent: 'brand',
     goals: [
       {
         id: 'CG-7',
@@ -111,7 +226,7 @@ export const curricularDomains: CurricularDomain[] = [
   {
     slug: 'language-and-literacy-development',
     domain: 'Language and Literacy Development',
-    accent: 'terracotta',
+    accent: 'sky',
     goals: [
       { id: 'CG-9', text: 'Effective communication in two languages.' },
       { id: 'CG-10', text: 'Fluency in reading and writing in Language 1.' },
@@ -121,7 +236,7 @@ export const curricularDomains: CurricularDomain[] = [
   {
     slug: 'aesthetic-and-cultural-development',
     domain: 'Aesthetic and Cultural Development',
-    accent: 'neem',
+    accent: 'green',
     goals: [
       {
         id: 'CG-12',
@@ -132,7 +247,7 @@ export const curricularDomains: CurricularDomain[] = [
   {
     slug: 'positive-learning-habits',
     domain: 'Positive Learning Habits',
-    accent: 'indigo',
+    accent: 'brand',
     goals: [
       {
         id: 'CG-13',

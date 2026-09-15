@@ -1,40 +1,222 @@
 /**
- * Positioning and the parity layer.
- * Source: Website Reference Document S3 and S4; Project Decisions Log S6;
- * Global & Indian Preschool Research S5, S6 and S7.
+ * Home page copy, and the positioning it carries.
+ *
+ * Every string in this file is the wording of the Home Page Content &amp; Design
+ * Specification (D09), section by section. Where that document uses an em dash
+ * as a sentence break the punctuation is changed and nothing else is: the house
+ * rule for this site is that no em dash appears in any published copy.
+ *
+ * Source: LBS KidZ Home Page Content S3 (Final Written Content), with the
+ * Website Reference Document S3/S4 and the Project Decisions Log S6 behind the
+ * two sections the Home spec does not itself script.
  */
+
+/* -------------------------------------------------------------------------
+ * Section 1 — Hero
+ * ---------------------------------------------------------------------- */
 
 export const heroCopy = {
   /**
-   * Meta title / H1 direction from Keyword & AEO Strategy S3:
-   * "Meta title/H1 should be functional and local; brand tagline sits below
-   *  the fold". The H1 therefore leads with the search term a parent uses.
+   * "A Living Legacy for Little Learners", split across the hero's two lines.
+   * The second is the one the drawn underline sits beneath, so the split falls
+   * where the emphasis belongs rather than at the middle of the phrase.
    */
-  h1Lead: 'A preschool in Indore',
-  h1Emphasis: 'built on a life worth copying',
+  h1Lead: 'A Living Legacy for',
+  h1Emphasis: 'Little Learners',
+  /** Sits directly under the H1, smaller, per the spec's own layout note. */
+  tagline: 'Modern Learning, Timeless Values',
+  supporting: 'Where tiny children learn big values.',
   standfirst:
-    'LBS KidZ carries the name and the values of Shri Lal Bahadur Shastri, India’s second Prime Minister. Play-based days, a strong Hindi foundation, and no examinations at any stage.',
-  /** Brand tagline, kept below the fold per the AEO instruction. */
-  tagline: 'Little Karmayogis in the making',
+    'A preschool built on the family legacy of Shri Lal Bahadur Shastri Ji, combining joyful, activity-based early learning with honesty, discipline and character, practised every single day.',
+  /**
+   * The functional search phrasing the Keyword &amp; AEO Strategy asks to be
+   * present once in body copy rather than shouted in the headline. It sits in
+   * the meta title (see `data/seo.ts`) and here, in the hero's quiet line.
+   */
+  searchLine: 'A new preschool in Indore, opening for Academic Session 2027-28.',
+}
+
+/* -------------------------------------------------------------------------
+ * Section 3 — Why LBS KidZ
+ * ---------------------------------------------------------------------- */
+
+export const whyLbsKidz = {
+  eyebrow: 'Why LBS KidZ',
+  headline: 'A Foundation Strong Enough to Last a Lifetime',
+  standfirst:
+    'Six things that shape every day here, from a child’s first morning at two to their last at six.',
+}
+
+export type PositioningPillar = {
+  slug: string
+  /** Short title, as printed on the card and in the Register Interest list. */
+  label: string
+  body: string
+  /** Names an icon in `sections.tsx`; see `whyIcons` there. */
+  icon: string
 }
 
 /**
- * The differentiator, stated plainly.
- * Source: Website Reference Document S3; Global & Indian Research S7:
- * "No brand researched - Indian or global - has an authentic, ownable origin
- *  story. This is the single most significant gap identified."
+ * The six cards of Section 3, verbatim but for two things: the spec's
+ * "Practiced" is set as "Practised", matching the same document's own
+ * "practised every single day" and the site's en-IN locale; and the em dash
+ * separating each title from its description is the card's layout here rather
+ * than a character in the copy.
+ *
+ * These replaced three longer "locked decision" pillars. Nothing they said is
+ * lost: no-exams is now Growth Without Grades, mother tongue is card five, and
+ * the fee commitment moved to where the spec puts it, as the note under the
+ * Programs snapshot and on the Fees page.
  */
+export const positioningPillars: PositioningPillar[] = [
+  {
+    slug: 'family-led-legacy',
+    label: 'A Family-Led Legacy',
+    body: 'Guided by the family of Shri Lal Bahadur Shastri Ji himself, carried forward with pride and authenticity.',
+    icon: 'legacy',
+  },
+  {
+    slug: 'values-practised-daily',
+    label: 'Values, Practised Daily',
+    body: 'Honesty, respect and discipline built into everyday moments, not just lessons.',
+    icon: 'values',
+  },
+  {
+    slug: 'safety-by-design',
+    label: 'Safety by Design',
+    body: 'Secure, child-first campuses, planned with care from the ground up.',
+    icon: 'safety',
+  },
+  {
+    slug: 'joyful-modern-learning',
+    label: 'Joyful, Modern Learning',
+    body: 'Play-based, activity-first learning aligned with NEP 2020.',
+    icon: 'learning',
+  },
+  {
+    slug: 'mother-tongue-first',
+    label: 'Mother Tongue First, English with Confidence',
+    body: 'A strong foundation in their own language, with natural English exposure.',
+    icon: 'language',
+  },
+  {
+    slug: 'growth-without-grades',
+    label: 'Growth Without Grades',
+    body: 'Every child’s progress observed and nurtured, never marked or measured.',
+    icon: 'growth',
+  },
+]
+
+/* -------------------------------------------------------------------------
+ * The differentiator band.
+ *
+ * Not one of the Home spec's eleven sections. It is kept because it makes the
+ * argument the rest of the page rests on, and because every line of it is
+ * sourced: Global &amp; Indian Preschool Research S7 records that "no brand
+ * researched, Indian or global, has an authentic, ownable origin story", and
+ * names it the single most significant gap identified.
+ *
+ * Its eyebrow used to be "Why LBS KidZ", which is now the heading of Section 3
+ * above; two sections cannot carry the same name.
+ * ---------------------------------------------------------------------- */
+
 export const differentiator = {
-  eyebrow: 'Why LBS KidZ',
+  eyebrow: 'What sets this apart',
   headline: 'Most schools describe their values. Ours are somebody’s biography.',
   body:
     'Trust, excellence, child-centric: every preschool says these, which is exactly why they no longer mean much. Our values are not adjectives we chose. They are the documented character of one man, which makes each of them a story a four-year-old can actually follow.',
 }
 
+/* -------------------------------------------------------------------------
+ * Section 4 — The LBS Way preview
+ * ---------------------------------------------------------------------- */
+
+export const brandLayerIntro = {
+  eyebrow: 'The Lal Bahadur Shastri Way',
+  headline: 'Every Child, A Little Karmayogi',
+  /**
+   * S.I.M.P.L.E is dot-separated and the six words are spelled out, because the
+   * spec requires both in this section: "must always be shown dot-separated
+   * with the six words spelled out at least once in this section, never
+   * displayed as a plain word."
+   */
+  body:
+    'Guided by S · I · M · P · L · E, which stands for Simplicity, Integrity, Mindfulness, Patriotism, Leadership and Empathy, and by Shastri Sanskaar, our everyday practice of manners and respect. Six values. One confident child.',
+  linkLabel: 'Explore The LBS Way',
+}
+
+/* -------------------------------------------------------------------------
+ * Section 5 — Curriculum preview
+ * ---------------------------------------------------------------------- */
+
+export const curriculumPreview = {
+  eyebrow: 'Curriculum & learning approach',
+  headline: 'Learning Built Around the Wonder of Being Little',
+  body:
+    'Play-based, activity-first learning aligned with NEP 2020 and the National Curriculum Framework for the Foundational Stage, designed around how young children truly grow, discover and remember.',
+  linkLabel: 'See Our Curriculum & Learning Approach',
+}
+
+/* -------------------------------------------------------------------------
+ * Section 6 — Programs snapshot
+ * ---------------------------------------------------------------------- */
+
+export const programsSnapshot = {
+  eyebrow: 'Programs & classes',
+  headline: 'Four Stages, One Journey',
+  standfirst:
+    'The same values run through every class. Only the complexity and the expected independence change.',
+  linkLabel: 'View Programs & Classes',
+  /**
+   * The spec's note under this table, reproduced because it is the one place
+   * the Home page is allowed to touch money: "no fee information on this page.
+   * Fees are shared directly with parents on enquiry, with a clear no hidden
+   * charges line elsewhere on the site (books, bag, uniform, lunch box, water
+   * bottle included)."
+   */
+  feeNote:
+    'No fees are published here. The figure is shared with you directly when you enquire, and it has no hidden charges: books, bag, uniform, lunch box and water bottle are all included.',
+}
+
+/* -------------------------------------------------------------------------
+ * Section 8 — Founder's Note teaser
+ * ---------------------------------------------------------------------- */
+
+export const foundersNoteTeaser = {
+  eyebrow: 'Founder’s note',
+  headline: 'Carrying the Legacy Forward: A Note from Adarsh Shastri',
+  /**
+   * PLACEHOLDER, and flagged as one by the source document itself: "placeholder
+   * quote, to be replaced with the actual message once received. See Section 8,
+   * Dependencies / Open Items." It is published because it is the client's own
+   * supplied wording, not because it was invented here.
+   * See docs/decisions-and-todos.md item T-04.
+   */
+  quote:
+    'LBS KidZ is our family’s way of bringing my grandfather’s values into a child’s very first learning journey.',
+  attribution: 'Adarsh Shastri',
+  attributionRole: 'Grandson of Shri Lal Bahadur Shastri Ji',
+  isPlaceholder: true,
+  linkLabel: 'Read the Founder’s Note',
+}
+
+/* -------------------------------------------------------------------------
+ * Section 9 — Reassurance strip
+ * ---------------------------------------------------------------------- */
+
+export const reassurance = {
+  eyebrow: 'Parent confidence',
+  headline: 'Everything You Want for Your Child’s First School',
+  standfirst:
+    'Set against the things a parent actually compares. Where something is not ready yet, it says so.',
+  linkLabel: 'See Full FAQs',
+}
+
 /**
  * The parity layer. Every standard trust signal a premium competitor offers is
  * present, so the site never reads as lacking something a parent expects.
- * Source: Website Reference Document S4 (table reproduced faithfully).
+ * Source: Website Reference Document S4 (table reproduced faithfully), extended
+ * with the four items the Home spec names for its reassurance strip.
  */
 export type ParityItem = {
   category: string
@@ -45,43 +227,39 @@ export type ParityItem = {
 
 export const parityLayer: ParityItem[] = [
   {
-    category: 'Curriculum credibility',
-    claim:
-      'Play-based, activity-based and age-appropriate, explicitly aligned with NEP 2020 and NCF-FS.',
-    href: '/curriculum-nep-2020-activity-based-learning',
-    phase: 1,
-  },
-  {
-    category: 'Safety and infrastructure',
+    category: 'A Safe, Secure Campus',
     claim:
       'Specific standards drawn from NCERT’s own guidelines, listed item by item rather than promised in general.',
     href: '/preschool-in-indore-campuses#safety',
     phase: 1,
   },
   {
-    category: 'Teacher quality and training',
+    category: 'Trained, Caring Teachers',
     claim: 'Training and selection standards stated plainly, once our educators are appointed.',
     href: '/school-life/our-educators',
     phase: 2,
   },
   {
-    category: 'Parent communication',
+    category: 'Daily Parent Updates',
     claim:
       'Simple, regular updates with photos and activities, growing into a fuller in-app experience as the school matures.',
     href: '/curriculum-nep-2020-activity-based-learning#what-you-see',
     phase: 1,
   },
   {
-    category: 'Registration transparency',
-    claim: 'Registration numbers displayed here as soon as they are issued.',
-    href: '/mandatory-public-disclosure',
-    phase: 2,
+    /** Named by Home Page Content S3, Section 9, and new to this list. */
+    category: 'A Warm Settling-In Experience',
+    claim:
+      'Playgroup is built around it: comfort, trust and gentle first steps away from home, before anything academic is asked of a child.',
+    href: '/programs-and-classes#playgroup',
+    phase: 1,
   },
   {
-    category: 'Testimonials',
-    claim: 'Collected from real families once children are enrolled. Not before.',
-    href: '/school-life/testimonials',
-    phase: 2,
+    category: 'Curriculum credibility',
+    claim:
+      'Play-based, activity-based and age-appropriate, explicitly aligned with NEP 2020 and NCF-FS.',
+    href: '/curriculum-nep-2020-activity-based-learning',
+    phase: 1,
   },
   {
     category: 'Practical questions answered',
@@ -102,40 +280,28 @@ export const parityLayer: ParityItem[] = [
     href: '/preschool-fees-indore',
     phase: 1,
   },
+  {
+    category: 'Registration transparency',
+    claim: 'Registration numbers displayed here as soon as they are issued.',
+    href: '/mandatory-public-disclosure',
+    phase: 2,
+  },
+  {
+    category: 'Testimonials',
+    claim: 'Collected from real families once children are enrolled. Not before.',
+    href: '/school-life/testimonials',
+    phase: 2,
+  },
 ]
 
-/**
- * The three positioning statements most likely to decide a parent, each of
- * which is a locked project decision rather than a marketing line.
- * Source: Project Decisions Log S6.
- */
-export const positioningPillars = [
-  {
-    slug: 'no-exams',
-    label: 'No examinations',
-    headline: 'No exams. At any stage.',
-    body:
-      'Assessment happens through the activity itself: an oral answer, a colouring sheet, a drawing, a piece of craft. Each one is recorded as Beginner, Progressive or Proficient. Never a mark, never a rank.',
-    proof: 'This is NCERT’s own recommended approach for the Foundational Stage.',
-  },
-  {
-    slug: 'mother-tongue',
-    label: 'Mother tongue first',
-    headline: 'Hindi first, English joyfully.',
-    body:
-      'Your child arrives already fluent in the language spoken at home. We build on that rather than around it, and let English arrive through songs, stories and play.',
-    proof:
-      'NCF-FS is emphatic, not tentative, that home language should be the medium of instruction in the Foundational Stage.',
-  },
-  {
-    slug: 'no-hidden-charges',
-    label: 'No hidden charges',
-    headline: 'One fee, and nothing added later.',
-    body:
-      'Books, bag, uniform, lunch box and water bottle are all inside the fee we quote you. The figure itself is shared with you directly when you enquire.',
-    proof: 'A commitment we make in writing at the point of admission.',
-  },
-]
+/* -------------------------------------------------------------------------
+ * Section 10 — Final CTA
+ * ---------------------------------------------------------------------- */
+
+export const finalCta = {
+  headline: 'Give Them a Beginning Worth Remembering',
+  body: 'Register your interest and be among the first families to welcome LBS KidZ to Indore.',
+}
 
 /**
  * What LBS KidZ deliberately avoids. Publishing this is itself a differentiator,
@@ -145,7 +311,7 @@ export const positioningPillars = [
 export const deliberateChoices = [
   {
     avoided: 'Marketing English as the premium feature',
-    instead: 'A Hindi and home-language foundation, because that is what the evidence supports.',
+    instead: 'A mother-tongue foundation, because that is what the evidence supports.',
   },
   {
     /**
@@ -167,16 +333,3 @@ export const deliberateChoices = [
     instead: 'Parent-facing and business-facing kept completely separate.',
   },
 ]
-
-/**
- * How the brand layer is introduced on the homepage. The keyword strategy is
- * explicit that brand terms have zero search volume and are the deeper story a
- * parent discovers after arriving, not the discovery mechanism.
- * Source: Keyword & AEO Strategy S1; Project Decisions Log S6.
- */
-export const brandLayerIntro = {
-  eyebrow: 'The Lal Bahadur Shastri Way',
-  headline: 'What your child will be called here',
-  body:
-    'Children at LBS KidZ are Little Karmayogis. Their values come from SIMPLE, their manners from Shastri Sanskaar, and their week from the Sankalp Calendar. None of these are words a parent searches for. They are what you find once you are here.',
-}

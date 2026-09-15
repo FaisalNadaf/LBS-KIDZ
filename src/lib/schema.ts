@@ -90,7 +90,7 @@ export function faqSchema(entries: { q: string; a: string }[]) {
  * rating, no schedule, because fees are deliberately not published and the
  * academic calendar does not exist yet.
  */
-export function programSchema(programs: { name: string; blurb: string; slug: string }[]) {
+export function programSchema(programs: { name: string; about: string; slug: string }[]) {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -101,7 +101,7 @@ export function programSchema(programs: { name: string; blurb: string; slug: str
       item: {
         '@type': 'Course',
         name: p.name,
-        description: p.blurb,
+        description: p.about,
         provider: { '@id': `${seoDefaults.origin}/#organization` },
         educationalLevel: 'Preschool',
         inLanguage: ['hi-IN', 'en-IN'],

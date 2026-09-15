@@ -356,7 +356,7 @@ const SLOTS = {
 /**
  * How far each variant pulls back on a dark ground.
  *
- * A flat-filled drawing in khadi and haldi is a bright object against deep
+ * A flat-filled drawing in white and orange is a bright object against deep
  * blue, so every dark band needs some restraint — but not the same amount. A
  * dark *section* is a band like any other and its objects stand in open
  * padding, so 70% keeps them reading as objects. A page header is already

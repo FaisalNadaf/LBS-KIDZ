@@ -49,11 +49,29 @@ export type Zone = {
 }
 
 /**
- * The locked location zones named in the source documents. The sitemap says to
- * "extend to all confirmed zones as campuses open", so this list grows here.
- * Source: Full Website Sitemap S3; Keyword & AEO Strategy S8.
+ * The five zones LBS KidZ is opening in, exactly as the Home Page content
+ * specification lists them. Zone level only: no addresses, because none exist
+ * yet.
+ * Source: Home Page Content S3, Section 7 (Opening in Indore); Full Website
+ * Sitemap S3; Keyword & AEO Strategy S8.
+ *
+ * COORDINATES ARE LOCALITY CENTROIDS FROM OPENSTREETMAP, resolved by name
+ * through Nominatim, and they point at the neighbourhood rather than at a
+ * building. Note that "Vijay Nagar" is ambiguous in Indore — a plain search
+ * returns Vijay Nagar Udhyaan, a park several kilometres south of the Vijay
+ * Nagar a parent means — so this one is pinned to Vijay Nagar Square.
  */
 export const zones: Zone[] = [
+  {
+    slug: 'rau-cat-road',
+    name: 'Rau / CAT Road',
+    keyword: 'Preschool in Rau',
+    confirmed: true,
+    coords: { lat: 22.6336511, lon: 75.8051046 },
+    area: 'Rau Tahsil, Indore 453331',
+    photo: 'indore-lake',
+    photoCredit: 'Regional Park lake, Indore · Sonika Dhakad · CC BY-SA 4.0',
+  },
   {
     slug: 'kanadia-road',
     name: 'Kanadia Road',
@@ -65,24 +83,34 @@ export const zones: Zone[] = [
     photoCredit: 'Indore skyline · John Hoey · CC BY 2.0',
   },
   {
-    slug: 'rau',
-    name: 'Rau',
-    keyword: 'Preschool in Rau',
+    slug: 'annapurna-sudama-nagar',
+    name: 'Annapurna / Sudama Nagar',
+    keyword: 'Preschool in Annapurna Road',
     confirmed: true,
-    coords: { lat: 22.6336511, lon: 75.8051046 },
-    area: 'Rau Tahsil, Indore 453331',
-    photo: 'indore-lake',
-    photoCredit: 'Regional Park lake, Indore · Sonika Dhakad · CC BY-SA 4.0',
-  },
-  {
-    slug: 'bicholi-mardana',
-    name: 'Bicholi Mardana',
-    keyword: 'Preschool in Bicholi Mardana',
-    confirmed: true,
-    coords: { lat: 22.6961998, lon: 75.9285621 },
-    area: 'Bicholi Mardana, Indore Bypass',
+    coords: { lat: 22.6883222, lon: 75.8321475 },
+    area: 'Sudama Nagar, off Annapurna Road, Indore',
     photo: 'indore-street',
     photoCredit: 'Subhash Marg, Indore · Kprateek88 · CC BY-SA 3.0',
+  },
+  {
+    slug: 'mahalaxmi-nagar-nipania',
+    name: 'Mahalaxmi Nagar / Nipania',
+    keyword: 'Preschool in Nipania',
+    confirmed: true,
+    coords: { lat: 22.7569735, lon: 75.912106 },
+    area: 'Mahalaxmi Nagar, Piplya Kumar, Indore',
+    photo: 'indore-rajwada',
+    photoCredit: 'Rajwada, Indore · DeepakNigam · CC BY-SA 4.0',
+  },
+  {
+    slug: 'vijay-nagar',
+    name: 'Vijay Nagar',
+    keyword: 'Preschool in Vijay Nagar',
+    confirmed: true,
+    coords: { lat: 22.7509411, lon: 75.8958914 },
+    area: 'Vijay Nagar Square, Indore City',
+    photo: 'indore-lalbagh',
+    photoCredit: 'Lal Bagh Palace, Indore · Amit Nimade · CC BY-SA 4.0',
   },
 ]
 
@@ -123,10 +151,19 @@ export const zoneMapEmbedUrl = (zone: Zone) => {
   return `https://www.openstreetmap.org/export/embed.html?${params}`
 }
 
+/**
+ * Source: Home Page Content S3, Section 7; Programs & Classes Content S1.
+ * The academic session is the one dated commitment the site makes, so it lives
+ * here as a value rather than being written into three different headings.
+ */
+export const academicSession = '2027-28'
+
 export const campusPhaseState = {
-  phase1Headline: 'Launching Soon in Indore',
+  phase1Headline: `LBS KidZ Opens in Indore, Academic Session ${academicSession}`,
   phase1Body:
-    'Our first campuses are being prepared across Indore. We are naming the zones we are opening in now, and we will publish each campus address, its photographs and its map the day it is ready. Until then we would rather tell you where we are coming than describe a building you cannot visit.',
+    'We are bringing LBS KidZ to families across Indore. Register your interest and be among the first to know when your neighbourhood opens.',
+  /** Shown on the zone tags, per the content spec's "Opening 2027-28" badge. */
+  zoneBadge: `Opening ${academicSession}`,
   isPhase1: SITE_PHASE === 1,
 }
 

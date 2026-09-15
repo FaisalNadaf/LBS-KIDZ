@@ -47,14 +47,14 @@ export function LegacyPage() {
       <PageHeader
         eyebrow={legacyIntro.eyebrow}
         title={legacyIntro.headline}
-        /* `legacyIntro.standfirst` in full still opens the section below. */
-        standfirst="We carry the name of Shri Lal Bahadur Shastri as a standard to be held to, not as decoration."
-        photo="wheat-sunrise"
+        standfirst={legacyIntro.standfirst}
+        photo="women-carrying-harvest"
+        photoFocus="55% 35%"
       />
 
       <TimelineSection />
 
-      <Section tone="white" labelledBy="legacy-values-title" divider={{ type: 'reverse', to: 'terracotta' }}>
+      <Section tone="white" labelledBy="legacy-values-title" divider={{ type: 'reverse', to: 'sky' }}>
         <Container size="wide">
           {/* Centred, now that the right-hand column is a compact acronym strip
               rather than six paragraph cards. Top-aligned it left the strip
@@ -63,7 +63,7 @@ export function LegacyPage() {
             <div className="lg:col-span-5">
               <SectionHeader
                 id="legacy-values-title"
-                eyebrow="From a life to a values framework"
+                eyebrow="From a life to a daily practice"
                 title={legacyToValues.headline}
                 standfirst={legacyToValues.body}
               />
@@ -100,22 +100,33 @@ export function LegacyPage() {
                 />
               </Reveal>
 
-              <Reveal className="mt-8">
-                {/* Shortened to fit the narrowed column on one line. The
-                    arrow is a flex sibling of the label, so a wrapped label
-                    leaves it marooned at the far right of the block: measured,
-                    460px past the end of the second line. This is the only
-                    wrapping TextLink on the site. */}
-                <TextLink to={routes.lbsWay}>
-                  The full framework: SIMPLE and Shastri Sanskaar
-                </TextLink>
+              {/* Both of the specification's exits, and they are this page's
+                  whole navigational intent: it is not a conversion page and
+                  carries no CTA block of its own, only the persistent one in
+                  the navbar.
+
+                  Labels are kept short deliberately. The arrow is a flex
+                  sibling of the label, so a label that wraps leaves it marooned
+                  at the far right of the block: measured, 460px past the end of
+                  the second line. */}
+              <Reveal className="mt-8 flex flex-col gap-3">
+                <TextLink to={routes.lbsWay}>Explore The LBS Way</TextLink>
+                <TextLink to={routes.familyMessage}>A Message from the Family</TextLink>
               </Reveal>
             </div>
           </div>
         </Container>
       </Section>
 
-      <Section tone="terracotta" labelledBy="motif-title" divider={{ type: 'cloud', fill: 'var(--color-terracotta-600)' }}>
+      <Section
+        tone="sky"
+        labelledBy="motif-title"
+        /* Closes straight into the footer. The site-wide Register Interest
+           band, which normally draws this seam, is suppressed on this route,
+           and a divider filled with the colour of a band that is not there
+           reads as a stray shape. */
+        divider={{ type: 'layered', fill: 'var(--color-brand-800)' }}
+      >
         <Container size="wide">
           {/* Picture first, then the explanation. The section's whole claim is
               that the mark on this site was taken from a real thing, and the
@@ -127,9 +138,9 @@ export function LegacyPage() {
             <Reveal direction="right" tier="lead" className="lg:col-span-5">
               <div className="relative mx-auto max-w-md lg:mx-0 lg:max-w-none">
                 <PhotoOnColour
-                  name="wheat-field"
+                  name="wheat-ear-golden"
                   shape="leaf"
-                  colour="haldi"
+                  colour="orange"
                   depth="plate"
                   lean="left"
                   sizes="(min-width: 1024px) 38vw, 88vw"
@@ -141,7 +152,7 @@ export function LegacyPage() {
                     weight the two would compete, and the point is that one
                     came from the other. */}
                 <span
-                  className="absolute -bottom-6 -right-3 grid size-24 place-items-center rounded-full bg-khadi-50 text-neem-500 shadow-lift ring-1 ring-neem-200 sm:-right-6 sm:size-28"
+                  className="absolute -bottom-6 -right-3 grid size-24 place-items-center rounded-full bg-mist-50 text-green-500 shadow-lift ring-1 ring-green-200 sm:-right-6 sm:size-28"
                   aria-hidden="true"
                 >
                   <span className="h-14 sm:h-16">
@@ -149,26 +160,6 @@ export function LegacyPage() {
                   </span>
                 </span>
               </div>
-
-              {/* Visible attribution, which this photograph actually requires.
-                  Every other picture on the site is Unsplash or Pexels, whose
-                  licences ask for no credit line, so provenance lives quietly
-                  in image-credits.json. This one is CC BY-SA 4.0: crediting the
-                  photographer and naming the licence is a condition of using
-                  it, not a courtesy, and a record in a JSON file the reader
-                  never sees does not satisfy it. */}
-              <p className="mt-9 text-2xs leading-relaxed text-ink-400 sm:mt-8">
-                Photograph by A S M Jobaer,{' '}
-                <a
-                  href="https://creativecommons.org/licenses/by-sa/4.0"
-                  className="underline decoration-ink-400/40 underline-offset-2 hover:text-ink-500"
-                  rel="license noopener noreferrer"
-                  target="_blank"
-                >
-                  CC BY-SA 4.0
-                </a>
-                , via Wikimedia Commons.
-              </p>
             </Reveal>
 
             <div className="lg:col-span-6 lg:col-start-7">
@@ -213,7 +204,7 @@ export function LegacyPage() {
 function TimelineSection() {
   return (
     <Section
-      tone="khadi"
+      tone="mist"
       as="section"
       labelledBy="timeline-title"
       className="overflow-hidden"
@@ -223,7 +214,7 @@ function TimelineSection() {
         <SectionHeader
           id="timeline-title"
           eyebrow="A short life, plainly told"
-          title="Four things worth knowing"
+          title="A life, in five moments"
         />
 
         <ol className="relative mt-block">
@@ -309,7 +300,7 @@ function TimelineRow({
           ref={pathRef}
           d={d}
           fill="none"
-          stroke="var(--color-terracotta-300)"
+          stroke="var(--color-sky-300)"
           strokeWidth="2.5"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
@@ -321,7 +312,7 @@ function TimelineRow({
           ref={beadRef}
           d={d}
           fill="none"
-          stroke="var(--color-terracotta-500)"
+          stroke="var(--color-brand-500)"
           strokeWidth="9"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
@@ -340,7 +331,7 @@ function TimelineRow({
             because it belongs to the point on the line underneath it and
             anything that travels would leave that point. */}
         <Reveal as="span" direction="scale" className="block">
-          <span className="font-numeral inline-flex items-center rounded-full bg-khadi-50 px-4 py-2 text-sm font-semibold uppercase tracking-[0.14em] text-terracotta-600 shadow-card ring-1 ring-terracotta-200">
+          <span className="font-numeral inline-flex items-center rounded-full bg-mist-50 px-4 py-2 text-sm font-semibold uppercase tracking-[0.14em] text-brand-500 shadow-card ring-1 ring-brand-200">
             {moment.year}
           </span>
         </Reveal>
@@ -374,10 +365,10 @@ function TimelineRow({
         <Card backdrop={cardBackdropCycle[index % cardBackdropCycle.length]}>
           {/* The year again, for small screens, where the marker on the curve
               is not rendered and would otherwise take the date with it. */}
-          <span className="font-numeral text-sm font-semibold uppercase tracking-[0.14em] text-terracotta-600 lg:hidden">
+          <span className="font-numeral text-sm font-semibold uppercase tracking-[0.14em] text-brand-500 lg:hidden">
             {moment.year}
           </span>
-          <h3 className="mt-1 font-display text-h3 font-semibold text-indigo-ink-700 lg:mt-0">
+          <h3 className="mt-1 font-display text-h3 font-semibold text-brand-700 lg:mt-0">
             {moment.title}
           </h3>
           <p className="mt-2.5 max-w-prose text-body text-ink-500">{moment.body}</p>
@@ -388,7 +379,7 @@ function TimelineRow({
           than being cut off square at the last row's edge. */}
       {last ? (
         <span
-          className="absolute left-1/2 top-full hidden h-10 w-px -translate-x-1/2 bg-linear-to-b from-terracotta-300 to-transparent lg:block"
+          className="absolute left-1/2 top-full hidden h-10 w-px -translate-x-1/2 bg-linear-to-b from-sky-300 to-transparent lg:block"
           aria-hidden="true"
         />
       ) : null}

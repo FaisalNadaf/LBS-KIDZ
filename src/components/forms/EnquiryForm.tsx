@@ -76,10 +76,10 @@ export function EnquiryForm({ compact = false }: { compact?: boolean }) {
     return (
       <div
         role="status"
-        className="rounded-xl bg-neem-100 p-8 text-center hairline"
+        className="rounded-xl bg-green-50 p-8 text-center ring-1 ring-inset ring-green-200"
       >
-        <CheckCircle2 className="mx-auto size-9 text-neem-400" aria-hidden="true" />
-        <h3 className="mt-4 font-display text-h2 font-semibold text-indigo-ink-700">
+        <CheckCircle2 className="mx-auto size-9 text-green-500" aria-hidden="true" />
+        <h3 className="mt-4 font-display text-h2 font-semibold text-brand-700">
           Thank you. We have your details.
         </h3>
         <p className="mx-auto mt-3 max-w-md text-body text-ink-500">
@@ -159,7 +159,7 @@ export function EnquiryForm({ compact = false }: { compact?: boolean }) {
       <div>
         <label
           htmlFor={`${id}-message`}
-          className="block text-small font-semibold text-indigo-ink-700"
+          className="block text-small font-semibold text-brand-700"
         >
           Anything you would like us to know
         </label>
@@ -167,7 +167,7 @@ export function EnquiryForm({ compact = false }: { compact?: boolean }) {
           id={`${id}-message`}
           name="message"
           rows={4}
-          className="mt-2 w-full rounded-md border border-khadi-300 bg-white px-4 py-3 text-body text-ink-700 transition-[border-color,box-shadow] duration-200 placeholder:text-ink-400/70 focus:border-terracotta-400 focus:ring-4 focus:ring-terracotta-100 focus:outline-none"
+          className="mt-2 w-full rounded-md border border-mist-500 bg-white px-4 py-3 text-body text-ink-700 transition-[border-color,box-shadow] duration-200 placeholder:text-ink-400/80 hover:border-mist-600 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/15 focus:outline-none"
           placeholder="A question, a concern, or a good time to call."
         />
       </div>
@@ -175,7 +175,7 @@ export function EnquiryForm({ compact = false }: { compact?: boolean }) {
       {status === 'error' ? (
         <p
           role="alert"
-          className="flex items-start gap-2.5 rounded-md bg-terracotta-100 px-4 py-3 text-sm text-terracotta-800"
+          className="flex items-start gap-2.5 rounded-md bg-coral-100 px-4 py-3 text-sm text-coral-800"
         >
           <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
           <span>
@@ -233,11 +233,11 @@ function Field({
     <div className="group/field">
       <label
         htmlFor={id}
-        className="block text-small font-semibold text-indigo-ink-700 transition-colors duration-200 group-focus-within/field:text-terracotta-700"
+        className="block text-small font-semibold text-brand-700 transition-colors duration-200 group-focus-within/field:text-brand-600"
       >
         {label}
         {required ? (
-          <span className="ml-1 text-terracotta-600" aria-hidden="true">
+          <span className="ml-1 text-coral-600" aria-hidden="true">
             *
           </span>
         ) : null}
@@ -251,7 +251,7 @@ function Field({
         aria-describedby={describedBy || undefined}
         data-invalid={error ? 'true' : undefined}
         className={cn(
-          'mt-2 min-h-control-md w-full rounded-md border bg-white px-4 text-body text-ink-700 placeholder:text-ink-400/70',
+          'mt-2 min-h-control-md w-full rounded-md border bg-white px-4 text-body text-ink-700 placeholder:text-ink-400/80',
           // A ring as well as a border change, so the active field is obvious to
           // a pointer user too, not only to someone tabbing through.
           // The lift is one pixel. A form field is not a button and must not
@@ -260,8 +260,8 @@ function Field({
           'transition-[border-color,box-shadow,transform] duration-200 focus:ring-4 focus:outline-none',
           'focus:-translate-y-px motion-reduce:transform-none',
           error
-            ? 'border-terracotta-500 focus:ring-terracotta-100'
-            : 'border-khadi-300 focus:border-terracotta-400 focus:ring-terracotta-100',
+            ? 'border-coral-500 focus:border-coral-500 focus:ring-coral-400/20'
+            : 'border-mist-500 hover:border-mist-600 focus:border-brand-500 focus:ring-brand-500/15',
         )}
         {...rest}
       />
@@ -271,7 +271,7 @@ function Field({
         </p>
       ) : null}
       {error ? (
-        <p id={`${id}-error`} className="mt-1.5 text-xs font-medium text-terracotta-700">
+        <p id={`${id}-error`} className="mt-1.5 text-xs font-medium text-coral-700">
           {error}
         </p>
       ) : null}
@@ -304,11 +304,11 @@ function SelectField({
     <div className="group/field">
       <label
         htmlFor={id}
-        className="block text-small font-semibold text-indigo-ink-700 transition-colors duration-200 group-focus-within/field:text-terracotta-700"
+        className="block text-small font-semibold text-brand-700 transition-colors duration-200 group-focus-within/field:text-brand-600"
       >
         {label}
         {required ? (
-          <span className="ml-1 text-terracotta-600" aria-hidden="true">
+          <span className="ml-1 text-coral-600" aria-hidden="true">
             *
           </span>
         ) : null}
@@ -329,8 +329,8 @@ function SelectField({
           'transition-[border-color,box-shadow,transform] duration-200 focus:ring-4 focus:outline-none',
           'focus:-translate-y-px motion-reduce:transform-none',
           error
-            ? 'border-terracotta-500 focus:ring-terracotta-100'
-            : 'border-khadi-300 focus:border-terracotta-400 focus:ring-terracotta-100',
+            ? 'border-coral-500 focus:border-coral-500 focus:ring-coral-400/20'
+            : 'border-mist-500 hover:border-mist-600 focus:border-brand-500 focus:ring-brand-500/15',
         )}
         defaultValue=""
       >
@@ -341,7 +341,7 @@ function SelectField({
         ))}
       </select>
       {error ? (
-        <p id={`${id}-error`} className="mt-1.5 text-xs font-medium text-terracotta-700">
+        <p id={`${id}-error`} className="mt-1.5 text-xs font-medium text-coral-700">
           {error}
         </p>
       ) : null}

@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 
 /**
- * Inner pages open on a deep-blue PageHero, so a navbar drawn in ink-on-khadi
+ * Inner pages open on a deep-blue PageHero, so a navbar drawn in ink-on-white
  * would be invisible against it until the reader scrolls. PageHero registers
  * itself here and the navbar switches to its light-on-dark treatment while the
  * page is still at the top.

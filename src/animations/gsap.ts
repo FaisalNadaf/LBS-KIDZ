@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type RefObject } from 'react'
 import type { gsap as gsapNamespace } from 'gsap'
 import { usePrefersReducedMotion, useMediaQuery } from '@/hooks'
+import { useAppReady } from './ready'
 
 /**
  * GSAP owns every animation on this site that is tied to scroll position or to
@@ -308,6 +309,9 @@ export function useScrollReveal(
  *   [data-hero-item]  everything else in the text column, in DOM order
  *   [data-hero-art]   the photographs and their colour fields
  *
+ * and the drawn rule under the headline's emphasis is drawn in as that line
+ * lands.
+ *
  * The whole thing is under a second. Nothing a parent is trying to read waits
  * on an animation to finish, and the elements are visible from the first frame
  * if reduced motion is on — the hook simply does not run.
@@ -343,6 +347,51 @@ export function useHeroIntro(scopeRef: RefObject<HTMLElement | null>) {
       }, scope)
     },
     [scopeRef, reduced],
+  )
+
+  // The drawn rule under the emphasis line is the one part of this entrance
+  // that waits for the loading screen. The rest is meant to be settled by the
+  // time the overlay lifts (see `animations/ready.ts`); a line drawing itself
+  // is only worth anything if somebody watches it draw. So it is taken off the
+  // path as soon as GSAP is here, and drawn left to right once the site is on
+  // screen — straight away on a client-side visit, where there is no loader.
+  //
+  // The gap is longer than the path and the offset overshoots it, so while
+  // hidden no part of a dash sits on the path: a dash that merely ends at the
+  // path's first point still paints its round cap as a dot.
+  const ready = useAppReady()
+  const hideRule = (rule: SVGPathElement) => {
+    const length = rule.getTotalLength()
+    return { strokeDasharray: `${length} ${length + 8}`, strokeDashoffset: length + 4 }
+  }
+  const findRule = () =>
+    scopeRef.current?.querySelector<SVGPathElement>('#hero-title [data-draw]') ?? null
+
+  useGsapEffect(
+    !reduced,
+    (gsap) => {
+      const rule = findRule()
+      if (!rule) return
+      return gsap.context(() => gsap.set(rule, hideRule(rule)))
+    },
+    [scopeRef, reduced],
+  )
+
+  useGsapEffect(
+    !reduced && ready,
+    (gsap) => {
+      const rule = findRule()
+      if (!rule) return
+      return gsap.context(() =>
+        gsap.fromTo(rule, hideRule(rule), {
+          strokeDashoffset: 0,
+          duration: 1,
+          delay: 0.2,
+          ease: 'power2.inOut',
+        }),
+      )
+    },
+    [scopeRef, reduced, ready],
   )
 }
 
@@ -1019,49 +1068,3 @@ export function useCounter(
   )
 }
 
-/* ==========================================================================
-   Ambient background motion
-   ========================================================================== */
-
-/**
- * A slow, endless drift for a decorative background shape.
- *
- * Distinct from `useFloat`, which is a two-value bob on a small object.  This
- * is a long, wandering path on something large and soft -- a blob behind a
- * section, a gradient wash -- where a symmetrical yoyo would be legible as a
- * loop. Three unequal legs at unequal durations means the shape does not
- * visibly repeat, which is the whole difference between a background that is
- * alive and one that is animating.
- *
- * Deliberately slow. Anything fast enough to notice in the corner of the eye
- * while reading is competing with the text.
- */
-export function useAmbientDrift<T extends Element>(
-  ref: RefObject<T | null>,
-  options: { range?: number; duration?: number; delay?: number } = {},
-) {
-  const reduced = usePrefersReducedMotion()
-  const isCoarse = useMediaQuery('(pointer: coarse)')
-  const { range = 26, duration = 18, delay = 0 } = options
-
-  useGsapEffect(
-    // Not on touch hardware. These are large, blurred, translucent surfaces,
-    // and compositing one continuously is a cost a phone pays in battery for
-    // something nobody is looking at.
-    !reduced && !isCoarse,
-    (gsap) => {
-      const el = ref.current
-      if (!el) return
-      const r = range
-
-      return gsap.context(() => {
-        gsap
-          .timeline({ repeat: -1, delay, defaults: { ease: 'sine.inOut' } })
-          .to(el, { x: r, y: -r * 0.6, scale: 1.04, duration: duration * 0.38 })
-          .to(el, { x: -r * 0.5, y: r * 0.5, scale: 0.98, duration: duration * 0.34 })
-          .to(el, { x: 0, y: 0, scale: 1, duration: duration * 0.28 })
-      })
-    },
-    [ref, range, duration, delay, reduced, isCoarse],
-  )
-}

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { LogoMark } from '@/layouts/Logo'
+import { LogoArt } from '@/layouts/Logo'
 import { SchoolBus } from './SchoolBus'
 import { Book, Cloud, PaperPlane, Pencil, Star } from '@/components/art/objects'
 import { usePrefersReducedMotion, useLockBodyScroll } from '@/hooks'
@@ -165,19 +165,17 @@ export function LoadingScreen({ onDone }: { onDone: () => void }) {
       </div>
 
       <div className="lbs-load__stage">
+        {/* The real stacked artwork, which already carries the school name, the
+            strapline and the initiative line. The hand-built tile-and-type
+            wordmark that used to stand in here is gone, and so is the separate
+            tagline underneath it: both said what the logo itself now says. */}
         <div className="lbs-load__float">
           <div className="lbs-load__mark">
-            <span className="lbs-load__halo" aria-hidden="true" />
-            <LogoMark />
+            <LogoArt variant="stacked" priority />
           </div>
         </div>
 
-        <p className="lbs-load__name">
-          LBS <em>KidZ</em>
-        </p>
-
         <div className="lbs-load__meta">
-          <p className="lbs-load__tagline">Little Karmayogis in the making</p>
           <div className="lbs-load__dots" aria-hidden="true">
             <span />
             <span />

@@ -20,6 +20,7 @@ import { SITE_PHASE } from '@/data/site'
 import { feeCommitment, programs } from '@/data/admissions'
 import { sankalpCalendar } from '@/data/brand-framework'
 import { routes } from '@/data/routes'
+import { CTA_SEAM } from '@/components/ui/SectionDivider'
 
 /**
  * Admissions.
@@ -44,7 +45,7 @@ const startHere: {
     photo: 'toddler-focused',
     eyebrow: 'Which class',
     title: 'Programs & Classes',
-    body: 'Playgroup, Nursery, LKG and UKG, and how each maps onto NCERT’s recognised age bands.' },
+    body: 'Playgroup at two through to UKG at six, and what each year actually looks like.' },
   {
     to: routes.fees,
     photo: 'lunch-box',
@@ -72,11 +73,12 @@ export function AdmissionsPage() {
         eyebrow="Admissions"
         title="Preschool admission in Indore"
         standfirst="Four classes, one fee with nothing added later, and no examination at any stage."
-        photo="family-portrait"
+        photo="mother-daughter-walk"
+        photoFocus="45% 28%"
       />
 
       {/* ---- The three sub-pages ---- */}
-      <Section tone="khadi" labelledBy="admissions-nav-title" divider={{ type: 'gentle', to: 'white' }}>
+      <Section tone="mist" labelledBy="admissions-nav-title" divider={{ type: 'gentle', to: 'white' }}>
         <Container size="wide">
           <SectionHeader
             id="admissions-nav-title"
@@ -108,7 +110,7 @@ export function AdmissionsPage() {
       </Section>
 
       {/* ---- Classes at a glance ---- */}
-      <Section tone="white" id="classes" ambient="calm" labelledBy="classes-title" divider={{ type: 'reverse', to: 'terracotta' }}>
+      <Section tone="white" id="classes" labelledBy="classes-title" divider={{ type: 'reverse', to: 'sky' }}>
         <Container size="wide">
           <SectionHeader
             id="classes-title"
@@ -126,9 +128,16 @@ export function AdmissionsPage() {
                   shape={cardShapeCycle[i % cardShapeCycle.length]}
                   backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}
                 >
-                  <h3 className="font-display text-h3 font-semibold text-indigo-ink-700">
+                  <h3 className="font-display text-h3 font-semibold text-brand-700">
                     {program.name}
                   </h3>
+                  {/* Our own age band leads. It is the fact a parent is
+                      scanning these four cards for, and it is now settled: the
+                      NCERT reference model that used to be the only age shown
+                      here has moved underneath it, still labelled as NCERT's. */}
+                  <p className="mt-2 text-small font-semibold text-brand-500">
+                    {program.ageRange}
+                  </p>
                   {program.ncertBand ? (
                     <Chip tone="neutral" className="mt-3 self-start">
                       {program.ncertBand}
@@ -138,7 +147,7 @@ export function AdmissionsPage() {
                     <p className="mt-3 text-xs font-medium text-ink-400">{program.ncertAge}</p>
                   ) : null}
                   <p className="mt-4 flex-1 text-sm leading-relaxed text-ink-500">
-                    {program.blurb}
+                    {program.about}
                   </p>
                 </Card>
               </RevealItem>
@@ -152,7 +161,7 @@ export function AdmissionsPage() {
       </Section>
 
       {/* ---- Fee commitment ---- */}
-      <Section tone="terracotta" id="fees" ambient="warm" labelledBy="fees-title" divider={{ type: 'scallop', to: 'khadi' }}>
+      <Section tone="sky" id="fees" labelledBy="fees-title" divider={{ type: 'scallop', to: 'mist' }}>
         <Container size="wide">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
@@ -170,13 +179,22 @@ export function AdmissionsPage() {
             <div className="lg:col-span-7">
               <RevealGroup className="grid gap-3 sm:grid-cols-2" each={0.05}>
                 {feeCommitment.covered.map((item) => (
-                  <RevealItem key={item}>
-                    <div className="flex items-center gap-4 rounded-lg bg-khadi-50 p-5 hairline">
-                      <Marker tone="terracotta" size="sm">
+                  <RevealItem key={item.name}>
+                    {/* The one-line detail comes from D18 S3. This is the
+                        summary of the fee page, so it carries the name and the
+                        line under it, not the icon treatment the fee page
+                        itself uses for the same five. */}
+                    <div className="flex items-start gap-4 rounded-lg bg-mist-50 p-5 hairline">
+                      <Marker tone="sky" size="sm">
                         <Grain />
                       </Marker>
-                      <span className="font-display text-h4 font-semibold text-indigo-ink-700">
-                        {item}
+                      <span>
+                        <span className="block font-display text-h4 font-semibold text-brand-700">
+                          {item.name}
+                        </span>
+                        <span className="mt-1 block text-sm leading-relaxed text-ink-500">
+                          {item.detail}
+                        </span>
                       </span>
                     </div>
                   </RevealItem>
@@ -188,22 +206,22 @@ export function AdmissionsPage() {
       </Section>
 
       {/* ---- Sankalp Calendar as a take-home ---- */}
-      <Section tone="khadi" labelledBy="sankalp-download-title" divider={{ type: 'cloud', fill: 'var(--color-terracotta-600)' }}>
+      <Section tone="mist" labelledBy="sankalp-download-title" divider={CTA_SEAM}>
         <Container size="wide">
           <Reveal>
-            <Card tone="indigo" object="admissions-for-parents" backdrop="sky-circle">
+            <Card tone="brand" object="admissions-for-parents" backdrop="sky-circle">
               <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
                 <div className="lg:col-span-8">
-                  <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-haldi-300">
+                  <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-orange-300">
                     For parents
                   </p>
                   <h2
                     id="sankalp-download-title"
-                    className="mt-3 font-display text-h2 font-semibold text-khadi-50"
+                    className="mt-3 font-display text-h2 font-semibold text-mist-50"
                   >
                     The {sankalpCalendar.name}, as a take-home
                   </h2>
-                  <p className="mt-4 max-w-2xl text-body text-khadi-200/85">
+                  <p className="mt-4 max-w-2xl text-body text-mist-200/85">
                     {sankalpCalendar.takeHome} A printable version will be available here for any
                     parent to use, whether or not their child is with us.
                   </p>

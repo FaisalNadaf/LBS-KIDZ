@@ -6,7 +6,7 @@ import { cn } from '@/lib/cn'
  * WHAT IT IS. A flat-vector composition of one to three pastel shapes —
  * circles, blocks, blobs, a semi-circle — arranged behind the card's image and
  * text and cropped by the card's own silhouette. It is the whole visual
- * personality of a card: the surface underneath stays quiet khadi paper with a
+ * personality of a card: the surface underneath stays quiet white with a
  * hairline and a soft shadow, and the shapes do the work.
  *
  * WHY IT IS A TABLE OF VARIANTS AND NOT A GENERATOR. The brief is that cards
@@ -45,39 +45,39 @@ import { cn } from '@/lib/cn'
 /**
  * The pastel set the compositions draw from.
  *
- * Seven are existing brand tokens at their 100/200 weights, which is what keeps
- * this from becoming a second palette; lilac and blush are the two hues the
- * brand has no equivalent for. See the note beside them in index.css.
+ * Every one is a brand token at its 50, 100 or 200 weight, which is what keeps
+ * this from becoming a second palette.
  *
  * The alphas are not a style choice. They are the measured point at which body
  * text stays legible on top of the shape.
  *
  * A card's text can land anywhere over these compositions — the shapes do not
  * know how long a paragraph is — so every tint has to be safe under the
- * *lightest* text the site sets, `text-ink-400` (#6E6459), over the *darkest*
- * ordinary card ground, khadi-200. Measured at full strength against that pair,
- * seven of these eleven failed WCAG AA: sky 4.40, peach 4.52, yellow 4.34,
- * beige 4.37, mint 3.85, and the two darkest, indigo-ink-200 at 3.19 and
- * terracotta-200 at 3.48.
+ * *lightest* text the site sets, `text-ink-400`, over the deepest ordinary card
+ * ground. The strongest of them, the full `sky-100`, is one of the pairs
+ * `scripts/build-palette.mjs` proves at 4.6:1; every other tint is lighter than
+ * it, or drawn translucent over white, and so clears the same floor.
  *
- * The alphas below are the strongest each hue can be drawn at and still clear
- * 4.6:1. Two hues could not: indigo-ink-200 and terracotta-200 needed 15% and
- * 20%, which is not a colour any more, so they are gone and the compositions
- * that used them now reach for a lighter neighbour. It is worth saying that
- * this made the set better rather than worse — "soft, clean, low saturation" is
- * the brief, and the measured ceiling turned out to be roughly where that
- * lives.
+ * The set is the logo's palette at its palest: the two blues carry most of it,
+ * green and orange add warmth and growth, and coral appears once, faintly. A
+ * backdrop is felt rather than seen, so none of these ever reaches a 200 at
+ * full strength.
+ *
+ * The variant names below (`peach-block`, `lavender-corner`, `beige-arc`) are
+ * handles that pages pass in, and describe the shape more than the hue; the
+ * hue each one takes is set here.
  */
 const TINT = {
-  sky: 'bg-indigo-ink-100/60',
-  peach: 'bg-terracotta-100/80',
-  lemon: 'bg-haldi-100',
-  yellow: 'bg-haldi-200/50',
-  green: 'bg-neem-100',
-  mint: 'bg-neem-200/30',
-  lavender: 'bg-lilac-100',
-  pink: 'bg-blush-100',
-  beige: 'bg-khadi-300/60',
+  /** The logo's light blue, the "Z" of KidZ. The strongest tint in the set. */
+  sky: 'bg-sky-100',
+  skySoft: 'bg-sky-50',
+  brand: 'bg-brand-50',
+  coral: 'bg-coral-100/60',
+  orange: 'bg-orange-100/70',
+  orangeSoft: 'bg-orange-200/40',
+  green: 'bg-green-100',
+  greenSoft: 'bg-green-200/30',
+  mist: 'bg-mist-300/60',
 } as const
 
 /**
@@ -96,40 +96,40 @@ const VARIANTS = {
 
   /** 2. A peach block down the left, tilted off square. */
   'peach-block': [
-    ['absolute -left-12 top-5 h-36 w-40 rotate-6 rounded-[2.25rem] sm:-left-16 sm:h-52 sm:w-56 sm:rounded-[3rem]', 'peach'],
+    ['absolute -left-12 top-5 h-36 w-40 rotate-6 rounded-[2.25rem] sm:-left-16 sm:h-52 sm:w-56 sm:rounded-[3rem]', 'coral'],
   ],
 
   /** 3. A yellow disc with a smaller beige one riding its edge. */
   'yellow-double': [
-    ['absolute -right-8 -top-10 size-32 rounded-full sm:-right-10 sm:-top-12 sm:size-44', 'yellow'],
-    ['absolute right-14 top-6 size-14 rounded-full sm:right-20 sm:top-8 sm:size-20', 'beige'],
+    ['absolute -right-8 -top-10 size-32 rounded-full sm:-right-10 sm:-top-12 sm:size-44', 'orangeSoft'],
+    ['absolute right-14 top-6 size-14 rounded-full sm:right-20 sm:top-8 sm:size-20', 'mist'],
   ],
 
   /** 4. An organic green blob rising out of the bottom-left corner. */
   'green-blob': [
-    ['absolute -bottom-12 -left-10 size-40 shape-blob sm:-bottom-14 sm:-left-12 sm:size-56', 'mint'],
+    ['absolute -bottom-12 -left-10 size-40 shape-blob sm:-bottom-14 sm:-left-12 sm:size-56', 'greenSoft'],
   ],
 
   /** 5. A lavender circle settled into the bottom-right. */
   'lavender-corner': [
-    ['absolute -bottom-12 -right-10 size-36 rounded-full sm:-bottom-14 sm:-right-12 sm:size-48', 'lavender'],
+    ['absolute -bottom-12 -right-10 size-36 rounded-full sm:-bottom-14 sm:-right-12 sm:size-48', 'brand'],
   ],
 
   /** 6. Sky and peach overlapping, a disc under a tilted block. */
   'blue-peach': [
     ['absolute -right-10 -top-10 size-32 rounded-full sm:-right-12 sm:size-44', 'sky'],
-    ['absolute -right-3 top-12 size-20 -rotate-12 rounded-[1.5rem] sm:top-16 sm:size-28 sm:rounded-[2rem]', 'peach'],
+    ['absolute -right-3 top-12 size-20 -rotate-12 rounded-[1.5rem] sm:top-16 sm:size-28 sm:rounded-[2rem]', 'coral'],
   ],
 
   /** 7. A big asymmetric blush blob with a lemon dot opposite it. */
   'blob-duo': [
-    ['absolute -bottom-14 -right-12 size-44 shape-blob-alt sm:-bottom-16 sm:size-60', 'pink'],
-    ['absolute -top-5 left-6 size-12 rounded-full sm:-top-6 sm:left-8 sm:size-18', 'lemon'],
+    ['absolute -bottom-14 -right-12 size-44 shape-blob-alt sm:-bottom-16 sm:size-60', 'skySoft'],
+    ['absolute -top-5 left-6 size-12 rounded-full sm:-top-6 sm:left-8 sm:size-18', 'orange'],
   ],
 
   /** 8. A soft lemon block, tilted the other way from `peach-block`. */
   'yellow-block': [
-    ['absolute -right-14 top-3 h-32 w-36 -rotate-6 rounded-[2.25rem] sm:-right-16 sm:h-48 sm:w-52 sm:rounded-[3rem]', 'lemon'],
+    ['absolute -right-14 top-3 h-32 w-36 -rotate-6 rounded-[2.25rem] sm:-right-16 sm:h-48 sm:w-52 sm:rounded-[3rem]', 'orange'],
   ],
 
   /** 9. A green semi-circle rising from the bottom edge, centred. */
@@ -139,8 +139,8 @@ const VARIANTS = {
 
   /** 10. A beige disc cropped hard by the left edge, with a lavender dot. */
   'beige-arc': [
-    ['absolute -left-16 top-1/4 size-40 rounded-full sm:-left-20 sm:size-56', 'beige'],
-    ['absolute -bottom-5 right-7 size-12 rounded-full sm:size-16', 'lavender'],
+    ['absolute -left-16 top-1/4 size-40 rounded-full sm:-left-20 sm:size-56', 'mist'],
+    ['absolute -bottom-5 right-7 size-12 rounded-full sm:size-16', 'brand'],
   ],
 } as const
 
@@ -191,7 +191,7 @@ const shapeMotion =
  * Two weights rather than one, alternating by position, so a composition built
  * out of two overlapping shapes still reads as two shapes.
  */
-const DARK_WASH = ['bg-khadi-50/10', 'bg-haldi-300/14'] as const
+const DARK_WASH = ['bg-white/10', 'bg-sky-300/14'] as const
 
 export function CardBackground({
   variant,

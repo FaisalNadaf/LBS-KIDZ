@@ -89,6 +89,27 @@ const alt = {
   'school-kit': 'An open school bag packed with books, pencils and a ruler',
   'lunch-box': 'A lunch box, a pencil and a glue stick on a desk',
   'wheat-sunrise': 'A wheat field at sunrise',
+
+  /* --- Inner page headers. Landscape, at least 3800px at source, and every
+         one photographed in India — the header band is wide and short, so
+         portrait sources were being cropped to a strip across the eyes. */
+  'mother-daughter-walk': 'A mother in a sari walking hand in hand with her young daughter',
+  'indore-gandhi-hall': 'Gandhi Hall in Indore, with its domes and clock tower',
+  'mother-son-sunny-day': 'A mother holding her toddler son outdoors, both smiling',
+  'montessori-materials-table':
+    'Young children in red jumpers working with wooden learning materials at a table',
+  'girl-at-india-map': 'A girl in a red jumper pointing to a map of India on an easel',
+  'girl-backpack-school-ground': 'A small girl with a backpack walking across a school ground',
+  'children-waving-flags': 'Schoolchildren sitting outdoors, waving small Indian flags',
+  'women-carrying-harvest':
+    'Two women crossing a field at harvest, one carrying a bundle of the crop on her head',
+  'mother-son-meal-at-home': 'A mother and her son sharing a home-cooked meal at the table',
+  'children-jumping-at-school': 'Five children in red school jumpers jumping for joy outdoors',
+  'mother-daughter-laughing': 'A mother and her young daughter laughing together on a sofa',
+  'grandmother-grandson-raipur': 'A grandmother sitting with her small grandson on a red-earth path',
+  'wheat-ear-golden': 'A single ripe ear of wheat standing clear of a golden field at sunset',
+  'girl-with-tulsi-plant':
+    'A young girl in an orange pavadai, smiling and holding a small tulsi plant in a pot',
 }
 
 /* ---- Group every file on disk by image name and format ---- */

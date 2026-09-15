@@ -71,7 +71,7 @@ export function PillarStrip({
         <p
           className={cn(
             'mt-5 text-small',
-            onDark ? 'text-khadi-300/80' : 'text-ink-400',
+            onDark ? 'text-mist-300/80' : 'text-ink-400',
           )}
         >
           <Link
@@ -79,8 +79,8 @@ export function PillarStrip({
             className={cn(
               'font-semibold underline underline-offset-4 transition-colors',
               onDark
-                ? 'text-haldi-300 hover:text-haldi-200'
-                : 'text-terracotta-600 hover:text-terracotta-700',
+                ? 'text-orange-300 hover:text-orange-200'
+                : 'text-brand-500 hover:text-sky-600',
             )}
           >
             What each pillar means
@@ -122,8 +122,8 @@ function PillarTile({
     // with the letter big enough to be read as type rather than as an icon.
     name ? 'gap-2 px-2 py-5' : 'aspect-square gap-0 p-2',
     onDark
-      ? 'border border-khadi-100/12 bg-khadi-50/[0.05] hover:border-haldi-300/40 hover:bg-khadi-50/[0.09]'
-      : 'border border-khadi-300/70 bg-khadi-50 hover:border-terracotta-300 hover:shadow-card',
+      ? 'border border-mist-100/12 bg-mist-50/[0.05] hover:border-orange-300/40 hover:bg-mist-50/[0.09]'
+      : 'border border-mist-300/70 bg-mist-50 hover:border-brand-300 hover:shadow-card',
   )
 
   const inner = (
@@ -135,8 +135,8 @@ function PillarTile({
           'transition-[background-color,color,transform] duration-300 ease-out-soft',
           'group-hover/tile:-translate-y-0.5 group-hover/tile:scale-105',
           onDark
-            ? 'bg-haldi-300/15 text-haldi-300 group-hover/tile:bg-haldi-300 group-hover/tile:text-indigo-ink-800'
-            : 'bg-terracotta-50 text-terracotta-600 group-hover/tile:bg-terracotta-600 group-hover/tile:text-khadi-50',
+            ? 'bg-orange-300/15 text-orange-300 group-hover/tile:bg-orange-300 group-hover/tile:text-brand-800'
+            : 'bg-brand-50 text-brand-500 group-hover/tile:bg-brand-500 group-hover/tile:text-mist-50',
         )}
         aria-hidden="true"
       >
@@ -146,7 +146,7 @@ function PillarTile({
         <span
           className={cn(
             'font-display text-small font-semibold leading-tight',
-            onDark ? 'text-khadi-100' : 'text-indigo-ink-700',
+            onDark ? 'text-mist-100' : 'text-brand-700',
           )}
         >
           {name}

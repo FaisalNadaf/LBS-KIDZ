@@ -43,7 +43,7 @@ export function MobileNav({ open, onClose }: { open: boolean; onClose: () => voi
     <div
       id="mobile-nav"
       className={cn(
-        'grid overflow-hidden border-khadi-300 bg-khadi-50 transition-[grid-template-rows,opacity] duration-300 ease-out-soft motion-reduce:transition-none lg:hidden',
+        'grid overflow-hidden border-mist-300 bg-mist-50 transition-[grid-template-rows,opacity] duration-300 ease-out-soft motion-reduce:transition-none lg:hidden',
         open ? 'grid-rows-[1fr] border-t opacity-100' : 'grid-rows-[0fr] opacity-0',
       )}
       inert={!open}
@@ -120,14 +120,14 @@ function MobileLink({
           'flex min-h-12 items-center gap-3 rounded-lg px-4 transition-colors duration-200',
           nested ? 'text-body' : 'text-base font-semibold',
           isActive
-            ? 'bg-terracotta-100 font-semibold text-terracotta-700'
-            : cn(nested ? 'text-ink-600' : 'text-indigo-ink-700', 'hover:bg-khadi-200'),
+            ? 'bg-brand-50 font-semibold text-brand-500'
+            : cn(nested ? 'text-ink-600' : 'text-ink-700', 'hover:bg-sky-50 hover:text-brand-600'),
         )
       }
     >
       {Icon ? (
         <span
-          className="grid size-8 shrink-0 place-items-center rounded-md bg-terracotta-50 text-terracotta-600"
+          className="grid size-8 shrink-0 place-items-center rounded-md bg-brand-50 text-brand-500"
           aria-hidden="true"
         >
           <Icon className="size-4" strokeWidth={1.9} />
@@ -172,7 +172,7 @@ function MobileGroup({
         aria-controls={panelId}
         className={cn(
           'flex min-h-12 w-full items-center justify-between gap-3 rounded-lg px-4 text-base font-semibold transition-colors duration-200',
-          open ? 'bg-khadi-200/70 text-terracotta-700' : 'text-indigo-ink-700 hover:bg-khadi-200',
+          open ? 'bg-brand-50 text-brand-500' : 'text-ink-700 hover:bg-sky-50 hover:text-brand-600',
         )}
       >
         <span className="text-left">{item.short ?? item.label}</span>

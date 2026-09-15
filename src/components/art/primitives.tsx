@@ -11,7 +11,7 @@ import { cn } from '@/lib/cn'
  *   Source: Global & Indian Preschool Research S6.
  *
  * One visual system, applied everywhere:
- *   - Flat shapes in the khadi / terracotta / deep-blue / haldi / neem palette.
+ *   - Flat shapes in the logo's palette: brand blue, sky, green, orange, coral.
  *   - A single ink outline weight, round caps and round joins.
  *   - Geometry from Indian sources (jharokha arches, rangoli grids, kites,
  *     wheat, diyas), drawn plainly rather than decoratively.
@@ -144,7 +144,11 @@ export function Underline({ className }: SvgProps) {
       className={cn('absolute -bottom-1 left-1/2 h-2.5 -translate-x-1/2', className)}
       aria-hidden="true"
     >
+      {/* `data-draw` is the handle an entrance animation takes to draw the
+          stroke in. Nothing sets a dash pattern here, so without one — reduced
+          motion, or before GSAP loads — the rule is simply there. */}
       <path
+        data-draw
         d="M3 8.5 C 45 3.5, 92 3, 197 6.5"
         fill="none"
         stroke="currentColor"
@@ -159,9 +163,9 @@ export function PaperBoat({ className }: SvgProps) {
   return (
     <svg viewBox="0 0 48 32" className={cn('h-full w-auto', className)} aria-hidden="true">
       <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.6" stroke={ink}>
-        <path d="M4 18 L24 18 L44 18 L36 28 L12 28 Z" fill="var(--color-khadi-50)" />
-        <path d="M24 18 L24 4 L40 18" fill="var(--color-terracotta-200)" />
-        <path d="M24 18 L24 4 L8 18" fill="var(--color-terracotta-100)" />
+        <path d="M4 18 L24 18 L44 18 L36 28 L12 28 Z" fill="var(--color-mist-50)" />
+        <path d="M24 18 L24 4 L40 18" fill="var(--color-coral-200)" />
+        <path d="M24 18 L24 4 L8 18" fill="var(--color-coral-100)" />
       </g>
     </svg>
   )

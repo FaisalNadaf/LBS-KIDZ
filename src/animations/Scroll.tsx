@@ -1,7 +1,6 @@
 import { useRef, type ReactNode } from 'react'
 import { cn } from '@/lib/cn'
 import {
-  useAmbientDrift,
   useCounter,
   useDrift,
   useFloat,
@@ -248,7 +247,7 @@ export function ScrollProgress({ className }: { className?: string }) {
       ref={ref}
       aria-hidden="true"
       className={cn(
-        'pointer-events-none absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-terracotta-500/70',
+        'pointer-events-none absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-brand-500/70',
         className,
       )}
     />
@@ -337,74 +336,3 @@ export function Counter({
   )
 }
 
-/* ==========================================================================
-   Ambient
-   ========================================================================== */
-
-/**
- * A large, soft background shape wandering slowly behind a section.
- *
- * Sized and coloured by the caller; this only supplies the movement. Always
- * `aria-hidden` and `pointer-events-none`, always behind content — these are
- * atmosphere, and the moment one is legible as a moving object it is competing
- * with the words in front of it.
- */
-export function Ambient({
-  children,
-  className,
-  range,
-  duration,
-  delay,
-}: {
-  children: ReactNode
-  className?: string
-  range?: number
-  duration?: number
-  delay?: number
-}) {
-  const ref = useRef<HTMLDivElement>(null)
-  useAmbientDrift(ref, { range, duration, delay })
-
-  return (
-    <div
-      ref={ref}
-      aria-hidden="true"
-      className={cn('pointer-events-none absolute', className)}
-    >
-      {children}
-    </div>
-  )
-}
-
-/**
- * A soft blurred field of colour. The default thing to put inside `Ambient`.
- *
- * Deliberately built from a radial gradient rather than a blurred solid: a
- * `filter: blur()` on a 30rem element is a full-surface repaint every frame it
- * moves, where a gradient is one composited layer that costs nothing to
- * translate.
- */
-export type BlobTone = 'terracotta' | 'haldi' | 'neem' | 'indigo' | 'lilac'
-
-export function Blob({
-  className,
-  tone = 'terracotta',
-}: {
-  className?: string
-  tone?: BlobTone
-}) {
-  const fill = {
-    terracotta: 'rgba(224, 156, 124, 0.20)',
-    haldi: 'rgba(237, 199, 107, 0.22)',
-    neem: 'rgba(156, 188, 161, 0.20)',
-    indigo: 'rgba(122, 155, 189, 0.18)',
-    lilac: 'rgba(213, 206, 234, 0.28)',
-  }[tone]
-
-  return (
-    <div
-      className={cn('rounded-full', className)}
-      style={{ background: `radial-gradient(circle at 50% 50%, ${fill} 0%, transparent 70%)` }}
-    />
-  )
-}

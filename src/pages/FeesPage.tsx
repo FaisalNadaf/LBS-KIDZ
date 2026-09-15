@@ -1,30 +1,49 @@
-  
-  import { Seo } from '@/lib/Seo'
+import { Seo } from '@/lib/Seo'
 import { pageSeo } from '@/data/seo'
 import { organizationSchema } from '@/lib/schema'
 import { Container, Section, SectionHeader } from '@/components/ui/layout'
 import { Card } from '@/components/ui/Card'
 import { PageHeader } from '@/components/ui/PageHeader'
+import { StepList } from '@/components/ui/misc'
 import { Reveal, RevealGroup, RevealItem } from '@/animations/Reveal'
 import { ShapedPhoto } from '@/components/media/Photo'
 import { Grain } from '@/components/art/primitives'
 import { EnquiryForm } from '@/components/forms/EnquiryForm'
-import { feeCommitment } from '@/data/admissions'
+import { feeCommitment, feeEnquirySteps } from '@/data/admissions'
 import { cn } from '@/lib/cn'
 import { Backpack, BookOpen, GlassWater, Sandwich, Shirt } from 'lucide-react'
+import { CTA_SEAM } from '@/components/ui/SectionDivider'
 
 /**
  * Fees & Admissions.
  *
- * "Fee-on-demand - figures shared on enquiry, not published. Page leads with a
- *  clear 'no hidden charges' commitment (books, bag, uniform, lunch box, water
- *  bottle included) rather than a fee table."
- * Source: Keyword & AEO Strategy S3; Project Decisions Log S6.
+ * Section order is the Fees & Admissions specification's own:
  *
- * No fee figure appears anywhere on this page or in its structured data. That
- * is a deliberate decision recorded in the source documents, following standard
- * Indian preschool practice, not an omission.
+ *   1  Hero                          the "no hidden charges" commitment, plainly
+ *   2  What's Already Inside Your Fee   the five inclusions
+ *   3  Why You Won't See a Fee Table    the fee-on-demand explanation
+ *   4  Ask Us for the Fee               the lead form
+ *   5  What Happens After You Ask       three steps
+ *
+ * Source: Fees & Admissions Content (D18) S2.
+ *
+ * NO FEE FIGURE APPEARS ANYWHERE ON THIS PAGE, in its copy or in its structured
+ * data. D18 S8 is absolute about it: "this page must never carry a number, even
+ * as an example." The figure is shared per enquiry, which is standard practice
+ * across Indian preschools and a locked decision on this project, not an
+ * omission someone forgot to fill in.
+ *
+ * THE FRAMING RULE. D18 S1: the page is "framed entirely in positive terms,
+ * what LBS KidZ includes and promises, never as a comparison to what other
+ * schools charge or don't". The section heading over the five inclusions used
+ * to read "Five things other schools bill you for separately", which is exactly
+ * the comparison that rule forbids, and it now states the commitment instead.
+ *
+ * ONE PATH, NOT SEVERAL. D18 S5: "this page should feel like one clear path
+ * (ask, hear back), not multiple competing asks", so the form is the only
+ * conversion moment and there is no mid-page CTA anywhere above it.
  */
+
 /**
  * A mark and a colour for each thing the fee already covers, in the order the
  * data lists them.
@@ -38,72 +57,102 @@ import { Backpack, BookOpen, GlassWater, Sandwich, Shirt } from 'lucide-react'
 const FEE_ITEMS = [
   {
     icon: BookOpen,
-    card: 'bg-terracotta-50/80 ring-terracotta-200/70 hover:ring-terracotta-300',
-    chip: 'bg-terracotta-200 text-terracotta-800',
-    num: 'text-terracotta-600/70',
-    mark: 'text-terracotta-300/25',
+    card: 'bg-sky-50/80 ring-sky-200/70 hover:ring-sky-300',
+    chip: 'bg-sky-200 text-sky-800',
+    num: 'text-sky-600',
+    mark: 'text-sky-300/25',
   },
   {
     icon: Backpack,
-    card: 'bg-haldi-100/60 ring-haldi-200/70 hover:ring-haldi-300',
-    chip: 'bg-haldi-200 text-haldi-600',
-    num: 'text-haldi-600/70',
-    mark: 'text-haldi-400/25',
+    card: 'bg-orange-100/60 ring-orange-200/70 hover:ring-orange-300',
+    chip: 'bg-orange-200 text-orange-600',
+    num: 'text-orange-600',
+    mark: 'text-orange-400/25',
   },
   {
     icon: Shirt,
-    card: 'bg-neem-100/60 ring-neem-200/70 hover:ring-neem-300',
-    chip: 'bg-neem-200 text-neem-600',
-    num: 'text-neem-600/70',
-    mark: 'text-neem-400/25',
+    card: 'bg-green-100/60 ring-green-200/70 hover:ring-green-300',
+    chip: 'bg-green-200 text-green-600',
+    num: 'text-green-600',
+    mark: 'text-green-400/25',
   },
   {
     icon: Sandwich,
-    card: 'bg-indigo-ink-50/80 ring-indigo-ink-200/60 hover:ring-indigo-ink-300',
-    chip: 'bg-indigo-ink-100 text-indigo-ink-700',
-    num: 'text-indigo-ink-400/70',
-    mark: 'text-indigo-ink-300/25',
+    card: 'bg-brand-50/80 ring-brand-200/60 hover:ring-brand-300',
+    chip: 'bg-brand-100 text-brand-700',
+    num: 'text-brand-600',
+    mark: 'text-brand-300/25',
   },
   {
     icon: GlassWater,
-    card: 'bg-terracotta-50/80 ring-terracotta-200/70 hover:ring-terracotta-300',
-    chip: 'bg-terracotta-200 text-terracotta-800',
-    num: 'text-terracotta-600/70',
-    mark: 'text-terracotta-300/25',
+    card: 'bg-sky-50/80 ring-sky-200/70 hover:ring-sky-300',
+    chip: 'bg-sky-200 text-sky-800',
+    num: 'text-sky-600',
+    mark: 'text-sky-300/25',
   },
 ]
 
 export function FeesPage() {
-
   return (
     <>
-      <Seo
-        page={pageSeo.fees}
-        schemas={[organizationSchema()]}
-      />
+      <Seo page={pageSeo.fees} schemas={[organizationSchema()]} />
 
+      {/* ---- 1. Hero ---- */}
       <PageHeader
-        eyebrow="Admissions"
-        title="No hidden charges"
+        eyebrow="Fees & Admissions"
+        title={feeCommitment.headline}
         standfirst={feeCommitment.promise}
-        photo="school-kit"
+        photo="girl-backpack-school-ground"
+        photoFocus="50% 40%"
       />
 
-      {/* ---- What is included ---- */}
-      <Section tone="khadi" id="included" labelledBy="included-title" divider={{ type: 'tight-wave', to: 'white' }}>
+      {/* ---- 2. What's already inside your fee ---- */}
+      <Section
+        tone="mist"
+        id="included"
+        labelledBy="included-title"
+        divider={{ type: 'tight-wave', to: 'white' }}
+      >
         <Container size="wide">
-          <SectionHeader
-            id="included-title"
-            eyebrow="Inside the fee"
-            title="Five things other schools bill you for separately"
-            standfirst="These are inside the figure we quote you. Nothing is added later."
-          />
+          {/* HEADING AND PHOTOGRAPH SHARE A ROW, AND THAT FIXES TWO HOLES AT ONCE.
+              The heading is a short title over a two-line standfirst, so on a
+              wide screen its right half was empty; the photograph then sat
+              under the cards capped at 48rem and left about 45% of its own row
+              empty at the bottom right. Those were the two largest areas of
+              nothing on the page and they were the same shape, so the picture
+              now fills the space beside the heading instead of making a second
+              gap below the cards.
+
+              It also closes the section better. The band now ends on the five
+              cards, which are the actual promise, rather than trailing off into
+              a decorative photograph after them. */}
+          <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
+            <div className="lg:col-span-5">
+              <SectionHeader
+                id="included-title"
+                eyebrow="Inside the fee"
+                title="What’s Already Inside Your Fee"
+                standfirst={feeCommitment.intro}
+              />
+            </div>
+
+            <Reveal className="lg:col-span-7" tier="lead" direction="left">
+              <ShapedPhoto
+                name="child-running-joy"
+                shape="crest"
+                interactive
+                sizes="(min-width: 1024px) 56vw, 92vw"
+                ratio="16 / 10"
+                focus="50% 28%"
+              />
+            </Reveal>
+          </div>
 
           <RevealGroup className="mt-block grid gap-4 sm:grid-cols-2 lg:grid-cols-5" each={0.05}>
             {feeCommitment.covered.map((item, i) => {
               const fee = FEE_ITEMS[i % FEE_ITEMS.length]
               return (
-                <RevealItem key={item} className="h-full">
+                <RevealItem key={item.name} className="h-full">
                   <div
                     className={cn(
                       'group/fee relative isolate flex h-full flex-col overflow-hidden rounded-2xl p-6 ring-1',
@@ -138,38 +187,28 @@ export function FeesPage() {
                       </span>
                     </span>
 
-                    <h3 className="mt-5 font-display text-h4 font-semibold text-indigo-ink-700">
-                      {item}
+                    <h3 className="mt-5 font-display text-h4 font-semibold text-brand-700">
+                      {item.name}
                     </h3>
+                    {/* The line under the name is what turns five labels into
+                        five commitments. Source: D18 S3, Section 2. */}
+                    <p className="mt-2 text-sm leading-relaxed text-ink-500">{item.detail}</p>
                   </div>
                 </RevealItem>
               )
             })}
           </RevealGroup>
 
-          {/* Capped, and aligned to the column rather than centred. At full
-              width this was 1264x542, most of a laptop screen for a picture
-              that is punctuation between the list above it and the enquiry
-              below. Centred under five full-width cards it then read as a
-              third alignment on one screen; sharing the heading's left edge it
-              reads as part of the same column. */}
-          <Reveal className="mt-block" tier="lead">
-            <div className="max-w-3xl">
-              <ShapedPhoto
-                name="child-running-joy"
-                shape="crest"
-                interactive
-                sizes="(min-width: 1024px) 48rem, 92vw"
-                ratio="21 / 9"
-                focus="50% 30%"
-              />
-            </div>
-          </Reveal>
         </Container>
       </Section>
 
-      {/* ---- Why the figure is not published ---- */}
-      <Section tone="white" id="why-on-enquiry" labelledBy="enquiry-title" divider={{ type: 'cloud', fill: 'var(--color-terracotta-600)' }}>
+      {/* ---- 3 and 4. Why there is no table, and the form ---- */}
+      <Section
+        tone="white"
+        id="why-on-enquiry"
+        labelledBy="enquiry-title"
+        divider={{ type: 'scallop', to: 'mist' }}
+      >
         <Container size="wide">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             {/* The form runs to about a thousand pixels and this column to
@@ -182,23 +221,19 @@ export function FeesPage() {
               <SectionHeader
                 id="enquiry-title"
                 eyebrow="Why there is no fee table here"
-                title="The figure comes to you directly"
+                title="Why You Won’t See a Fee Table on This Page"
                 standfirst={feeCommitment.disclosure}
               />
 
               <Reveal className="mt-8">
-                <Card tone="sand" object="fees-what-we-tell-you" backdrop="lavender-corner">
-                  <h3 className="font-display text-h4 font-semibold text-indigo-ink-700">
+                <Card tone="mist" object="fees-what-we-tell-you" backdrop="lavender-corner">
+                  <h3 className="font-display text-h4 font-semibold text-brand-700">
                     What we will tell you
                   </h3>
                   <ul className="mt-4 space-y-2.5">
-                    {[
-                      'The fee for the specific class you are asking about.',
-                      'What that figure includes, in writing.',
-                      'What, if anything, sits outside it. Today, that answer is nothing.',
-                    ].map((line) => (
+                    {feeCommitment.willTell.map((line) => (
                       <li key={line} className="flex gap-3 text-sm leading-relaxed text-ink-500">
-                        <Grain className="mt-1.5 shrink-0 text-terracotta-500" />
+                        <Grain className="mt-1.5 shrink-0 text-sky-500" />
                         <span>{line}</span>
                       </li>
                     ))}
@@ -221,11 +256,11 @@ export function FeesPage() {
             <div className="lg:col-span-6">
               <Reveal>
                 <Card object="fees-ask-us" backdrop="blue-peach">
-                  <h2 className="font-display text-h2 font-semibold text-indigo-ink-700">
-                    Ask us for the fee
+                  <h2 className="font-display text-h2 font-semibold text-brand-700">
+                    Ask Us for the Fee
                   </h2>
                   <p className="mt-2 text-body text-ink-500">
-                    Tell us the class and the area, and we will come back with the figure.
+                    Tell us the class and the area of Indore, and we will come back with the figure.
                   </p>
                   <div className="mt-7">
                     <EnquiryForm compact />
@@ -233,6 +268,38 @@ export function FeesPage() {
                 </Card>
               </Reveal>
             </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* ---- 5. What happens after you ask ----
+          New section, from D18 S3 Section 5. The page previously ended on the
+          form, which left a parent who had just given their number with no
+          answer to the obvious next question. Three steps, on a band the width
+          of the page so it reads as the close rather than as a fourth thing to
+          do: there is deliberately no CTA here. */}
+      <Section
+        tone="mist"
+        id="after-you-ask"
+        labelledBy="after-title"
+        divider={CTA_SEAM}
+      >
+        <Container size="wide">
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+            <div className="lg:col-span-5">
+              <SectionHeader
+                id="after-title"
+                eyebrow="No guessing"
+                title="What Happens After You Ask"
+                standfirst="Three steps, and you will know where you stand."
+              />
+            </div>
+
+            <Reveal className="lg:col-span-7" direction="left">
+              <Card tone="mist" object="fees-after-you-ask" backdrop="yellow-double">
+                <StepList steps={feeEnquirySteps} />
+              </Card>
+            </Reveal>
           </div>
         </Container>
       </Section>

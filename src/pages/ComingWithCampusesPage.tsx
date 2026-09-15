@@ -9,6 +9,7 @@ import { Grain } from '@/components/art/primitives'
 import { MotifDivider } from '@/components/art/scenes'
 import { primaryCta } from '@/data/site'
 import { routes } from '@/data/routes'
+import { CTA_SEAM } from '@/components/ui/SectionDivider'
 
 /**
  * Phase 2 pages, held open in Phase 1.
@@ -140,18 +141,18 @@ export function ComingWithCampusesPage({ page }: { page: PageKey }) {
         standfirst={item.standfirst}
       />
 
-      {/* The band hands over to the terracotta CTA along a curve. Without a
+      {/* The band hands over to the brand-blue CTA along a curve. Without a
           divider here these seven pages met the CTA on a hard horizontal line,
           while every other page on the site curved into it, so the same
           boundary looked deliberate in one place and unfinished in another. */}
-      <Section tone="khadi" divider={{ type: 'cloud', fill: 'var(--color-terracotta-600)' }}>
+      <Section tone="mist" divider={CTA_SEAM}>
         <Container size="narrow">
           <Reveal>
-            <Card tone="sand" object="coming-with-campuses" backdrop="mint-semi">
+            <Card tone="mist" object="coming-with-campuses" backdrop="mint-semi">
               <div className="flex gap-4">
-                <Grain className="mt-1.5 shrink-0 text-terracotta-500" />
+                <Grain className="mt-1.5 shrink-0 text-sky-500" />
                 <div className="space-y-4">
-                  <h2 className="font-display text-h2 font-semibold text-indigo-ink-700">
+                  <h2 className="font-display text-h2 font-semibold text-brand-700">
                     This page arrives with our first campus
                   </h2>
                   <p className="text-body text-ink-500">{item.whyNot}</p>

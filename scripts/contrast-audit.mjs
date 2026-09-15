@@ -26,6 +26,7 @@ const routes = [
   '/the-lal-bahadur-shastri-way',
   '/preschool-fees-indore',
   '/parenting-tips-and-resources',
+  '/founders-note',
 ]
 
 const browser = await chromium.launch()
@@ -141,9 +142,25 @@ for (const route of routes) {
      */
     const bgOf = (el) => {
       let node = el
-      let acc = null
       let sawFixed = false
-      const candidates = []
+      /**
+       * Every surface still being resolved, each a stack composited so far from
+       * the text downwards. A gradient fans this out, one entry per stop.
+       *
+       * A GRADIENT DOES NOT STOP THE WALK, and that is the fix for the worst
+       * false alarm this script produced. It used to return at the first
+       * gradient it met and test the text against that gradient's stops as if
+       * they were opaque. Most decorative bands on this site are a translucent
+       * accent over a card, `from-haldi-300/25 to-transparent` being the
+       * pattern, so the amber numeral inside one was measured against amber at
+       * 25% treated as solid amber, and reported as a perfect 1.00:1 failure
+       * eight times over. Measured off the rendered pixels the same numerals
+       * are 3.7:1 against a 3:1 floor.
+       *
+       * Composited properly instead: a translucent stop layers onto whatever is
+       * beneath it and the walk carries on until every candidate is opaque.
+       */
+      let layers = [null]
 
       while (node && node !== document.documentElement) {
         const cs = getComputedStyle(node)
@@ -151,22 +168,24 @@ for (const route of routes) {
 
         const stops = gradientStops(cs.backgroundImage, cs.backgroundSize)
         if (stops.length) {
-          // A gradient is opaque enough to stop the walk; test against each of
-          // its stops layered under whatever translucency we have collected.
-          for (const stop of stops) {
-            candidates.push(acc ? over(acc, stop) : stop)
-          }
-          return { bgs: candidates, sawFixed }
+          layers = layers.flatMap((acc) =>
+            stops.map((stop) => (acc ? over(acc, stop) : stop)),
+          )
         }
 
         const c = toRGBA(cs.backgroundColor)
         if (c && c.a > 0) {
-          acc = acc ? over(acc, c) : c
-          if (acc.a >= 0.999) return { bgs: [acc], sawFixed }
+          layers = layers.map((acc) => (acc ? over(acc, c) : c))
         }
+
+        if (layers.every((l) => l && l.a >= 0.999)) return { bgs: layers, sawFixed }
         node = node.parentElement
       }
-      return { bgs: [acc ?? { r: 250, g: 246, b: 238, a: 1 }], sawFixed }
+
+      return {
+        bgs: layers.map((l) => (l && l.a >= 0.999 ? l : { r: 250, g: 246, b: 238, a: 1 })),
+        sawFixed,
+      }
     }
 
     /**

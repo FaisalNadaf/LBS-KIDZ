@@ -9,6 +9,7 @@ import { Photo } from '@/components/media/Photo'
 import { Reveal } from '@/animations/Reveal'
 import { Grain } from '@/components/art/primitives'
 import { programs } from '@/data/admissions'
+import { programsSnapshot } from '@/data/positioning'
 import { routes } from '@/data/routes'
 import type { PhotoName } from '@/data/media'
 
@@ -61,17 +62,25 @@ import type { PhotoName } from '@/data/media'
  * somebody else. See docs/decisions-and-todos.md item C-04; the same swap is
  * still owed on several other pages.
  *
- * TWO OF THE FOUR ARE INDIAN CHILDREN AND TWO ARE NOT, which is a compromise
- * rather than a choice. The library's Indian school photography is all from one
- * shoot and all of it carries that badge; the unbranded classroom photography
- * available to license is European. Fixing this properly means commissioning or
- * sourcing Indian classroom photography without third-party branding.
+ * ALL FOUR ARE NOW INDIAN CHILDREN OR HANDS AT AN ACTIVITY. Two of them used
+ * to be European classroom stock, on the reasoning that the library's Indian
+ * school photography all came from one badged shoot. That was true of the
+ * uniformed frames and not of the whole set: `working-together` is three girls
+ * at a Montessori table with the badge small enough to read as a jumper rather
+ * than as a crest, and `craft-table` is hands and coloured paper with no
+ * uniform in shot at all. Both are also better matches for the year they
+ * illustrate than the frames they replace.
+ *
+ * Still owed, and unchanged: commissioned Indian classroom photography with no
+ * third-party branding anywhere in it. See docs/decisions-and-todos.md C-04.
  */
 const programPhotos: Record<string, PhotoName> = {
   playgroup: 'toddler-focused',
-  nursery: 'class-sorting-play',
+  /** "Simple art, craft, and movement activities." */
+  nursery: 'craft-table',
   lkg: 'craft-outdoors',
-  ukg: 'class-drawing-table',
+  /** "More independent group activities", "chances to speak, present and lead." */
+  ukg: 'working-together',
 }
 
 /**
@@ -185,16 +194,22 @@ export function ProgramsSection() {
 
   return (
     <Section
-      tone="khadi"
+      tone="mist"
       id="programs"
-      ambient="warm"
+     
       labelledBy="programs-title"
       /* Content is vertically centred in a full-screen band, so it does not
          sit below the top padding the standard objects occupy — it rides up
          into it. `'centred'` puts them in the foot of the band instead, the
          same answer the positioning band takes. */
       decor="centred"
-      className="lg:flex lg:min-h-screen lg:items-center" divider={{ type: 'cloud', fill: 'var(--color-terracotta-600)' }}
+      /* The divider leads into the band BELOW it, which on Home is the indigo
+         "Opening in Indore" section. It was painting brand-500, a colour
+         nothing under it uses: deep red scallops hung over a deep blue band and
+         the seam read as two unrelated pages meeting. That fill is right on the
+         inner pages, where this same pattern closes into the brand-blue CTA
+         band, which is presumably where it was copied from. */
+      className="lg:flex lg:min-h-screen lg:items-center" divider={{ type: 'cloud', to: 'brand' }}
     >
       <Container size="wide">
         <div className="grid items-center gap-block lg:grid-cols-12 lg:gap-14">
@@ -242,17 +257,17 @@ export function ProgramsSection() {
                            physically larger and eaten into its own gaps. */
                         'ring-[7px] sm:ring-8',
                         on
-                          ? 'z-20 shadow-lift ring-terracotta-500'
-                          : 'z-10 shadow-soft ring-khadi-100 hover:z-20 hover:ring-khadi-300 hover:shadow-lift',
+                          ? 'z-20 shadow-lift ring-brand-500'
+                          : 'z-10 shadow-soft ring-mist-100 hover:z-20 hover:ring-mist-300 hover:shadow-lift',
                         'motion-reduce:transition-none motion-reduce:hover:scale-100',
-                        'focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-indigo-ink-600',
+                        'focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-brand-600',
                       )}
                     >
 {/* The inner half of the double border. */}
                       {on ? (
                         <span
                           aria-hidden="true"
-                          className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] border-[3px] border-khadi-50"
+                          className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] border-[3px] border-mist-50"
                         />
                       ) : null}
 
@@ -292,8 +307,8 @@ export function ProgramsSection() {
                             'absolute left-[72%] top-[72%] -translate-x-1/2 -translate-y-1/2 -rotate-45 whitespace-nowrap',
                             'rounded-full px-3 py-1.5 text-2xs font-semibold uppercase tracking-[0.14em] shadow-soft transition-colors duration-[360ms] sm:px-4 sm:text-xs',
                             on
-                              ? 'bg-terracotta-600 text-khadi-50'
-                              : 'bg-khadi-50 text-indigo-ink-700',
+                              ? 'bg-brand-500 text-mist-50'
+                              : 'bg-mist-50 text-brand-700',
                           )}
                         >
                           {program.name}
@@ -310,9 +325,9 @@ export function ProgramsSection() {
           <div className="lg:col-span-6 lg:order-2">
             <SectionHeader
               id="programs-title"
-              eyebrow="Programs & classes"
-              title="Four classes, one continuous idea"
-              standfirst="The same values run through every class. Only the complexity and the expected independence change."
+              eyebrow={programsSnapshot.eyebrow}
+              title={programsSnapshot.headline}
+              standfirst={programsSnapshot.standfirst}
             />
 
             {/* Keyed on the class, so React replaces the subtree on every
@@ -342,18 +357,25 @@ export function ProgramsSection() {
                 className="mt-8"
               >
               <div className="flex flex-wrap items-center gap-3">
-                <h3 className="font-display text-h2 font-semibold text-indigo-ink-700">
+                <h3 className="font-display text-h2 font-semibold text-brand-700">
                   {current.name}
                 </h3>
-                {current.ncertBand ? <Chip tone="accent">{current.ncertBand}</Chip> : null}
+                {/* Our own age band, which is the number a parent came for.
+                    The NCERT reference model is a line of supporting evidence
+                    underneath, and is labelled as theirs rather than ours. */}
+                <Chip tone="accent">{current.ageRange}</Chip>
               </div>
 
+              <p className="mt-2 font-display text-h4 font-semibold text-brand-500">
+                {current.tagline}
+              </p>
+
               {current.ncertAge ? (
-                <p className="mt-2 text-small font-medium text-ink-400">{current.ncertAge}</p>
+                <p className="mt-1.5 text-small text-ink-400">{current.ncertAge}</p>
               ) : null}
 
               <p className="mt-4 max-w-prose text-body leading-relaxed text-ink-500">
-                {current.blurb}
+                {current.about}
               </p>
 
               <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
@@ -362,7 +384,7 @@ export function ProgramsSection() {
                     key={item}
                     className="flex items-start gap-2.5 text-small leading-relaxed text-ink-600"
                   >
-                    <Grain className="mt-1.5 shrink-0 text-terracotta-500" />
+                    <Grain className="mt-1.5 shrink-0 text-sky-500" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -372,8 +394,15 @@ export function ProgramsSection() {
                 <ButtonLink to={`${routes.programs}#${current.slug}`} variant="outline" withArrow>
                   Inside {current.name}
                 </ButtonLink>
-                <TextLink to={routes.programs}>Every class in detail</TextLink>
+                <TextLink to={routes.programs}>{programsSnapshot.linkLabel}</TextLink>
               </div>
+
+              {/* The specification allows the Home page exactly one line about
+                  money, and this is it: no figure, and the commitment that
+                  nothing is added to it later. */}
+              <p className="mt-6 max-w-prose text-small leading-relaxed text-ink-400">
+                {programsSnapshot.feeNote}
+              </p>
               </m.div>
             </AnimatePresence>
           </div>

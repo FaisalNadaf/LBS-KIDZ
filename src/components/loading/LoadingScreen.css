@@ -19,8 +19,8 @@
 
    It is plain CSS, not Tailwind, so it needs no build context. Every colour,
    radius and easing below is a design-system token: Tailwind v4 emits `@theme`
-   values as custom properties on `:root`, so `var(--color-haldi-300)` here is
-   the same haldi-300 that `bg-haldi-300` paints elsewhere.
+   values as custom properties on `:root`, so `var(--color-orange-300)` here is
+   the same orange-300 that `bg-orange-300` paints elsewhere.
 
    EVERY ANIMATION IS `transform` OR `opacity`. Nothing here triggers layout or
    paint, so the loader costs the compositor and nothing else while the real
@@ -39,7 +39,7 @@
   height: 100vh;
   height: 100dvh;
   width: 100%;
-  background-color: var(--color-khadi-100);
+  background-color: var(--color-mist-100);
   /* Matches the body background exactly, so the frame between the browser
      painting the document and React committing this overlay is not a flash. */
   color: var(--color-ink-700);
@@ -73,16 +73,12 @@
   --lbs-drive-ease: cubic-bezier(0.28, 0.1, 0.72, 0.9);
 }
 
-/* The ground the whole screen sits on: a very quiet warm wash, brand hues
-   only, low enough in contrast that the logo stays the focal point. */
+/* The ground the whole screen sits on: the site's own page ground, deepening
+   a single step towards the road. No glows — the logo is the focal point. */
 .lbs-load__wash {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(60% 45% at 50% 28%, var(--color-khadi-50) 0%, transparent 70%),
-    radial-gradient(40% 30% at 12% 12%, rgba(237, 199, 107, 0.16) 0%, transparent 70%),
-    radial-gradient(45% 32% at 88% 18%, rgba(224, 156, 124, 0.14) 0%, transparent 70%),
-    linear-gradient(180deg, var(--color-khadi-100) 0%, var(--color-khadi-200) 100%);
+  background: linear-gradient(180deg, var(--color-mist-100) 0%, var(--color-mist-200) 100%);
 }
 
 /* ==========================================================================
@@ -110,36 +106,24 @@
 
 /* --- The mark ---------------------------------------------------------- */
 
+/* Holds the stacked artwork. It used to be a coral tile with an icon centred in
+   it, standing in for a logo we did not have; now the logo is the logo, so the
+   box carries no surface of its own and only sets the size. Width is capped
+   against the viewport's shorter axis as well as its width, because this is a
+   portrait lockup and a wide-but-short window is where it would otherwise run
+   into the road. */
 .lbs-load__mark {
   position: relative;
   display: grid;
   place-items: center;
-  width: clamp(4.5rem, 13vw, 6.5rem);
-  aspect-ratio: 1;
-  border-radius: var(--radius-xl);
-  background-color: var(--color-terracotta-500);
-  color: var(--color-khadi-50);
-  box-shadow:
-    0 4px 8px rgba(42, 35, 32, 0.05),
-    0 24px 48px -16px rgba(164, 72, 38, 0.35);
+  width: min(clamp(11rem, 30vw, 17rem), 62vh);
   opacity: 0;
   animation: lbs-load-mark-in 500ms var(--ease-out-soft) 300ms forwards;
 }
 
-.lbs-load__mark svg {
-  width: 62%;
-  height: 62%;
-}
-
-/* The halo. A second element rather than a box-shadow so it can pulse on its
-   own clock without the mark's own entrance fighting it for `transform`. */
-.lbs-load__halo {
-  position: absolute;
-  inset: -18%;
-  border-radius: var(--radius-2xl);
-  border: 1px solid rgba(192, 91, 52, 0.28);
-  opacity: 0;
-  animation: lbs-load-halo 3.2s var(--ease-in-out-soft) 900ms infinite;
+.lbs-load__mark img {
+  width: 100%;
+  height: auto;
 }
 
 /* Breathing lives on a wrapper of its own: the mark's entrance already owns
@@ -149,26 +133,7 @@
   animation: lbs-load-float 3.6s var(--ease-in-out-soft) 900ms infinite;
 }
 
-/* --- The wordmark ------------------------------------------------------ */
-
-.lbs-load__name {
-  margin: 0;
-  font-family: var(--font-display);
-  font-optical-sizing: auto;
-  font-size: clamp(1.875rem, 1.3rem + 2.6vw, 3rem);
-  font-weight: 600;
-  line-height: 1.06;
-  letter-spacing: -0.022em;
-  color: var(--color-indigo-ink-700);
-  text-align: center;
-  opacity: 0;
-  animation: lbs-load-rise 550ms var(--ease-out-soft) 700ms forwards;
-}
-
-.lbs-load__name em {
-  font-style: normal;
-  color: var(--color-terracotta-600);
-}
+/* --- Below the logo ----------------------------------------------------- */
 
 .lbs-load__meta {
   display: flex;
@@ -177,29 +142,6 @@
   gap: clamp(0.85rem, 1.8vw, 1.15rem);
   opacity: 0;
   animation: lbs-load-rise 500ms var(--ease-out-soft) 1050ms forwards;
-}
-
-.lbs-load__tagline {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-label, 0.75rem);
-  font-weight: 500;
-  line-height: 1.3;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-400);
-  text-align: center;
-}
-
-/* The tagline is the widest fixed-length thing on the screen: thirty
-   characters of uppercase at 0.14em of tracking. Measured at 320 it lands
-   within 8px of the padding on each side, which is fine until a fallback face
-   renders it a shade wider. One step down below 380 buys back 24px. */
-@media (max-width: 379px) {
-  .lbs-load__tagline {
-    font-size: var(--text-2xs, 0.6875rem);
-    letter-spacing: 0.1em;
-  }
 }
 
 /* --- Progress: three dots, not a spinner ------------------------------- */
@@ -213,17 +155,17 @@
   width: 0.4rem;
   height: 0.4rem;
   border-radius: 999px;
-  background-color: var(--color-terracotta-400);
+  background-color: var(--color-brand-500);
   animation: lbs-load-dot 1.25s var(--ease-in-out-soft) infinite;
 }
 
 .lbs-load__dots span:nth-child(2) {
   animation-delay: 0.15s;
-  background-color: var(--color-haldi-400);
+  background-color: var(--color-sky-400);
 }
 .lbs-load__dots span:nth-child(3) {
   animation-delay: 0.3s;
-  background-color: var(--color-neem-400);
+  background-color: var(--color-green-500);
 }
 
 /* ==========================================================================
@@ -271,8 +213,8 @@
   position: absolute;
   inset: auto 0 0 0;
   height: 58%;
-  background: linear-gradient(180deg, var(--color-khadi-300) 0%, var(--color-khadi-400) 100%);
-  box-shadow: inset 0 1px 0 rgba(253, 251, 247, 0.6);
+  background: linear-gradient(180deg, var(--color-mist-300) 0%, var(--color-mist-400) 100%);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-white) 60%, transparent);
   /* A single soft crest rather than a flat band, so the road reads as ground
      the bus is on rather than as a rule beneath it. */
   border-radius: 50% 50% 0 0 / 1.75rem 1.75rem 0 0;
@@ -287,7 +229,7 @@
   width: 200%;
   background-image: linear-gradient(
     90deg,
-    var(--color-khadi-50) 0 44px,
+    var(--color-mist-50) 0 44px,
     transparent 44px 100px
   );
   background-size: 100px 100%;
@@ -471,18 +413,6 @@
   }
 }
 
-@keyframes lbs-load-halo {
-  0%,
-  100% {
-    opacity: 0.35;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.75;
-    transform: scale(1.06);
-  }
-}
-
 @keyframes lbs-load-dot {
   0%,
   100% {
@@ -590,7 +520,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .lbs-load__mark,
-  .lbs-load__name,
   .lbs-load__meta,
   .lbs-load__sky > * {
     opacity: 1;
@@ -598,7 +527,6 @@
     transform: none;
   }
 
-  .lbs-load__halo,
   .lbs-load__float,
   .lbs-load__road-dashes,
   .lbs-load__bus-tilt,
@@ -607,10 +535,6 @@
   .lbs-bus__glint,
   .lbs-bus__puff {
     animation: none;
-  }
-
-  .lbs-load__halo {
-    opacity: 0.4;
   }
 
   /* Dust behind a parked bus is just three grey dots on the road. */

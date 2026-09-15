@@ -259,6 +259,39 @@ which would be a change to D2 §7 rather than a design tweak.
 
 ---
 
+### C-17 — The colour system rebuilt on the logo's five letter colours *(15 Sep 2026; client direction)*
+
+**Supersedes** the khadi / terracotta direction in C-16 for colour (its shape language stands).
+
+The client asked for the site to look designed from the logo: #0160A0 as the clear primary, #009FE3
+secondary, and #3E9D3F, #F69E09, #EA574D as supporting colours, on a light, professional ground rather
+than the warm cream and coral CTAs.
+
+**What changed.**
+
+- Token families renamed and re-anchored in `scripts/build-palette.mjs`: `indigo-ink` → `brand`,
+  `haldi` → `orange`, `neem` → `green`, `terracotta` → `coral` (now error/attention only), `sky` kept,
+  `khadi` → `mist` (white at 50, a faint blue page ground at 100). `ink` is re-tinted towards the brand
+  blue and bottoms out at #17212B. `lilac` and `blush` are gone.
+- Every primary CTA moved from coral to the brand blue, links to brand blue with a sky hover, the focus
+  ring to brand blue (a light sky ring on deep bands via the `on-dark` utility), and the site-wide CTA
+  band to the brand blue with a sky glow.
+- Tone props follow the families: `Section tone="mist|white|brand|sky|green|orange"`, the same for
+  `SectionDivider`, `Card`, `Marker` and the photo mats. The old `terracotta` section tone became `sky`.
+- Tailwind's default palette is switched off in the generated file, so an off-brand utility renders
+  nothing. Semantic aliases (`primary`, `secondary`, `success`, `warning`, `error`, `info`) and gradient
+  utilities (`bg-gradient-brand`, `-brand-deep`, `-brand-green`, `-brand-orange`, `-spectrum`) are
+  available.
+- Shadows are mixed from the deep brand blue instead of a warm grey.
+
+**Verified.** 75/75 palette contrast pairs pass; `scripts/contrast-audit.mjs` reports every resolvable
+text node passing AA; `npm run build` and `npm run lint` are clean.
+
+**Reopen if:** the client wants the warm cream ground back while keeping the blue CTAs — that is a change
+to the `mist` steps only.
+
+---
+
 ### C-05 — Saturday: Sankalp week versus NCERT school week
 
 Process Guidelines §2 Step 3 defines the Sankalp week as **Monday–Saturday**.
@@ -401,18 +434,19 @@ Owner: SEP / Sarvesh.
 
 ---
 
-### T-02 — Admission ages per class are unfinalised
+### T-02 — Admission ages per class ~~are unfinalised~~ *(CLOSED 10 Sep 2026)*
 
-Keyword & AEO Strategy §6 leaves the answer as `[To be finalized alongside class structure/age-band
-content.]`
+Keyword & AEO Strategy §6 left the answer as `[To be finalized alongside class structure/age-band
+content.]` The Programs & Classes Page Content specification (D14 §3) closes it with an age band per
+class, and resolves the one disagreement between documents itself:
 
-Currently the site shows NCERT's reference age bands, attributed to NCERT, and says LBS KidZ's own
-admission age is confirmed on enquiry.
+> "Age reference: Playgroup is 2–3 years. Please also update the Home page's Programs Snapshot table,
+> which currently shows Playgroup as 1.5–3 years, so both pages stay consistent." — D14 §1
 
-**Fix:** `src/data/admissions.ts` → each `programs[].ncertAge`, plus the `pending: true` FAQ entry.
-Once set, flip that FAQ's `schema` to `true` so it joins the FAQPage markup.
-
-Owner: SEP.
+**Now live.** `programs[].ageRange` carries our own band and leads every class block; NCERT's
+reference model is kept beneath it, still labelled as NCERT's, because the mapping onto a recognised
+national structure is a credibility signal in its own right. The formerly `pending` FAQ answers the
+question outright and has joined the FAQPage markup.
 
 ---
 
@@ -425,38 +459,76 @@ Owner: SEP.
 Needed from: Mr. Anil Shastri, Mrs. Manju Shastri, Mr. Lagan Shastri, Mr. Mudit Shastri
 (A Message from the Lal Bahadur Shastri Family), and Mr. Adarsh Shastri (Founder's Note).
 
-Both pages are built and render an honest "their words will appear here" state. **No message has been
-written on anyone's behalf.**
+**MESSAGES: RECEIVED (10 Sep 2026).** The Family Message Page Content specification (D12 §3) carries
+the letters themselves, in the family's own words: Anil Shastri Ji's seven-paragraph letter, the
+tribute to Shrimati Lalita Shastri Ji, Manju Shastri Ji's note, and Lagan and Mudit Shastri's. All are
+published verbatim, punctuation aside. The page was rebuilt from a 2x2 card grid into the
+single-column letter layout D12 §4 asks for, because a card cannot hold a seven-paragraph letter.
 
-**Fix:** `src/data/legacy.ts` → `familyMembers[].message` / `.photo`, and `founder.message` / `.photo`.
+**FOUNDER'S NOTE: TEXT RECEIVED AS A DRAFT (11 Sep 2026), REVIEW STILL OPEN.** The Founder's Note
+Page Content specification (D11 §3) supplies the letter in full, seven paragraphs in the first
+person, and the site now publishes it in place of the single teaser line that stood there before.
+Seven phrases render in true bold, taken from the bold runs in the source file itself rather than
+inferred from the prose, because D11 §3 requires exactly that and requires it as weight rather than
+colour.
+
+**The caveat is D11's own, and it has not been met.** That document's header calls the letter "a
+draft written in his voice, based on the brand's established positioning", not yet reviewed by
+Adarsh Shastri, and §8 requires it to be "reviewed, edited, or replaced with Adarsh Shastri's actual
+words before this page goes live". It is published because the client supplied it as the page's
+final written content; it is recorded here because that review has not happened. **Do not edit,
+extend or polish this letter in the meantime: the next change to it should be his.**
+
+**Fix when approved:** `src/data/legacy.ts` → `foundersLetter.paragraphs`.
+
+**PHOTOGRAPHS: STILL OPEN.** Six are needed. Five per D12 §8: a family group photo for the hero,
+plus portraits of Anil Shastri Ji, Manju Shastri Ji, and Lagan and Mudit Shastri, and an archival
+photograph of Shrimati Lalita Shastri Ji. The sixth is the portrait of Adarsh Shastri, which D11 §4
+calls "the one place on the site where a real photo, not illustration, is essential" and §8 lists as
+still to be requested through him. Every slot draws a reserved state at the size the real picture
+will be, so the page does not reflow when they land.
+
+**Fix:** `src/data/legacy.ts` → `familyMembers[].photo`, `lalitaShastriTribute.photo`,
+`founder.photo`.
 
 Owner: Adarsh Shastri to coordinate (as recorded in Decisions Log §10).
 
 ---
 
-### T-04 — LBS Legacy narrative copy needs family approval
+### T-04 — LBS Legacy narrative copy ~~needs family approval~~ *(CLOSED 10 Sep 2026)*
 
-Decisions Log §10 lists page-wise content drafting as pending, "starting with Home and LBS Legacy".
-Process Guidelines §3 names Adarsh Shastri as the reviewer for legacy authenticity and tone.
+Decisions Log §10 listed page-wise content drafting as pending. It is no longer: the LBS Legacy Page
+Content specification (D10 §3) scripts the page section by section, and the site now carries that copy
+rather than the cautious public-history summary that stood in for it. Five narrative moments replace
+the previous four.
 
-The four legacy moments currently on the page are limited to widely documented public history about a
-public figure, kept deliberately brief. They are marked on-page as under family review.
+**Fix:** none outstanding. `src/data/legacy.ts` → `legacyMoments`, `legacyIntro`, `legacyToValues`
+are all transcribed from D10.
 
-**Fix:** `src/data/legacy.ts` → `legacyMoments`, `legacyIntro`, `legacyToValues`.
-
-Owner: Adarsh Shastri / SEP.
+**Still open, and tracked under T-03:** the Founder's Note itself.
 
 ---
 
-### T-05 — No logo artwork was supplied
+### T-05 — ~~No logo artwork was supplied~~ *(CLOSED 10 Sep 2026)*
 
-No logo file accompanies the documents. The current wordmark is built from type plus the wheat-stalk
-motif the design direction names.
+Three artwork files were supplied: a landscape lockup and two stacked variants. The type-plus-wheat-
+stalk wordmark that stood in for them is gone from the codebase.
 
-**Fix:** `src/layouts/Logo.tsx` (one component), `public/favicon.svg`, `public/og-image.svg`
-(re-render the PNG with `sharp` after editing — see README).
+`scripts/build-logo-assets.mjs` derives every published asset from those files: it crops each to the
+artwork, keys the cream ground to transparency by un-blending rather than thresholding (so glyph edges
+carry no halo on a coloured band), and emits the navbar wordmark, the full lockup, the stacked
+portrait, the paper-plane mark, the favicon set, the app icon and the share card. Nothing is redrawn,
+recoloured or approximated.
 
-Owner: Source Advertising (creative design scope).
+The whole colour system now derives from the same artwork: `scripts/build-palette.mjs` samples seven
+anchor colours off the files and builds each token family around one of them in OKLab, refusing to
+emit a palette whose text pairs fall below WCAG AA. Run it after any change to the anchors.
+
+**One thing the artwork cannot do on its own:** three of its seven colours are the brand's deep blue,
+which is also the colour of every dark band on this site, so those glyphs measure ~1.4:1 over one. The
+navbar's `onDark` state adds a hairline light outline for exactly that case, and the footer sets the
+full lockup on a light plaque so its near-black initiative line stays legible. Neither touches a pixel
+of the artwork's own colour.
 
 ---
 

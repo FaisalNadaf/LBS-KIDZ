@@ -6,6 +6,7 @@ import { TextLink } from '@/components/ui/Button'
 import { Reveal } from '@/animations/Reveal'
 import { site } from '@/data/site'
 import { routes } from '@/data/routes'
+import { CTA_SEAM } from '@/components/ui/SectionDivider'
 
 /**
  * Legal and compliance pages.
@@ -41,7 +42,7 @@ export function PolicyPage({ policy }: { policy: PolicyKey }) {
         standfirst="The full text, in plain language."
       />
 
-      <Section tone="khadi" divider={{ type: 'scallop', fill: 'var(--color-terracotta-600)' }}>
+      <Section tone="mist" divider={CTA_SEAM}>
         <Container size="narrow">
           <Reveal>{bodies[policy]}</Reveal>
         </Container>

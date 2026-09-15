@@ -223,12 +223,12 @@ export function Magnetic({
  * expansion is a composited transform. `animate` rather than CSS because the
  * ring and the dot have to stay in phase across remounts.
  */
-export function LiveDot({ className, tone = 'terracotta' }: { className?: string; tone?: 'terracotta' | 'neem' | 'haldi' }) {
+export function LiveDot({ className, tone = 'coral' }: { className?: string; tone?: 'coral' | 'green' | 'orange' }) {
   const reduced = usePrefersReducedMotion()
   const colour = {
-    terracotta: 'bg-terracotta-500',
-    neem: 'bg-neem-500',
-    haldi: 'bg-haldi-500',
+    coral: 'bg-coral-500',
+    green: 'bg-green-500',
+    orange: 'bg-orange-500',
   }[tone]
 
   return (

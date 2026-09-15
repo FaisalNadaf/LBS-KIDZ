@@ -1,5 +1,6 @@
 import { SITE_PHASE } from './site'
 import { routes } from './routes'
+import { zones } from './campuses'
 
 export type NavLink = { label: string; href: string; description?: string }
 export type NavItem =
@@ -173,9 +174,12 @@ export const footerExploreLinks: NavLink[] = [
   // Phase 2 adds one keyword-linked entry per locked location zone.
   ...(SITE_PHASE >= 2
     ? [
-        { label: 'Preschool in Kanadia Road', href: `${routes.campuses}/kanadia-road` },
-        { label: 'Preschool in Rau', href: `${routes.campuses}/rau` },
-        { label: 'Preschool in Bicholi Mardana', href: `${routes.campuses}/bicholi-mardana` },
+        // Derived from the zone list rather than repeated, so the two can
+        // never disagree about which zones exist.
+        ...zones.map((zone) => ({
+          label: zone.keyword,
+          href: `${routes.campuses}/${zone.slug}`,
+        })),
       ]
     : []),
 ]

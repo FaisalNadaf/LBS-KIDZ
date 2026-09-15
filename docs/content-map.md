@@ -3,6 +3,55 @@
 Every piece of website content traced to its originating PDF. Source codes are as in
 `requirements-audit.md` (D1–D8).
 
+> **Superseded in places, 10–11 September 2026.** Twelve page-level content specifications arrived
+> after this map was written, and where they speak they are the source of truth:
+>
+> | Doc | Page | Route |
+> | --- | --- | --- |
+> | D09 | Home | `/` |
+> | D10 | LBS Legacy | `/lal-bahadur-shastri-legacy` |
+> | D11 | The Lal Bahadur Shastri Way | `/the-lal-bahadur-shastri-way` |
+> | D12 | A Message from the Family | `/message-from-the-lal-bahadur-shastri-family` |
+> | D13 | Curriculum & Learning Approach | `/curriculum-nep-2020-activity-based-learning` |
+> | D14 | Programs & Classes | `/programs-and-classes` |
+> | D11b | Founder's Note | `/founders-note` |
+> | D16 | Value Stories | `/value-stories` |
+> | D17 | Parenting Tips & Resources | `/parenting-tips-and-resources` |
+> | D18 | Fees & Admissions | `/preschool-fees-indore` |
+> | D19 | FAQs | `/faqs` |
+> | D20 | Contact Us | `/contact-us` |
+>
+> **A note on the numbering.** The second batch renumbers the series: its `11` is the Founder's
+> Note, not The LBS Way, and its `14` and `15` are Curriculum and Programs, which the first batch
+> numbered `13` and `14`. The D-codes above follow each document's own filename, so "D11" is
+> ambiguous on its own and is written **D11b** wherever the Founder's Note is meant.
+>
+> **Slugs are not taken from these documents.** Several propose shorter URLs (`/lbs-legacy`,
+> `/curriculum`, `/fees-and-admissions`). The live slugs are the keyword-bearing ones named in Full
+> Website Sitemap §3, they are in `sitemap.xml` and in every canonical tag, and D14 §8 itself leaves
+> the final slug to be confirmed rather than asserting one. Changing them would cost the indexed URL
+> for no gain, so they stand.
+>
+> The copy on all twelve pages is now transcribed from those documents, so their rows below are
+> historical. Four things they changed that ripple past their own pages, and that the rows below
+> still record the old version of:
+>
+> - **Zones are five, not three.** Rau / CAT Road, Kanadia Road, Annapurna / Sudama Nagar,
+>   Mahalaxmi Nagar / Nipania, Vijay Nagar. Bicholi Mardana is not among them. (D09 §3.7)
+> - **Playgroup is 2 to 3 years**, and D14 §1 instructs the Home snapshot to be corrected to match.
+>   Admission ages are LBS KidZ's own now rather than NCERT's reference model. (D14 §3)
+> - **The Honesty Shop is out of this build** entirely, by instruction, until a campus exists.
+>   (D11 §8, restated D16 §8)
+> - **The FAQ set is fourteen questions in four groups**, not the six-question starter set from
+>   Keyword & AEO Strategy §6. All six originals survive inside it, four of them reworded. The
+>   Curriculum page keeps its own five, because D14 §12 and D19 §7 each demand their own wording
+>   verbatim and the two sets differ. (D19 §3)
+>
+> Everything the twelve documents supply is **Verbatim** but for punctuation: no em dash appears in
+> published copy on this site, so em-dash sentence breaks in the sources are set as commas, colons
+> or full stops. `scripts/content-audit.mjs` loads all twelve pages in a real browser and fails if
+> any of them loses a required phrase, gains a forbidden one, or gains an em dash.
+
 A fourth column marks provenance:
 
 - **Verbatim** — transcribed from the source, wording preserved
@@ -142,41 +191,51 @@ A fourth column marks provenance:
 
 ## Founder's Note — `/founders-note`
 
+Rewritten from D11b. Rows marked *superseded* record what stood here before it arrived.
+
 | Content | Source | Provenance |
 |---|---|---|
-| Adarsh Shastri, grandson, Authorized Representative | D2 §6, D6 §3 | Verbatim |
-| Practical and forward-looking tone | D2 §6 | Verbatim requirement |
+| "A Note from Our Founder" / "Adarsh Shastri, grandson of Shri Lal Bahadur Shastri Ji" | D11b §3 S1 | Verbatim |
+| The letter, six paragraphs | D11b §3 S2 | Verbatim |
+| Seven bold phrases, as weight not colour | D11b §3, §4 | Verbatim, bold runs read from the source file |
+| Signature: "With warmth, / Adarsh Shastri / Founder, LBSKidZ" | D11b §3 S3 | Verbatim |
+| Closing link to Curriculum | D11b §3 S4 | Verbatim |
+| Letter is a draft pending his review | D11b header, §8 | Recorded in T-03, not shown to readers |
 | SEP and LBS Group described | D2 §1 | Faithful |
-| **His personal message and photograph** | D2 §6, D6 §10 | **Pending** |
+| *Superseded:* "Authorized Representative" as his title | D2 §6 | Replaced by his own sign-off |
+| *Superseded:* the "this note is being written" state | D2 §6 | Closed by D11b |
+| **His photograph** | D11b §4, §8 | **Pending — reserved frame drawn at full size** |
 
 ---
 
 ## Value Stories — `/value-stories`
 
+Rewritten from D16. Three stories became six, one per SIMPLE pillar.
+
 | Content | Source | Provenance |
 |---|---|---|
-| Purpose: show how a value is learned, not state that it is taught | D5 §3, §5 (Reggio Emilia) | Verbatim requirement |
-| Phase 1 = general/legacy stories; classroom moments in Phase 2 | D7 §2 | Verbatim |
-| "The meal that was not eaten" (Empathy) | Public record + D4 §10 CG-5 | Public record + Editorial framing |
-| "Two people on the same line" (Patriotism) | Public record | Public record + Editorial framing |
-| "A shop with nobody behind the counter" (Integrity) | D8 §2 Step 2 (Honesty Shop), D4 §6 | Faithful + Editorial framing |
-| Each story closes on a reasoning question | D4 §6 | Verbatim requirement |
-| Tier D primary keywords | D3 §3 | Structural |
+| "Where a Value Actually Begins" and its subheading | D16 §3 S1 | Verbatim |
+| Six stories: pillar tag, kicker, title, two paragraphs, question | D16 §3 S2–S7 | Verbatim |
+| Alternating image/text sides, question as a tinted callout | D16 §4 | Verbatim requirement |
+| Jump-to-pillar quick nav, six anchors | D16 §4 | Verbatim requirement |
+| Closing link to The LBS Way | D16 §5 | Faithful |
+| Brand-tier keywords only, no conversion CTA | D16 §1, §7 | Verbatim requirement |
+| **Honesty Shop story** | D16 §8 | **Deliberately excluded; audit enforces it** |
+| *Superseded:* the three Phase 1 stories, incl. the Honesty Shop | D7 §2, D8 §2 | Replaced by D16's six |
 
 ---
 
 ## Parenting Tips & Resources — `/parenting-tips-and-resources`
 
+Rewritten from D17. Six cards became twelve.
+
 | Content | Source | Provenance |
 |---|---|---|
-| Scope: activity ideas, preschool readiness, common early-years concerns | D1 §1.1, D3 §5 | Verbatim |
-| **No NEP 2020 / policy keywords** | D3 §5 | Verbatim exclusion |
-| "Play is not a break from learning" | D4 §2 (play primary; indigenous/local material) | Faithful |
-| "Should we speak English at home?" | D4 §3 | Faithful |
-| "What preschool readiness actually means" | D4 §5 | Faithful |
-| "My child is behind their cousin" | D4 §2, §5 | Faithful |
-| "Talking to a small child about right and wrong" | D4 §6 | Faithful |
-| "Reading together before a child can read" | D4 §4 (language block) | Faithful |
+| "Helpful Whether or Not You Ever Enrol With Us" and its subheading | D17 §3 S1 | Verbatim |
+| Twelve tip cards: category tag, title, intro, bullets | D17 §3 S2–S13 | Verbatim |
+| Three categories, each with its own accent tint | D17 §4 | Verbatim requirement |
+| Light closing prompt to Curriculum, no CTA inside any card | D17 §5 | Verbatim requirement |
+| **No NEP 2020 / policy language anywhere in the page body** | D3 §5, D17 §1 | **Verbatim exclusion; audit enforces it** |
 
 ---
 
@@ -218,33 +277,57 @@ A fourth column marks provenance:
 | **LBS KidZ's own admission ages** | D3 §6 | **Pending — see T-02** |
 | Attainment levels for progression | D4 §5 | Verbatim |
 
-### `/preschool-fees-indore`
+### `/preschool-fees-indore` — Fees & Admissions
+
+Rewritten from D18, which adds a fifth section the page did not have.
 
 | Content | Source | Provenance |
 |---|---|---|
-| "No hidden charges" leads the page, not a fee table | D3 §3, D6 §6 | Verbatim requirement |
-| Books, bag, uniform, lunch box, water bottle included | D2 §4, D6 §6 | Verbatim |
+| "One Fee. Nothing Added Later." and its subheading | D18 §3 S1 | Verbatim |
+| Five inclusions, each with its own one-line description | D18 §3 S2 | Verbatim |
+| "Why You Won't See a Fee Table on This Page", incl. "in writing, the same day you ask" | D18 §3 S3 | Verbatim |
+| "What we'll tell you", three lines | D18 §3 S3 | Verbatim |
+| "Ask Us for the Fee" enquiry form | D18 §3 S4 | Verbatim |
+| **NEW SECTION:** "What Happens After You Ask", three steps | D18 §3 S5 | Verbatim |
+| Steps reuse the Register Interest component, not a second pattern | D18 §4 | Verbatim requirement |
 | Fee-on-demand rationale | D6 §6, D2 §2.1 | Faithful |
-| "None publish exact fee figures publicly; shared in writing on enquiry/campus visit" | D2 §2.1 | Faithful |
-| **Any fee figure** | — | **Never published** |
+| **Framing against other schools** | D18 §1 | **Forbidden; audit enforces it** |
+| **Any fee figure, "even as an example"** | D18 §8 | **Never published; audit enforces it** |
+| *Superseded:* "Five things other schools bill you for separately" | — | Removed: D18 §1 forbids the comparison |
 
 ### `/faqs`
 
+Rewritten from D19. Six questions became fourteen, in four groups.
+
 | Content | Source | Provenance |
 |---|---|---|
-| Six questions and answers | D3 §6 | Faithful |
-| "What age can my child join?" answered as pending | D3 §6 (`[To be finalized]`) | Pending |
-| FAQPage JSON-LD, excluding the pending answer | D3 §6 | Structural |
+| "Questions Parents Actually Ask" and its subheading | D19 §3 S1 | Verbatim |
+| Curriculum & Learning, five questions | D19 §3 S2 | Verbatim |
+| Admissions & Fees, five questions | D19 §3 S3 | Verbatim |
+| Campuses, three questions | D19 §3 S4 | Verbatim |
+| General, one question | D19 §3 S5 | Verbatim |
+| Category headers stay visible while answers are collapsed | D19 §4 | Verbatim requirement |
+| Every Q and A in the HTML even when collapsed | D19 §4 | Verbatim requirement |
+| FAQPage JSON-LD over all fourteen | D19 §7 | Verbatim requirement |
+| Closing prompt to Contact Us | D19 §5 | Faithful |
+| **"Who runs LBS KidZ?"** | D19 §8 | **Excluded pending a confirmed legal-structure line** |
+| *Superseded:* "What age can my child join?" as a pending answer | D3 §6 | Answered outright since D14 set the ages |
 
 ---
 
 ## Contact Us — `/contact-us`
 
+Rewritten from D20.
+
 | Content | Source | Provenance |
 |---|---|---|
-| Enquiry form | D6 §4 (leads carry forward) | Structural |
-| Zones served | D1 §3 | Verbatim |
-| **Phone, WhatsApp, email, address, Maps link** | D1 §2.1 requires them; **no document supplies them** | **Pending — see T-01** |
+| "Get in Touch" and its subheading | D20 §3 S1 | Verbatim |
+| "Send Us a Message" enquiry form | D20 §3 S2 | Verbatim |
+| "Where We Are", five zones, "See All Five Zones" | D20 §3 S3 | Verbatim |
+| "Reaching Us Directly", stated as a note rather than an apology | D20 §3 S4, §4 | Verbatim |
+| Form one side, two supporting panels the other | D20 §4 | Verbatim requirement |
+| "Who runs LBS KidZ" panel | D2 §1 | Faithful; kept, not in D20's layout |
+| **Phone, WhatsApp, email, address, Maps link** | D1 §2.1 requires them; D20 §8 confirms not yet live | **Pending — see T-01** |
 
 ---
 

@@ -49,12 +49,24 @@ type Clash = 'onAnimationStart' | 'onAnimationEnd' | 'onDrag' | 'onDragStart' | 
  * `overflow-hidden` box, so it costs one composited transform and never touches
  * the label's contrast.
  *
- * Contrast is the reason `primary` uses terracotta-600 rather than the 500
- * accent: white on 500 is 4.24:1, under the 4.5:1 AA floor for label text.
- * 600 gives 5.75:1 and the 700 hover gives 7.81:1.
+ * COLOUR follows the brand hierarchy. `primary` is the logo's own blue
+ * (#0160A0, 6.3:1 behind white) and darkens a step on hover and another on
+ * press. `secondary` is the quiet partner: white, a blue hairline and blue text,
+ * warming to a blue tint on hover. `success` is the logo green, for positive
+ * confirmations, and `attention` the logo orange, for the rare action that has
+ * to stand out from a blue page — its label is dark ink, because white on the
+ * orange measures 2.1:1. Every pair is checked in `scripts/build-palette.mjs`.
  */
 
-type Variant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'onDark' | 'onDarkOutline'
+type Variant =
+  | 'primary'
+  | 'secondary'
+  | 'outline'
+  | 'ghost'
+  | 'onDark'
+  | 'onDarkOutline'
+  | 'success'
+  | 'attention'
 type Size = 'sm' | 'md' | 'lg'
 
 /**
@@ -66,18 +78,24 @@ const base = [
   'group relative isolate inline-flex items-center justify-center gap-2 font-semibold',
   'overflow-hidden',
   'transition-[background-color,color,box-shadow,border-color] duration-200 ease-out-soft',
-  'disabled:pointer-events-none disabled:opacity-55',
+  'disabled:pointer-events-none disabled:opacity-55 disabled:shadow-none',
 ].join(' ')
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-terracotta-600 text-khadi-50 shadow-soft hover:bg-terracotta-700 hover:shadow-lift',
-  secondary: 'bg-khadi-50 text-indigo-ink-700 hairline hover:bg-white hover:shadow-card',
+  primary:
+    'bg-primary text-white shadow-soft hover:bg-primary-hover hover:shadow-lift active:bg-brand-700',
+  secondary:
+    'bg-white text-brand-600 ring-1 ring-inset ring-brand-500/35 hover:bg-primary-soft hover:ring-brand-500 hover:shadow-card active:bg-brand-100',
   outline:
-    'bg-transparent text-indigo-ink-700 ring-1 ring-inset ring-indigo-ink-700/25 hover:bg-indigo-ink-700 hover:text-khadi-50 hover:ring-indigo-ink-700',
-  ghost: 'bg-transparent text-indigo-ink-700 hover:bg-khadi-200/70',
-  onDark: 'bg-khadi-50 text-indigo-ink-700 shadow-soft hover:bg-white hover:shadow-lift',
+    'bg-transparent text-brand-600 ring-1 ring-inset ring-brand-600/30 hover:bg-brand-600 hover:text-white hover:ring-brand-600 active:bg-brand-700',
+  ghost: 'bg-transparent text-brand-600 hover:bg-primary-soft active:bg-brand-100',
+  onDark: 'bg-white text-brand-700 shadow-soft hover:bg-sky-50 hover:shadow-lift active:bg-sky-100',
   onDarkOutline:
-    'bg-transparent text-khadi-50 ring-1 ring-inset ring-khadi-50/40 hover:bg-khadi-50/12 hover:ring-khadi-50/70',
+    'bg-transparent text-white ring-1 ring-inset ring-white/45 hover:bg-white/12 hover:ring-sky-200 active:bg-white/20',
+  success:
+    'bg-green-600 text-white shadow-soft hover:bg-green-700 hover:shadow-lift active:bg-green-800',
+  attention:
+    'bg-orange-400 text-ink-900 shadow-soft hover:bg-orange-300 hover:shadow-lift active:bg-orange-500',
 }
 
 /**
@@ -129,14 +147,14 @@ const motionProps = {
  * control it reads as a rendering artefact rather than as a sheen.
  */
 function Sheen({ variant }: { variant: Variant }) {
-  if (variant !== 'primary' && variant !== 'onDark' && variant !== 'secondary') return null
+  if (variant === 'outline' || variant === 'ghost' || variant === 'onDarkOutline') return null
   return (
     <span
       aria-hidden="true"
       className={cn(
         'pointer-events-none absolute inset-0 -z-10 -translate-x-full skew-x-12',
         'bg-linear-to-r from-transparent to-transparent',
-        variant === 'primary' ? 'via-khadi-50/22' : 'via-indigo-ink-700/8',
+        variant === 'primary' || variant === 'success' ? 'via-white/22' : 'via-brand-700/8',
         'transition-transform duration-700 ease-out-soft group-hover:translate-x-full',
         'motion-reduce:hidden',
       )}
@@ -283,9 +301,7 @@ export function TextLink({
         // grows the hit area and the matching negative margin cancels its
         // effect on layout, so the target is tappable without anything moving.
         'py-2.5 -my-2.5',
-        onDark
-          ? 'text-haldi-300 hover:text-haldi-200'
-          : 'text-terracotta-600 hover:text-terracotta-700',
+        onDark ? 'text-sky-200 hover:text-white' : 'text-brand-500 hover:text-sky-600',
         className,
       )}
     >

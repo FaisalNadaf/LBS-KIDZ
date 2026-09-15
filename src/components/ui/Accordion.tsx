@@ -54,7 +54,7 @@ export function Accordion({
   }
 
   return (
-    <div className={cn('divide-y divide-khadi-300 border-y border-khadi-300', className)}>
+    <div className={cn('divide-y divide-mist-300 border-y border-mist-300', className)}>
       {items.map((item, index) => {
         const isOpen = open.includes(index)
         const buttonId = `${baseId}-t-${index}`
@@ -67,7 +67,7 @@ export function Accordion({
                 opening above it. */}
             <span
               className={cn(
-                'absolute -left-3 top-3 bottom-3 w-0.5 origin-top rounded-full bg-terracotta-500',
+                'absolute -left-3 top-3 bottom-3 w-0.5 origin-top rounded-full bg-brand-500',
                 'transition-transform duration-300 ease-out-soft motion-reduce:transition-none',
                 isOpen ? 'scale-y-100' : 'scale-y-0',
               )}
@@ -80,16 +80,16 @@ export function Accordion({
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => toggle(index)}
-                className="group flex w-full items-start justify-between gap-5 rounded-md py-4 text-left transition-colors hover:text-terracotta-600 sm:py-5"
+                className="group flex w-full items-start justify-between gap-5 rounded-md py-4 text-left transition-colors hover:text-sky-600 sm:py-5"
               >
-                <span className="font-display text-h3 font-semibold leading-snug text-indigo-ink-700 transition-colors group-hover:text-terracotta-700">
+                <span className="font-display text-h3 font-semibold leading-snug text-brand-700 transition-colors group-hover:text-sky-600">
                   {item.title}
                 </span>
                 <span
                   className={cn(
-                    'mt-0.5 grid size-8 shrink-0 place-items-center rounded-full bg-khadi-200 text-ink-600',
+                    'mt-0.5 grid size-8 shrink-0 place-items-center rounded-full bg-mist-200 text-ink-600',
                     'transition-[transform,background-color] duration-300 ease-out-soft',
-                    'group-hover:bg-terracotta-100 group-hover:text-terracotta-700 motion-reduce:transition-none',
+                    'group-hover:bg-brand-100 group-hover:text-sky-600 motion-reduce:transition-none',
                     isOpen && 'rotate-45',
                   )}
                   aria-hidden="true"

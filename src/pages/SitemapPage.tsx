@@ -7,6 +7,7 @@ import { PageHeader } from '@/components/ui/PageHeader'
 import { Reveal } from '@/animations/Reveal'
 import { SITE_PHASE } from '@/data/site'
 import { routes } from '@/data/routes'
+import { CTA_SEAM } from '@/components/ui/SectionDivider'
 
 /**
  * Plain HTML sitemap.
@@ -102,7 +103,7 @@ export function SitemapPage() {
         standfirst="Including the pages that arrive with our first campus, so you can see the shape of the whole thing."
       />
 
-      <Section tone="khadi" divider={{ type: 'tight-wave', fill: 'var(--color-terracotta-600)' }}>
+      <Section tone="mist" divider={CTA_SEAM}>
         <Container size="wide">
           <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
             {groups.map((group) => (
@@ -115,7 +116,7 @@ export function SitemapPage() {
                       <li key={entry.href} className="flex flex-wrap items-center gap-2">
                         <Link
                           to={entry.href}
-                          className="-my-2 inline-block py-2 text-body text-ink-600 underline-offset-4 transition-colors hover:text-terracotta-600 hover:underline"
+                          className="-my-2 inline-block py-2 text-body text-ink-600 underline-offset-4 transition-colors hover:text-sky-600 hover:underline"
                         >
                           {entry.label}
                         </Link>

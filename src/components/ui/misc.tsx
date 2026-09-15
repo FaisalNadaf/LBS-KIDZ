@@ -26,7 +26,7 @@ export function Breadcrumb({
       <ol
         className={cn(
           'flex flex-wrap items-center gap-x-1.5 gap-y-1 text-small',
-          onDark ? 'text-khadi-200/70' : 'text-ink-400',
+          onDark ? 'text-mist-200/70' : 'text-ink-400',
         )}
       >
         <li>
@@ -34,7 +34,7 @@ export function Breadcrumb({
             to="/"
             className={cn(
               'transition-colors',
-              onDark ? 'hover:text-khadi-50' : 'hover:text-terracotta-600',
+              onDark ? 'hover:text-mist-50' : 'hover:text-sky-600',
             )}
           >
             Home
@@ -50,14 +50,14 @@ export function Breadcrumb({
                   to={crumb.href}
                   className={cn(
                     'transition-colors',
-                    onDark ? 'hover:text-khadi-50' : 'hover:text-terracotta-600',
+                    onDark ? 'hover:text-mist-50' : 'hover:text-sky-600',
                   )}
                 >
                   {crumb.label}
                 </Link>
               ) : (
                 <span
-                  className={cn('font-medium', onDark ? 'text-khadi-100' : 'text-ink-600')}
+                  className={cn('font-medium', onDark ? 'text-mist-100' : 'text-ink-600')}
                   aria-current={last ? 'page' : undefined}
                 >
                   {crumb.label}
@@ -72,6 +72,45 @@ export function Breadcrumb({
 }
 
 /* ==========================================================================
+   StepList: a short numbered sequence of what happens next.
+   ========================================================================== */
+
+/**
+ * The "what happens next" flow, in one place.
+ *
+ * This pattern was written inline on Register Interest, and the Fees &
+ * Admissions specification then asked for the same three-step block on its own
+ * page: "a simple numbered 1-2-3 flow, consistent with the 'What happens next'
+ * pattern already used on the Register Interest page, reuse that component
+ * rather than designing a new one." Source: Fees & Admissions Content S4.
+ *
+ * Taking the instruction literally meant there had to be a component to reuse,
+ * so the markup moved here and both pages now render it. Two pages promising a
+ * parent the same three things should not be able to drift into promising them
+ * differently.
+ *
+ * The numerals are decorative: an ordered list already conveys the sequence to
+ * a screen reader, and reading "zero one" before each step would not help.
+ */
+export function StepList({ steps, className }: { steps: string[]; className?: string }) {
+  return (
+    <ol className={cn('space-y-4', className)}>
+      {steps.map((step, i) => (
+        <li key={step} className="flex gap-4">
+          <span
+            className="font-numeral shrink-0 text-sm font-semibold text-brand-500"
+            aria-hidden="true"
+          >
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <span className="text-body text-ink-500">{step}</span>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
+/* ==========================================================================
    PhaseNote: explains why something on this site is deliberately absent.
    ========================================================================== */
 
@@ -82,19 +121,19 @@ export function PhaseNote({
 }: {
   children: ReactNode
   className?: string
-  /** For the indigo bands, where the khadi tint and ink text both disappear. */
+  /** For the deep blue bands, where the pale tint and ink text both disappear. */
   onDark?: boolean
 }) {
   return (
     <p
       className={cn(
         'flex items-start gap-2.5 rounded-md px-4 py-3 text-small leading-relaxed',
-        onDark ? 'bg-khadi-50/10 text-khadi-200/90' : 'bg-khadi-200/60 text-ink-500',
+        onDark ? 'bg-mist-50/10 text-mist-200/90' : 'bg-mist-200/60 text-ink-500',
         className,
       )}
     >
       <Info
-        className={cn('mt-0.5 size-4 shrink-0', onDark ? 'text-haldi-300' : 'text-ink-400')}
+        className={cn('mt-0.5 size-4 shrink-0', onDark ? 'text-orange-300' : 'text-ink-400')}
         aria-hidden="true"
       />
       <span>{children}</span>

@@ -42,7 +42,7 @@ function PageFallback() {
     <div className="grid min-h-[60vh] place-items-center" role="status" aria-live="polite">
       <span className="sr-only">Loading</span>
       <span
-        className="size-8 animate-spin rounded-full border-2 border-khadi-300 border-t-terracotta-500 motion-reduce:animate-none"
+        className="size-8 animate-spin rounded-full border-2 border-mist-300 border-t-brand-500 motion-reduce:animate-none"
         aria-hidden="true"
       />
     </div>

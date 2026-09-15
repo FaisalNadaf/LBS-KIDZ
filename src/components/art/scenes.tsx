@@ -20,9 +20,9 @@ import { WheatStalk } from './primitives'
 
 export function MotifDivider({ className }: { className?: string }) {
   return (
-    <div className={cn('flex items-center gap-4 text-khadi-400', className)} aria-hidden="true">
+    <div className={cn('flex items-center gap-4 text-mist-400', className)} aria-hidden="true">
       <span className="h-px flex-1 bg-current opacity-60" />
-      <span className="h-7 text-neem-400">
+      <span className="h-7 text-green-400">
         <WheatStalk />
       </span>
       <span className="h-px flex-1 bg-current opacity-60" />

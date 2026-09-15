@@ -1,12 +1,12 @@
 import { Fragment, useRef } from 'react'
 import { Seo } from '@/lib/Seo'
 import { pageSeo } from '@/data/seo'
-import { organizationSchema } from '@/lib/schema'
+import { faqSchema, organizationSchema } from '@/lib/schema'
 import { Container, Eyebrow, Section, SectionHeader } from '@/components/ui/layout'
 import { Card, Chip, Marker, cardBackdropCycle, cardShapeCycle } from '@/components/ui/Card'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { SectionDivider } from '@/components/ui/SectionDivider'
-import { TextLink } from '@/components/ui/Button'
+import { ButtonLink, TextLink } from '@/components/ui/Button'
 import { Reveal, RevealGroup, RevealItem } from '@/animations/Reveal'
 import { useHorizontalTrack } from '@/animations/gsap'
 import { MotifDivider } from '@/components/art/scenes'
@@ -17,6 +17,7 @@ import { Grain } from '@/components/art/primitives'
 import {
   Apple,
   ArrowLeftRight,
+  Footprints,
   BookOpen,
   CalendarDays,
   Camera,
@@ -27,6 +28,7 @@ import {
   MessageCircle,
   Moon,
   Palette,
+  Puzzle,
   Shapes,
   Sprout,
   Send,
@@ -38,19 +40,29 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { routes } from '@/data/routes'
-import { parentUpdates } from '@/data/admissions'
+import { curriculumFaqs, parentUpdates } from '@/data/admissions'
 import {
   assessmentPrinciples,
   attainmentLevels,
   curricularDomains,
+  curriculumFaqIntro,
+  curriculumIntro,
   dailySchedule,
+  deeperStory,
   ethicsQuestions,
   familyInvolvement,
+  growthWays,
+  growthWaysIntro,
   guidingPrinciples,
+  howWeTeach,
+  languageAtLbsKidz,
   languagePosition,
   panchakosha,
   planningPrinciples,
-  programmeDuration } from '@/data/curriculum'
+  programmeDuration,
+  trackingGrowth,
+} from '@/data/curriculum'
+import { Accordion } from '@/components/ui/Accordion'
 
 /**
  * Curriculum & Learning Approach.
@@ -73,19 +85,25 @@ export function CurriculumPage() {
 
   return (
     <>
+      {/* FAQPage structured data, from the five questions the specification
+          names, emitted here rather than on the FAQ page: "Schema markup:
+          FAQPage schema using the 5 Q&A pairs in Section 7 verbatim."
+          Source: Curriculum Page Content S7. */}
       <Seo
         page={pageSeo.curriculum}
-        schemas={[organizationSchema()]}
+        schemas={[organizationSchema(), faqSchema(schemaFaqs)]}
       />
 
       <PageHeader
-        eyebrow="How we teach"
-        title="Activity-based learning, in plain terms"
+        eyebrow={curriculumIntro.eyebrow}
+        title={curriculumIntro.headline}
         dividerTo="white"
-        photo="craft-table"
-        standfirst="Learning through play, hands-on activity and real experiences, not worksheets or memorisation."
+        photo="montessori-materials-table"
+        photoFocus="55% 45%"
+        standfirst={curriculumIntro.standfirst}
       />
 
+      <GrowthWaysSection />
       <AlignmentSection />
       <ActivityBasedSection />
       <TheDaySection />
@@ -96,6 +114,8 @@ export function CurriculumPage() {
       <PrinciplesSection />
       <EthicsSection />
       <WhatYouSeeSection />
+      <DeeperStorySection />
+      <CurriculumFaqSection />
     </>
   )
 }
@@ -118,38 +138,38 @@ const ALIGNMENT_CLAIMS = [
     detail:
       'Play and activity are the primary context of learning, which is the first design principle in NCERT\u2019s guidelines, not a preference of ours.',
     icon: ToyBrick,
-    tone: 'terracotta' as const,
-    medallion: 'bg-terracotta-100 text-terracotta-700 ring-terracotta-200/70'
+    tone: 'sky' as const,
+    medallion: 'bg-sky-100 text-sky-700 ring-sky-200/70'
   },
   {
     claim: 'A mother-tongue foundation',
     detail:
       'Home language as the medium of instruction through the Foundational Stage, with English as joyful exposure.',
     icon: Languages,
-    tone: 'haldi' as const,
-    medallion: 'bg-haldi-100 text-haldi-600 ring-haldi-200/70'
+    tone: 'orange' as const,
+    medallion: 'bg-orange-100 text-orange-600 ring-orange-200/70'
   },
   {
     claim: 'No formal examinations',
     detail:
       'Continuous, comprehensive and non-competitive assessment, recorded as Beginner, Progressive or Proficient.',
     icon: Sprout,
-    tone: 'neem' as const,
-    medallion: 'bg-neem-100 text-neem-600 ring-neem-200/70'
+    tone: 'green' as const,
+    medallion: 'bg-green-100 text-green-600 ring-green-200/70'
   },
   {
     claim: 'Foundational literacy and numeracy',
     detail:
       'Woven into activities and the environment rather than delivered through workbooks.',
     icon: Shapes,
-    tone: 'sand' as const,
-    medallion: 'bg-khadi-200 text-indigo-ink-700 ring-khadi-300/70'
+    tone: 'mist' as const,
+    medallion: 'bg-mist-200 text-brand-700 ring-mist-300/70'
   },
 ]
 
 function AlignmentSection() {
   return (
-    <Section tone="white" id="nep-2020-alignment" ambient="calm" labelledBy="alignment-title" divider={{ type: 'gentle', to: 'khadi' }}>
+    <Section tone="white" id="nep-2020-alignment" labelledBy="alignment-title" divider={{ type: 'gentle', to: 'mist' }}>
       <Container size="wide">
         {/* The reference note has moved under the four claims, which is what it
             actually sources: beside the heading it annotated a paragraph that
@@ -178,7 +198,7 @@ function AlignmentSection() {
             <Reveal className="mt-8 lg:flex-1" direction="right" tier="lead">
               <div className="h-64 sm:h-80 lg:h-full lg:min-h-[16rem]">
                 <ShapedPhoto
-                  name="class-sorting-play"
+                  name="child-sorting-board"
                   shape="leaf"
                   fill
                   interactive
@@ -217,7 +237,7 @@ function AlignmentSection() {
                     </span>
 
                     <div className="min-w-0">
-                      <h3 className="font-display text-h4 font-semibold text-indigo-ink-700">
+                      <h3 className="font-display text-h4 font-semibold text-brand-700">
                         {row.claim}
                       </h3>
                       <p className="mt-1.5 text-sm leading-relaxed text-ink-500">{row.detail}</p>
@@ -238,15 +258,15 @@ function AlignmentSection() {
 
 function ActivityBasedSection() {
   return (
-    <Section tone="khadi" id="activity-based-learning" ambient="growth" labelledBy="abl-title" divider={{ type: 'asymmetric', to: 'indigo' }}>
+    <Section tone="mist" id="activity-based-learning" labelledBy="abl-title" divider={{ type: 'asymmetric', to: 'brand' }}>
       <Container size="wide">
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-6">
             <SectionHeader
               id="abl-title"
-              eyebrow="Activity-based learning"
-              title="What activity-based learning actually looks like here"
-              standfirst="Children learn through play, hands-on activity and real experiences rather than worksheets or memorisation. In practice that means the material comes first and the concept follows it."
+              eyebrow={howWeTeach.eyebrow}
+              title={howWeTeach.headline}
+              standfirst={howWeTeach.body}
             />
 
             <Reveal className="mt-8 space-y-4">
@@ -281,7 +301,7 @@ function ActivityBasedSection() {
                 interactive
                 sizes="12rem"
                 ratio="1 / 1"
-                className="shadow-photo ring-4 ring-khadi-100"
+                className="shadow-photo ring-4 ring-mist-100"
               />
             </div>
             <DealtObject seed="curriculum-day" className="absolute -right-3 -top-5 hidden rotate-6 lg:block" />
@@ -333,34 +353,36 @@ const DAY_SHAPES = [
  * reads as one coloured object rather than a grey box with a yellow disc on it.
  * The tints stay low because the ground is dark and the body copy has to hold
  * its contrast against them.
+ *
+ * The wash across each card's header is the sky blue whatever the accent. A
+ * warm tint laid over the deep blue does not read as orange or green; it mixes
+ * to olive and grey, which is the colour of dust. The accent lives in the chip,
+ * the numeral, the edge and the watermark, where it stays a clean hue.
  */
 const DAY_ACCENTS = [
   {
-    ring: 'ring-haldi-300/30',
-    hover: 'hover:ring-haldi-300/70',
-    glow: 'bg-haldi-300/30',
-    band: 'border-haldi-300/25 from-haldi-300/25',
-    chip: 'bg-haldi-300 text-indigo-ink-800',
-    numeral: 'text-haldi-300/80',
-    mark: 'text-haldi-300/[0.18]',
+    ring: 'ring-orange-300/30',
+    hover: 'hover:ring-orange-300/70',
+    band: 'border-orange-300/25 from-sky-300/20',
+    chip: 'bg-orange-300 text-brand-800',
+    numeral: 'text-orange-300',
+    mark: 'text-orange-300/[0.18]',
   },
   {
-    ring: 'ring-terracotta-300/30',
-    hover: 'hover:ring-terracotta-300/70',
-    glow: 'bg-terracotta-300/30',
-    band: 'border-terracotta-300/25 from-terracotta-300/25',
-    chip: 'bg-terracotta-300 text-indigo-ink-800',
-    numeral: 'text-terracotta-200/85',
-    mark: 'text-terracotta-300/[0.18]',
+    ring: 'ring-sky-300/30',
+    hover: 'hover:ring-sky-300/70',
+    band: 'border-sky-300/25 from-sky-300/25',
+    chip: 'bg-sky-300 text-brand-800',
+    numeral: 'text-sky-200',
+    mark: 'text-sky-300/[0.18]',
   },
   {
-    ring: 'ring-neem-300/30',
-    hover: 'hover:ring-neem-300/70',
-    glow: 'bg-neem-300/30',
-    band: 'border-neem-300/25 from-neem-300/25',
-    chip: 'bg-neem-300 text-indigo-ink-800',
-    numeral: 'text-neem-200/85',
-    mark: 'text-neem-300/[0.18]',
+    ring: 'ring-green-300/30',
+    hover: 'hover:ring-green-300/70',
+    band: 'border-green-300/25 from-sky-300/20',
+    chip: 'bg-green-300 text-brand-800',
+    numeral: 'text-green-200',
+    mark: 'text-green-300/[0.18]',
   },
 ]
 
@@ -374,7 +396,7 @@ const DAY_ACCENTS = [
  */
 const DAY_PHOTOS = {
   0: {
-    name: 'class-drawing-table' as const,
+    name: 'working-together' as const,
     title: 'A morning, in order',
     kicker: 'Eight blocks',
   },
@@ -396,7 +418,7 @@ function TheDaySection() {
       ref={sectionRef}
       id="the-day"
       aria-labelledby="day-title"
-      className="relative bg-indigo-ink-700 text-khadi-100"
+      className="relative bg-brand-700 text-mist-100"
       /* The spacer is only as tall as the track actually needs to travel.
          Without the horizontal scene it collapses to auto height.
 
@@ -464,7 +486,7 @@ function TheDaySection() {
                       // tinted the section's own navy and the cards read as
                       // slightly-different navy, which is the note this section
                       // kept getting: correct, and invisible.
-                      'bg-indigo-ink-600 shadow-lift ring-1',
+                      'bg-brand-600 shadow-lift ring-1',
                       'transition-[transform,box-shadow] duration-300 ease-out-soft hover:-translate-y-1.5',
                       'motion-reduce:transition-none motion-reduce:hover:translate-y-0',
                       accent.ring,
@@ -473,17 +495,6 @@ function TheDaySection() {
                       horizontal && 'w-[22rem] shrink-0 lg:min-h-[21rem]',
                     )}
                   >
-                    {/* A bloom of the accent in the corner. Blurred and behind
-                        everything, so the card has a light source rather than a
-                        flat fill. */}
-                    <span
-                      className={cn(
-                        'pointer-events-none absolute -right-16 -top-20 -z-10 size-52 rounded-full blur-3xl',
-                        accent.glow,
-                      )}
-                      aria-hidden="true"
-                    />
-
                     {/* The watermark. `isolate` on the card is what keeps
                         `-z-10` behind this card's own text without dropping it
                         behind the card beside it. */}
@@ -533,15 +544,15 @@ function TheDaySection() {
                         </span>
                       ) : null}
 
-                      <h3 className="font-display text-h3 font-semibold text-khadi-50">
+                      <h3 className="font-display text-h3 font-semibold text-mist-50">
                         {block.name}
                       </h3>
-                      <p className="mt-3 text-sm leading-relaxed text-khadi-200/90">
+                      <p className="mt-3 text-sm leading-relaxed text-mist-200/90">
                         {block.detail}
                       </p>
 
                       {block.conduct ? (
-                        <p className="mt-auto pt-5 text-xs font-medium uppercase tracking-wide text-khadi-300/85">
+                        <p className="mt-auto pt-5 text-xs font-medium uppercase tracking-wide text-mist-300/85">
                           {block.conduct}
                         </p>
                       ) : null}
@@ -558,17 +569,17 @@ function TheDaySection() {
 
         {horizontal ? (
           <div className="mt-8 flex items-center gap-4 px-10">
-            <span className="shrink-0 text-xs font-medium uppercase tracking-[0.14em] text-khadi-300/80">
+            <span className="shrink-0 text-xs font-medium uppercase tracking-[0.14em] text-mist-300/80">
               Keep scrolling
             </span>
             {/* The rail. Scaled from the same timeline that moves the track, so
                 it reports the scene's own progress rather than an approximation
                 of it. */}
             <span
-              className="relative h-px flex-1 overflow-hidden bg-khadi-50/15"
+              className="relative h-px flex-1 overflow-hidden bg-mist-50/15"
               aria-hidden="true"
             >
-              <span ref={railRef} className="absolute inset-0 block bg-haldi-300/70" />
+              <span ref={railRef} className="absolute inset-0 block bg-orange-300/70" />
             </span>
           </div>
         ) : null}
@@ -583,12 +594,12 @@ function DayPhotoPanel({
   title,
   kicker,
 }: {
-  name: 'class-drawing-table' | 'art-hands-painting'
+  name: 'working-together' | 'art-hands-painting'
   title: string
   kicker: string
 }) {
   return (
-    <div className="relative w-[20rem] shrink-0 overflow-hidden rounded-[1.75rem] rounded-br-md shadow-lift ring-1 ring-khadi-50/15 lg:min-h-[21rem]">
+    <div className="relative w-[20rem] shrink-0 overflow-hidden rounded-[1.75rem] rounded-br-md shadow-lift ring-1 ring-mist-50/15 lg:min-h-[21rem]">
       <ShapedPhoto
         name={name}
         shape="rounded"
@@ -599,11 +610,11 @@ function DayPhotoPanel({
         className="h-full rounded-none"
       />
       <span
-        className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-indigo-ink-700 via-indigo-ink-700/70 to-transparent p-6 pt-20"
+        className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-brand-700 via-brand-700/70 to-transparent p-6 pt-20"
         aria-hidden="true"
       >
-        <span className="block font-display text-h4 font-semibold text-khadi-50">{title}</span>
-        <span className="mt-1 block text-xs font-medium uppercase tracking-[0.14em] text-haldi-300">
+        <span className="block font-display text-h4 font-semibold text-mist-50">{title}</span>
+        <span className="mt-1 block text-xs font-medium uppercase tracking-[0.14em] text-orange-300">
           {kicker}
         </span>
       </span>
@@ -629,7 +640,7 @@ function DayPhotoPanel({
  */
 function DayNotesSection() {
   return (
-    <section className="relative bg-indigo-ink-700 text-khadi-100">
+    <section className="relative bg-brand-700 text-mist-100">
       {/* Half the usual space above. This band opens on the same navy the
           pinned scene closes on, so a full section's worth of padding here is
           not a gap between two things; it is a hole in the middle of one. */}
@@ -639,58 +650,50 @@ function DayNotesSection() {
               floating on bare navy underneath a row of solid cards read as
               leftovers rather than as the end of the scene. */}
           <Reveal>
-            <div className="relative isolate h-full overflow-hidden rounded-[1.75rem] rounded-tl-md bg-indigo-ink-600 p-7 shadow-lift ring-1 ring-terracotta-300/30">
-              <span
-                className="pointer-events-none absolute -right-16 -top-20 -z-10 size-52 rounded-full bg-terracotta-300/30 blur-3xl"
-                aria-hidden="true"
-              />
+            <div className="relative isolate h-full overflow-hidden rounded-[1.75rem] rounded-tl-md bg-brand-600 p-7 shadow-lift ring-1 ring-sky-300/30">
               <CalendarDays
-                className="pointer-events-none absolute -bottom-8 -right-7 -z-10 size-40 text-terracotta-300/[0.18]"
+                className="pointer-events-none absolute -bottom-8 -right-7 -z-10 size-40 text-sky-300/[0.18]"
                 strokeWidth={1.1}
                 aria-hidden="true"
               />
               <span
-                className="grid size-11 place-items-center rounded-2xl bg-terracotta-300 text-indigo-ink-800 shadow-soft"
+                className="grid size-11 place-items-center rounded-2xl bg-sky-300 text-brand-800 shadow-soft"
                 aria-hidden="true"
               >
                 <CalendarDays className="size-5" strokeWidth={1.9} />
               </span>
-              <h3 className="mt-5 font-display text-h4 font-semibold text-khadi-50">
+              <h3 className="mt-5 font-display text-h4 font-semibold text-mist-50">
                 Saturday is not a school day
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-khadi-200/90">
+              <p className="mt-3 text-sm leading-relaxed text-mist-200/90">
                 {programmeDuration.saturday}
               </p>
             </div>
           </Reveal>
 
           <Reveal delay={0.06}>
-            <div className="relative isolate h-full overflow-hidden rounded-[1.75rem] rounded-br-md bg-indigo-ink-600 p-7 shadow-lift ring-1 ring-haldi-300/30">
-              <span
-                className="pointer-events-none absolute -right-16 -top-20 -z-10 size-52 rounded-full bg-haldi-300/30 blur-3xl"
-                aria-hidden="true"
-              />
+            <div className="relative isolate h-full overflow-hidden rounded-[1.75rem] rounded-br-md bg-brand-600 p-7 shadow-lift ring-1 ring-orange-300/30">
               <Gauge
-                className="pointer-events-none absolute -bottom-8 -right-7 -z-10 size-40 text-haldi-300/[0.18]"
+                className="pointer-events-none absolute -bottom-8 -right-7 -z-10 size-40 text-orange-300/[0.18]"
                 strokeWidth={1.1}
                 aria-hidden="true"
               />
               <span
-                className="grid size-11 place-items-center rounded-2xl bg-haldi-300 text-indigo-ink-800 shadow-soft"
+                className="grid size-11 place-items-center rounded-2xl bg-orange-300 text-brand-800 shadow-soft"
                 aria-hidden="true"
               >
                 <Gauge className="size-5" strokeWidth={1.9} />
               </span>
-              <h3 className="mt-5 font-display text-h4 font-semibold text-khadi-50">
+              <h3 className="mt-5 font-display text-h4 font-semibold text-mist-50">
                 How the day is paced
               </h3>
               <ul className="mt-3 space-y-2">
                 {planningPrinciples.map((principle) => (
                   <li
                     key={principle}
-                    className="flex gap-2.5 text-sm leading-relaxed text-khadi-200/90"
+                    className="flex gap-2.5 text-sm leading-relaxed text-mist-200/90"
                   >
-                    <Grain className="mt-1.5 shrink-0 text-haldi-300" />
+                    <Grain className="mt-1.5 shrink-0 text-orange-300" />
                     <span>{principle}</span>
                   </li>
                 ))}
@@ -709,13 +712,13 @@ function DayNotesSection() {
 
 function NoExamsSection() {
   return (
-    <Section tone="white" id="no-examinations" ambient="warm" labelledBy="exams-title" divider={{ type: 'blob', to: 'terracotta' }}>
+    <Section tone="white" id="no-examinations" labelledBy="exams-title" divider={{ type: 'blob', to: 'sky' }}>
       <Container size="wide">
         <SectionHeader
           id="exams-title"
-          eyebrow="Assessment"
-          title="There are no examinations here. At any stage."
-          standfirst="Assessment happens inside the activity itself. A child answers out loud, colours something, draws something or makes something, and that is the record."
+          eyebrow={trackingGrowth.eyebrow}
+          title={trackingGrowth.headline}
+          standfirst={trackingGrowth.body}
         />
 
         <RevealGroup className="mt-block grid gap-5 md:grid-cols-3">
@@ -723,15 +726,15 @@ function NoExamsSection() {
             <RevealItem key={level.level} className="h-full">
               <Card
                 className="flex h-full flex-col"
-                tone={['neem', 'haldi', 'terracotta'][i] as 'neem'}
+                tone={['green', 'orange', 'sky'][i] as 'green'}
                 object={level.level}
                 shape={cardShapeCycle[i % cardShapeCycle.length]}
                 backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}
               >
-                <Marker tone={['neem', 'haldi', 'terracotta'][i] as 'neem'} size="sm">
+                <Marker tone={['green', 'orange', 'sky'][i] as 'green'} size="sm">
                   {i + 1}
                 </Marker>
-                <h3 className="mt-4 font-display text-h3 font-semibold text-indigo-ink-700">
+                <h3 className="mt-4 font-display text-h3 font-semibold text-brand-700">
                   {level.level}
                 </h3>
                 <p className="mt-2 text-body text-ink-500">{level.definition}</p>
@@ -751,8 +754,8 @@ function NoExamsSection() {
                       className={cn(
                         'h-1 flex-1 rounded-full transition-colors duration-300',
                         step <= i
-                          ? ['bg-neem-400', 'bg-haldi-400', 'bg-terracotta-400'][i]
-                          : 'bg-indigo-ink-700/10',
+                          ? ['bg-green-400', 'bg-orange-400', 'bg-sky-400'][i]
+                          : 'bg-brand-700/10',
                       )}
                     />
                   ))}
@@ -775,19 +778,19 @@ function NoExamsSection() {
             <ul className="space-y-3">
               {assessmentPrinciples.map((principle) => (
                 <li key={principle} className="flex gap-3 text-body text-ink-500">
-                  <Grain className="mt-1.5 shrink-0 text-terracotta-500" />
+                  <Grain className="mt-1.5 shrink-0 text-sky-500" />
                   <span>{principle}</span>
                 </li>
               ))}
             </ul>
 
             <Card
-              tone="sand"
+              tone="mist"
               object="curriculum-never-see"
               backdrop="blob-duo"
               className="mt-8"
             >
-              <h3 className="font-display text-h4 font-semibold text-indigo-ink-700">
+              <h3 className="font-display text-h4 font-semibold text-brand-700">
                 What you will never see
               </h3>
               {/* Two columns from `sm` up: four short struck-out phrases in a
@@ -797,8 +800,8 @@ function NoExamsSection() {
                 {['A mark', 'A grade', 'A rank against other children', 'A written test'].map(
                   (item) => (
                     <li key={item} className="flex items-center gap-3">
-                      <span className="h-px w-4 shrink-0 bg-terracotta-400" aria-hidden="true" />
-                      <span className="line-through decoration-terracotta-400/60">{item}</span>
+                      <span className="h-px w-4 shrink-0 bg-coral-400" aria-hidden="true" />
+                      <span className="line-through decoration-coral-400/60">{item}</span>
                     </li>
                   ),
                 )}
@@ -844,27 +847,27 @@ const UPDATE_ICONS = [Camera, ClipboardList, Send]
 
 const POINT_ACCENTS = [
   {
-    card: 'bg-terracotta-50/70 ring-terracotta-200/70 hover:ring-terracotta-300',
-    chip: 'bg-terracotta-100 text-terracotta-700 ring-terracotta-200',
-    mark: 'text-terracotta-300/[0.18]',
+    card: 'bg-sky-50/70 ring-sky-200/70 hover:ring-sky-300',
+    chip: 'bg-sky-100 text-sky-700 ring-sky-200',
+    mark: 'text-sky-300/[0.18]',
     shape: 'rounded-2xl rounded-tl-sm',
   },
   {
-    card: 'bg-haldi-100/60 ring-haldi-200/70 hover:ring-haldi-300',
-    chip: 'bg-haldi-100 text-haldi-600 ring-haldi-200',
-    mark: 'text-haldi-400/[0.18]',
+    card: 'bg-orange-100/60 ring-orange-200/70 hover:ring-orange-300',
+    chip: 'bg-orange-100 text-orange-600 ring-orange-200',
+    mark: 'text-orange-400/[0.18]',
     shape: 'rounded-2xl rounded-br-sm',
   },
   {
-    card: 'bg-neem-100/60 ring-neem-200/70 hover:ring-neem-300',
-    chip: 'bg-neem-100 text-neem-600 ring-neem-200',
-    mark: 'text-neem-400/[0.18]',
+    card: 'bg-green-100/60 ring-green-200/70 hover:ring-green-300',
+    chip: 'bg-green-100 text-green-600 ring-green-200',
+    mark: 'text-green-400/[0.18]',
     shape: 'rounded-2xl rounded-tr-sm',
   },
   {
-    card: 'bg-indigo-ink-50/70 ring-indigo-ink-200/60 hover:ring-indigo-ink-300',
-    chip: 'bg-indigo-ink-100 text-indigo-ink-700 ring-indigo-ink-200',
-    mark: 'text-indigo-ink-300/[0.18]',
+    card: 'bg-brand-50/70 ring-brand-200/60 hover:ring-brand-300',
+    chip: 'bg-brand-100 text-brand-700 ring-brand-200',
+    mark: 'text-brand-300/[0.18]',
     shape: 'rounded-2xl rounded-bl-sm',
   },
 ]
@@ -915,20 +918,20 @@ function PointCard({
 
 function LanguageSection() {
   return (
-    <Section tone="terracotta" id="mother-tongue" labelledBy="language-title" divider={{ type: 'scallop', to: 'khadi' }}>
+    <Section tone="sky" id="mother-tongue" labelledBy="language-title" divider={{ type: 'scallop', to: 'mist' }}>
       <Container size="wide">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="flex flex-col lg:col-span-5">
             <SectionHeader
               id="language-title"
-              eyebrow="Language"
-              title={languagePosition.headline}
-              standfirst={languagePosition.practice}
+              eyebrow={languageAtLbsKidz.eyebrow}
+              title={languageAtLbsKidz.headline}
+              standfirst={languageAtLbsKidz.body}
             />
 
             {/* A child reading Devanagari is this section's argument as a
                 picture, and it fills a column that was otherwise a heading with
-                two hundred pixels of empty terracotta under it. Height comes
+                two hundred pixels of empty tinted band under it. Height comes
                 from the grid row, so it closes whatever gap the list beside it
                 leaves. */}
             <Reveal className="mt-10 lg:flex-1" direction="right" tier="lead">
@@ -966,7 +969,7 @@ function LanguageSection() {
 
 function GoalsSection() {
   return (
-    <Section tone="khadi" id="curricular-goals" labelledBy="goals-title" divider={{ type: 'tight-wave', to: 'white' }}>
+    <Section tone="mist" id="curricular-goals" labelledBy="goals-title" divider={{ type: 'tight-wave', to: 'white' }}>
       <Container size="wide">
         <SectionHeader
           id="goals-title"
@@ -984,13 +987,13 @@ function GoalsSection() {
                 shape={cardShapeCycle[i % cardShapeCycle.length]}
                 backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}
               >
-                <h3 className="font-display text-h4 font-semibold text-indigo-ink-700">
+                <h3 className="font-display text-h4 font-semibold text-brand-700">
                   {domain.domain}
                 </h3>
                 <ul className="mt-4 space-y-3">
                   {domain.goals.map((goal) => (
                     <li key={goal.id} className="flex gap-3">
-                      <span className="font-numeral shrink-0 text-xs font-semibold text-terracotta-600">
+                      <span className="font-numeral shrink-0 text-xs font-semibold text-brand-500">
                         {goal.id}
                       </span>
                       <span className="text-sm leading-relaxed text-ink-500">{goal.text}</span>
@@ -1004,7 +1007,7 @@ function GoalsSection() {
                     and closes the card off, and it is worth saying anyway: the
                     thirteen in the heading has to add up somewhere. */}
                 <p className="mt-auto flex items-center gap-2 pt-6 text-xs font-medium uppercase tracking-[0.12em] text-ink-400">
-                  <span className="h-px w-6 bg-khadi-400" aria-hidden="true" />
+                  <span className="h-px w-6 bg-mist-400" aria-hidden="true" />
                   {domain.goals.length} {domain.goals.length === 1 ? 'goal' : 'goals'}
                 </p>
               </Card>
@@ -1019,7 +1022,7 @@ function GoalsSection() {
         <div className="mt-block grid gap-10 lg:grid-cols-12 lg:gap-16">
           <div className="flex flex-col lg:col-span-5">
             <Eyebrow className="mb-4">Where the framework comes from</Eyebrow>
-            <h3 className="font-display text-h2 font-semibold text-indigo-ink-700">
+            <h3 className="font-display text-h2 font-semibold text-brand-700">
               Panchakosha, mapped onto developmental science
             </h3>
 
@@ -1058,15 +1061,15 @@ function GoalsSection() {
 
           <div className="lg:col-span-7">
             <RevealGroup className="overflow-hidden rounded-xl hairline">
-              <div className="hidden bg-khadi-200 px-6 py-3 text-xs font-semibold uppercase tracking-wide text-ink-500 sm:grid sm:grid-cols-2">
+              <div className="hidden bg-mist-200 px-6 py-3 text-xs font-semibold uppercase tracking-wide text-ink-500 sm:grid sm:grid-cols-2">
                 <span>Kosha</span>
                 <span>Modern domain</span>
               </div>
               {panchakosha.map((row) => (
                 <RevealItem key={row.transliteration}>
-                  <div className="grid gap-1 border-t border-khadi-300 bg-khadi-50 px-6 py-4 sm:grid-cols-2 sm:items-center sm:gap-4">
+                  <div className="grid gap-1 border-t border-mist-300 bg-mist-50 px-6 py-4 sm:grid-cols-2 sm:items-center sm:gap-4">
                     <div>
-                      <span className="font-deva text-base text-indigo-ink-700">{row.kosha}</span>
+                      <span className="font-deva text-base text-brand-700">{row.kosha}</span>
                       <span className="ml-2 text-sm text-ink-400">
                         {row.transliteration}
                       </span>
@@ -1088,7 +1091,7 @@ function GoalsSection() {
 
 function PrinciplesSection() {
   return (
-    <Section tone="white" id="principles" labelledBy="principles-title" divider={{ type: 'reverse', to: 'neem' }}>
+    <Section tone="white" id="principles" labelledBy="principles-title" divider={{ type: 'reverse', to: 'green' }}>
       <Container size="wide">
         <SectionHeader
           id="principles-title"
@@ -1141,7 +1144,7 @@ function PrinciplesSection() {
 
 function EthicsSection() {
   return (
-    <Section tone="neem" id="ethics" labelledBy="ethics-title" divider={{ type: 'cloud', to: 'khadi' }}>
+    <Section tone="green" id="ethics" labelledBy="ethics-title" divider={{ type: 'cloud', to: 'mist' }}>
       <Container size="wide">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="flex flex-col lg:col-span-6">
@@ -1179,8 +1182,8 @@ function EthicsSection() {
             <RevealGroup className="flex flex-1 flex-col gap-4">
               {ethicsQuestions.map((q) => (
                 <RevealItem key={q} className="flex-1">
-                  <div className="flex h-full items-center rounded-xl bg-khadi-50 p-8 hairline">
-                    <p className="font-display text-h2 leading-snug text-indigo-ink-700">“{q}”</p>
+                  <div className="flex h-full items-center rounded-xl bg-mist-50 p-8 hairline">
+                    <p className="font-display text-h2 leading-snug text-brand-700">“{q}”</p>
                   </div>
                 </RevealItem>
               ))}
@@ -1201,7 +1204,14 @@ function EthicsSection() {
 
 function WhatYouSeeSection() {
   return (
-    <Section tone="khadi" id="what-you-see" labelledBy="see-title" divider={{ type: 'layered', fill: 'var(--color-terracotta-600)' }}>
+    <Section
+      tone="mist"
+      id="what-you-see"
+      labelledBy="see-title"
+      /* Hands over to A Deeper Story below. It was filled with the coral of the
+         site-wide CTA band, which is suppressed on this route. */
+      divider={{ type: 'layered', to: 'brand' }}
+    >
       <Container size="wide">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="flex flex-col lg:col-span-5">
@@ -1240,19 +1250,236 @@ function WhatYouSeeSection() {
             </RevealGroup>
 
             <Reveal className="mt-8">
-              <Card tone="sand" object="curriculum-family" backdrop="mint-semi">
-                <h3 className="font-display text-h4 font-semibold text-indigo-ink-700">
+              <Card tone="mist" object="curriculum-family" backdrop="mint-semi">
+                <h3 className="font-display text-h4 font-semibold text-brand-700">
                   {familyInvolvement.principle}
                 </h3>
                 <ul className="mt-4 space-y-2">
                   {familyInvolvement.practices.map((p) => (
                     <li key={p} className="flex gap-3 text-sm leading-relaxed text-ink-500">
-                      <Grain className="mt-1.5 shrink-0 text-neem-400" />
+                      <Grain className="mt-1.5 shrink-0 text-green-400" />
                       <span>{p}</span>
                     </li>
                   ))}
                 </ul>
               </Card>
+            </Reveal>
+          </div>
+        </div>
+      </Container>
+    </Section>
+  )
+}
+
+/* ========================================================================== */
+
+/**
+ * The five questions the specification marks for FAQPage structured data.
+ *
+ * This page's own five questions, not a filtered view of the FAQ page's
+ * fourteen. Curriculum Page Content S12 supplies five with its own wording and
+ * requires the schema to use "the 5 Q&A pairs in Section 12 verbatim"; the FAQs
+ * page makes the same demand of its own set, and four of the five overlap in
+ * substance while differing in words. One array could not satisfy both
+ * documents, so each page carries what its own document says. See the note on
+ * `curriculumFaqs` in `data/admissions.ts`.
+ *
+ * Fees are absent by design: this page's schema is scoped to curriculum, and
+ * the fee questions carry their own markup on the Fees page.
+ */
+const schemaFaqs = curriculumFaqs.filter((f) => f.schema)
+
+/** One icon per growth area. */
+const GROWTH_ICONS: Record<string, LucideIcon> = {
+  moving: Footprints,
+  feeling: Heart,
+  thinking: Puzzle,
+  talking: MessageCircle,
+  creating: Palette,
+}
+
+/** One tone per card, so five neighbours never share a ground. */
+const GROWTH_TONES = [
+  'bg-sky-100 text-sky-700 ring-sky-200/70',
+  'bg-orange-100 text-orange-600 ring-orange-200/70',
+  'bg-sky-100 text-sky-600 ring-sky-200/70',
+  'bg-green-100 text-green-600 ring-green-200/70',
+  'bg-sky-100 text-brand-700 ring-sky-200/70',
+] as const
+
+/**
+ * Section 2 of the specification: Five Ways Your Child Grows.
+ *
+ * The page's most scannable block, and it should look it: icon, short label,
+ * one line, in a clean grid. This is where a parent who has never heard of LBS
+ * KidZ decides whether the page is worth reading, so nothing here runs longer
+ * than a sentence and nothing cites anything.
+ *
+ * The five map one-to-one onto the NCF-FS developmental domains set out in full
+ * further down the page, which each card names in a line small enough not to
+ * interrupt the plain language above it.
+ */
+function GrowthWaysSection() {
+  return (
+    <Section
+      tone="mist"
+      id="how-your-child-grows"
+     
+      labelledBy="growth-title"
+      divider={{ type: 'gentle', to: 'white' }}
+    >
+      <Container size="wide">
+        <SectionHeader
+          id="growth-title"
+          eyebrow={growthWaysIntro.eyebrow}
+          title={growthWaysIntro.headline}
+          standfirst={growthWaysIntro.standfirst}
+        />
+
+        {/* Five across only from `xl`, where five columns still leave a
+            readable measure; three then two below that, which is what a
+            five-item grid does gracefully. A flat `lg:grid-cols-5` at 1024
+            gives each card a 26-character line. */}
+        <RevealGroup
+          className="mt-block grid gap-gutter sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+          each={0.06}
+        >
+          {growthWays.map((way, i) => {
+            const Icon = GROWTH_ICONS[way.icon] ?? Sprout
+            return (
+              <RevealItem key={way.slug} className="h-full">
+                <Card
+                  tone="paper"
+                  className="flex h-full flex-col"
+                  shape={cardShapeCycle[i % cardShapeCycle.length]}
+                  backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}
+                >
+                  <span
+                    className={cn(
+                      'grid size-12 shrink-0 place-items-center rounded-2xl ring-1',
+                      GROWTH_TONES[i % GROWTH_TONES.length],
+                    )}
+                    aria-hidden="true"
+                  >
+                    <Icon className="size-5" strokeWidth={1.9} />
+                  </span>
+                  <h3 className="mt-5 font-display text-h4 font-semibold text-brand-700">
+                    {way.title}
+                  </h3>
+                  <p className="mt-2 flex-1 text-small leading-relaxed text-ink-600">{way.body}</p>
+                  <p className="mt-4 border-t border-mist-300 pt-3 text-2xs uppercase tracking-[0.12em] text-ink-400">
+                    {way.domain}
+                  </p>
+                </Card>
+              </RevealItem>
+            )
+          })}
+        </RevealGroup>
+      </Container>
+    </Section>
+  )
+}
+
+/**
+ * Section 6: A Deeper Story.
+ *
+ * The page's one storytelling exit. Everything above it argues credibility in
+ * plain language; this is the single paragraph that says there is more, and
+ * hands the reader to The Lal Bahadur Shastri Way. Deliberately short: the
+ * specification calls it a brief bridge, and a second page of values here would
+ * be the emotional pitch this page is written to avoid.
+ */
+function DeeperStorySection() {
+  return (
+    <Section
+      tone="brand"
+      id="a-deeper-story"
+     
+      labelledBy="deeper-story-title"
+      size="sm"
+      divider={{ type: 'tight-wave', to: 'white' }}
+    >
+      <Container size="wide">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-7">
+            <SectionHeader
+              id="deeper-story-title"
+              eyebrow={deeperStory.eyebrow}
+              title={deeperStory.headline}
+              standfirst={deeperStory.body}
+              onDark
+            />
+            <Reveal className="mt-8">
+              <ButtonLink to={routes.lbsWay} variant="onDark" withArrow>
+                {deeperStory.linkLabel}
+              </ButtonLink>
+            </Reveal>
+          </div>
+
+          <Reveal className="lg:col-span-5" delay={0.1}>
+            <ShapedPhoto
+              name="circle-storytime"
+              shape="crest"
+              interactive
+              sizes="(min-width: 1024px) 38vw, 90vw"
+              ratio="4 / 3"
+              focus="50% 40%"
+            />
+          </Reveal>
+        </div>
+      </Container>
+    </Section>
+  )
+}
+
+/**
+ * Section 7: Common Questions.
+ *
+ * An accordion, collapsed by default, but every answer is in the HTML whether
+ * or not a panel is open: the specification requires the full question and
+ * answer text to be present for indexing even when collapsed, and `Accordion`
+ * renders its panels and hides them rather than mounting them on demand.
+ *
+ * The closing prompt beside it is the specification's own suggestion, for "a
+ * parent who's now ready to see actual class structure", and it is the only
+ * thing resembling a call to action anywhere on this page.
+ */
+function CurriculumFaqSection() {
+  return (
+    <Section
+      tone="white"
+      id="common-questions"
+      labelledBy="curriculum-faq-title"
+      divider={{ type: 'layered', fill: 'var(--color-brand-800)' }}
+    >
+      <Container size="wide">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <div className="lg:sticky lg:top-28">
+              <SectionHeader
+                id="curriculum-faq-title"
+                eyebrow={curriculumFaqIntro.eyebrow}
+                title={curriculumFaqIntro.headline}
+                standfirst={curriculumFaqIntro.standfirst}
+              />
+
+              <Reveal className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col lg:items-start">
+                <ButtonLink to={routes.programs} variant="outline" withArrow>
+                  View Programs &amp; Classes
+                </ButtonLink>
+                <ButtonLink to={routes.faqs} variant="ghost" withArrow>
+                  Every question, answered
+                </ButtonLink>
+              </Reveal>
+            </div>
+          </div>
+
+          <div className="lg:col-span-7">
+            <Reveal>
+              <Accordion
+                items={schemaFaqs.map((f) => ({ title: f.q, body: f.a }))}
+                defaultOpen={0}
+              />
             </Reveal>
           </div>
         </div>

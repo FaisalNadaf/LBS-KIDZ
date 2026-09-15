@@ -35,9 +35,9 @@ export type PageSeo = {
 export const pageSeo: Record<string, PageSeo> = {
   home: {
     path: '/',
-    title: 'Best Preschool in Indore | LBS KidZ Play School',
+    title: 'Best Preschool in Indore | LBS KidZ: Modern Learning, Timeless Values',
     description:
-      'LBS KidZ is a preschool in Indore carrying the legacy of Shri Lal Bahadur Shastri. Play-based learning, a Hindi and mother-tongue foundation, and no examinations at any stage.',
+      'LBS KidZ is a values-based preschool opening in Indore for Academic Session 2027-28, led by the family of Shri Lal Bahadur Shastri Ji. Activity-based learning, NEP 2020 aligned. Register your interest today.',
     primaryKeyword: 'best preschool in Indore',
     secondaryKeywords: ['play school near me', 'LBS KidZ Indore'],
     phase: 1,
@@ -45,9 +45,9 @@ export const pageSeo: Record<string, PageSeo> = {
 
   curriculum: {
     path: '/curriculum-nep-2020-activity-based-learning',
-    title: 'Activity Based Learning & NEP 2020 Preschool Curriculum | LBS KidZ',
+    title: 'Activity-Based Learning & NEP 2020 Preschool in Indore | LBS KidZ',
     description:
-      'How we teach at LBS KidZ: activity-based and play-based learning, foundational literacy and numeracy, a mother-tongue foundation with joyful English, and no formal examinations. Our practice, with NCERT cited as the source.',
+      'How LBS KidZ teaches: play-based, NEP 2020 and NCF-FS aligned, mother-tongue foundation, and no formal exams. See how your child learns and grows here.',
     primaryKeyword: 'activity based learning preschool, NEP 2020 preschool',
     secondaryKeywords: [
       'no examination policy preschool',
@@ -61,9 +61,9 @@ export const pageSeo: Record<string, PageSeo> = {
 
   legacy: {
     path: '/lal-bahadur-shastri-legacy',
-    title: 'The Lal Bahadur Shastri Legacy | LBS KidZ Preschool',
+    title: 'LBS Legacy: The Life of Shri Lal Bahadur Shastri Ji | LBS KidZ',
     description:
-      'The life, values and incidents of Shri Lal Bahadur Shastri, India’s second Prime Minister, and why a preschool built on that name defines its values the way it does.',
+      'The story of Shri Lal Bahadur Shastri Ji, India’s second Prime Minister, remembered for simplicity, honesty and quiet courage. The legacy LBS KidZ, a preschool in Indore, carries forward.',
     primaryKeyword: 'Lal Bahadur Shastri preschool',
     secondaryKeywords: ['value based preschool India'],
     phase: 1,
@@ -72,9 +72,9 @@ export const pageSeo: Record<string, PageSeo> = {
 
   lbsWay: {
     path: '/the-lal-bahadur-shastri-way',
-    title: 'The Lal Bahadur Shastri Way | SIMPLE, Little Karmayogis & Sankalp Calendar',
+    title: 'The Lal Bahadur Shastri Way: SIMPLE Values for Little Learners | LBS KidZ',
     description:
-      'Our character layer: the six SIMPLE pillars, the five Shastri Sanskaar habits, the Sankalp Calendar week, and why children here are called Little Karmayogis.',
+      'Discover how LBS KidZ turns Shastri Ji’s values into daily habits, through SIMPLE, Little Karmayogis, Shastri Sanskaar and the Sankalp Calendar.',
     primaryKeyword: 'Little Karmayogis, SIMPLE',
     secondaryKeywords: ['value based preschool', 'character building preschool'],
     phase: 1,
@@ -88,7 +88,7 @@ export const pageSeo: Record<string, PageSeo> = {
     path: '/message-from-the-lal-bahadur-shastri-family',
     title: 'A Message from the Lal Bahadur Shastri Family | LBS KidZ',
     description:
-      'The Shastri family on the school that carries their name: Mr. Anil Shastri, Mrs. Manju Shastri, Mr. Lagan Shastri and Mr. Mudit Shastri.',
+      'A personal message from Shri Anil Shastri Ji and family, on carrying forward the legacy of Shri Lal Bahadur Shastri Ji into LBS KidZ.',
     phase: 1,
     breadcrumb: [
       { label: 'Shastri Ji Legacy' },
@@ -96,33 +96,43 @@ export const pageSeo: Record<string, PageSeo> = {
     ],
   },
 
+  /** Source: Founder's Note Page Content S7. Brand tier only, not a discovery page. */
   foundersNote: {
     path: '/founders-note',
-    title: 'Founder’s Note | Mr. Adarsh Shastri, LBS KidZ',
+    title: 'Founder’s Note: Adarsh Shastri | LBS KidZ',
     description:
-      'A note from Mr. Adarsh Shastri, grandson of Shri Lal Bahadur Shastri and Authorized Representative for LBS KidZ.',
+      'A personal note from Adarsh Shastri, grandson of Shri Lal Bahadur Shastri Ji, on why LBS KidZ was built and what it means for your child’s first school.',
+    primaryKeyword: 'Adarsh Shastri, LBS KidZ founder',
     phase: 1,
     breadcrumb: [{ label: 'Shastri Ji Legacy' }, { label: 'Founder’s Note' }],
   },
 
+  /** Source: Value Stories Page Content S7. */
   valueStories: {
     path: '/value-stories',
-    title: 'Value Based Preschool Education | Value Stories | LBS KidZ',
+    title: 'Value Stories: Where Our Values Come From | LBS KidZ',
     description:
-      'Stories about how a value is actually learned by a small child, drawn from the Shastri legacy and, in time, from our own classrooms.',
+      'Real stories behind LBS KidZ’s SIMPLE values, from Shastri Ji’s own life, told simply enough for a parent to read in a minute.',
     primaryKeyword: 'value based preschool India, character building preschool',
     secondaryKeywords: ['Lal Bahadur Shastri preschool'],
     phase: 1,
     breadcrumb: [{ label: 'For Parents' }, { label: 'Value Stories' }],
   },
 
+  /**
+   * Source: Parenting Tips & Resources Page Content S7.
+   *
+   * The keywords here are parenting keywords and nothing else. This page stays
+   * free of NEP 2020 and policy terms by instruction, so none appears in its
+   * title, description or targets.
+   */
   parenting: {
     path: '/parenting-tips-and-resources',
-    title: 'Parenting Tips & Early Years Resources | LBS KidZ',
+    title: 'Parenting Tips & Early-Years Resources | LBS KidZ',
     description:
-      'Activity ideas, preschool-readiness guidance and the concerns that come up in every early-years household. Useful whether or not your child ever joins us.',
-    primaryKeyword: undefined,
-    secondaryKeywords: ['preschool readiness', 'early years parenting tips'],
+      'Practical parenting tips for the early years: play, language, readiness, and everyday values conversations. Useful whether or not you join LBS KidZ.',
+    primaryKeyword: 'early years parenting tips',
+    secondaryKeywords: ['preschool readiness tips', 'mother tongue vs English preschool'],
     phase: 1,
     breadcrumb: [{ label: 'For Parents' }, { label: 'Parenting Tips & Resources' }],
   },
@@ -131,7 +141,7 @@ export const pageSeo: Record<string, PageSeo> = {
     path: '/preschool-in-indore-campuses',
     title: 'Preschool Near Me in Indore | LBS KidZ Campuses',
     description:
-      'The Indore zones LBS KidZ is opening in, including Kanadia Road, Rau and Bicholi Mardana, and the safety standards every campus is built to.',
+      'The Indore zones LBS KidZ is opening in, including Rau, Kanadia Road, Annapurna, Nipania and Vijay Nagar, and the safety standards every campus is built to.',
     primaryKeyword: 'preschool near me, play school near me',
     secondaryKeywords: ['best preschool in Indore'],
     phase: 1,
@@ -151,41 +161,53 @@ export const pageSeo: Record<string, PageSeo> = {
 
   programs: {
     path: '/programs-and-classes',
-    title: 'Nursery, LKG & UKG Admission in Indore | Programs & Classes | LBS KidZ',
+    title: 'Playgroup to UKG: Preschool Programs & Classes in Indore | LBS KidZ',
     description:
-      'Playgroup, Nursery, LKG and UKG at LBS KidZ, and how each class maps onto NCERT’s recognised age bands for the Foundational Stage.',
+      'From Playgroup (age 2) to UKG (age 6), see what each year at LBS KidZ actually looks like, class by class.',
     primaryKeyword: 'nursery admission Indore, LKG admission Indore, UKG admission Indore',
     secondaryKeywords: ['best playgroup for toddlers Indore'],
     phase: 1,
     breadcrumb: [{ label: 'Admissions' }, { label: 'Programs & Classes' }],
   },
 
+  /**
+   * Source: Fees & Admissions Page Content S7.
+   *
+   * S7 proposes `/fees-and-admissions`. The slug here is the one named verbatim
+   * in Full Website Sitemap S3, it already carries the page's primary keyword,
+   * and it is live in sitemap.xml and in the canonical tag, so it stays. Same
+   * reasoning as the Curriculum slug, which its own document left open for
+   * exactly this decision.
+   */
   fees: {
     path: '/preschool-fees-indore',
-    title: 'Preschool Fees in Indore | No Hidden Charges | LBS KidZ',
+    title: 'Preschool Fees in Indore: No Hidden Charges | LBS KidZ',
     description:
-      'Our fee commitment: books, bag, uniform, lunch box and water bottle are included, with nothing added later. Exact figures are shared with you on enquiry.',
+      'What is included in the LBS KidZ fee: books, bag, uniform, lunch box, water bottle, and how to get the exact figure for your child’s class and zone.',
     primaryKeyword: 'preschool fees Indore',
-    secondaryKeywords: ['play school fee structure', 'no hidden charges preschool'],
+    secondaryKeywords: ['playgroup fees Indore', 'no hidden charges preschool'],
     phase: 1,
     breadcrumb: [{ label: 'Admissions' }, { label: 'Fees & Admissions' }],
   },
 
+  /** Source: FAQs Page Content S7. The site's strongest FAQPage schema slot. */
   faqs: {
     path: '/faqs',
-    title: 'Preschool Admission FAQs | LBS KidZ Indore',
+    title: 'Frequently Asked Questions | LBS KidZ Preschool Indore',
     description:
-      'Is there an exam in preschool? What language is used for teaching? Are there hidden charges? The questions parents ask us, answered directly.',
-    primaryKeyword: 'preschool admission Indore',
+      'Straight answers on exams, fees, admissions, campuses, and safety at LBS KidZ: the questions parents actually ask, all in one place.',
+    primaryKeyword: 'LBS KidZ FAQ',
+    secondaryKeywords: ['preschool admission questions Indore'],
     phase: 1,
     breadcrumb: [{ label: 'Admissions' }, { label: 'FAQs' }],
   },
 
+  /** Source: Contact Us Page Content S7. Brand tier only, not a discovery page. */
   contact: {
     path: '/contact-us',
-    title: 'Contact LBS KidZ | Preschool Enquiry in Indore',
+    title: 'Contact LBS KidZ: Preschool Enquiries, Indore',
     description:
-      'Get in touch with LBS KidZ about preschool admission in Indore, our classes, or a callback from our team.',
+      'Get in touch with LBS KidZ: ask about classes, fees, or campus zones, and a real person will get back to you.',
     primaryKeyword: 'preschool Indore contact, preschool enquiry Indore',
     phase: 1,
     breadcrumb: [{ label: 'Contact Us' }],

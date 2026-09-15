@@ -17,7 +17,7 @@ import type { PhotoName } from '@/data/media'
 /**
  * Cards.
  *
- * One surface language for the whole site — khadi paper, a hairline edge, a
+ * One surface language for the whole site — white, a blue-tinted hairline, a
  * warm-tinted shadow — expressed through several shapes, because a program, a
  * statistic and a quotation are not the same object and forcing them into one
  * rectangle is what makes a page look like a template.
@@ -39,15 +39,15 @@ import type { PhotoName } from '@/data/media'
  * plain element.
  */
 
-type CardTone = 'paper' | 'sand' | 'indigo' | 'terracotta' | 'neem' | 'haldi'
+type CardTone = 'paper' | 'mist' | 'brand' | 'sky' | 'green' | 'orange'
 
 const toneClasses: Record<CardTone, string> = {
-  paper: 'bg-linear-to-b from-white to-khadi-50 hairline',
-  sand: 'bg-linear-to-b from-khadi-100 to-khadi-200/80 hairline',
-  indigo: 'bg-linear-to-b from-indigo-ink-600 to-indigo-ink-700 text-khadi-100',
-  terracotta: 'bg-linear-to-b from-terracotta-50 to-terracotta-100/60 hairline',
-  neem: 'bg-linear-to-b from-neem-100 to-neem-200/60 hairline',
-  haldi: 'bg-linear-to-b from-haldi-100 to-haldi-200/60 hairline',
+  paper: 'bg-white hairline',
+  mist: 'bg-linear-to-b from-mist-100 to-mist-200/80 hairline',
+  brand: 'on-dark bg-linear-to-b from-brand-600 to-brand-700 text-mist-100',
+  sky: 'bg-linear-to-b from-sky-50 to-sky-100/60 hairline',
+  green: 'bg-linear-to-b from-green-50 to-green-100/70 hairline',
+  orange: 'bg-linear-to-b from-orange-50 to-orange-100/70 hairline',
 }
 
 const surface = 'relative shadow-soft'
@@ -179,7 +179,7 @@ export function Card({
   )
   const inner = (
     <>
-      {backdrop ? <CardBackground variant={backdrop} onDark={tone === 'indigo'} /> : null}
+      {backdrop ? <CardBackground variant={backdrop} onDark={tone === 'brand'} /> : null}
       {object ? <ObjectBadge seed={object} /> : null}
       {children}
     </>
@@ -238,7 +238,7 @@ export function LinkCard({
   )
   const inner = (
     <>
-      {backdrop ? <CardBackground variant={backdrop} onDark={tone === 'indigo'} /> : null}
+      {backdrop ? <CardBackground variant={backdrop} onDark={tone === 'brand'} /> : null}
       {object ? <ObjectBadge seed={object} /> : null}
       {children}
     </>
@@ -319,7 +319,7 @@ export function PhotoCard({
 }) {
   const body = (
     <>
-      {backdrop ? <CardBackground variant={backdrop} onDark={tone === 'indigo'} /> : null}
+      {backdrop ? <CardBackground variant={backdrop} onDark={tone === 'brand'} /> : null}
       {object ? <ObjectBadge seed={object} /> : null}
       <Photo
         name={photo}
@@ -333,15 +333,15 @@ export function PhotoCard({
 
       <div className="relative flex flex-1 flex-col p-6 pt-5 sm:p-7 sm:pt-6">
         {eyebrow ? (
-          <p className="mb-3 text-2xs font-semibold uppercase tracking-[0.16em] text-terracotta-600">
+          <p className="mb-3 text-2xs font-semibold uppercase tracking-[0.16em] text-brand-500">
             {eyebrow}
           </p>
         ) : null}
         <h3
           className={cn(
             'font-display text-h3 font-semibold',
-            tone === 'indigo' ? 'text-khadi-50' : 'text-indigo-ink-700',
-            to && 'transition-colors group-hover:text-terracotta-600',
+            tone === 'brand' ? 'text-mist-50' : 'text-brand-700',
+            to && 'transition-colors group-hover:text-sky-600',
           )}
         >
           {title}
@@ -350,7 +350,7 @@ export function PhotoCard({
           <div
             className={cn(
               'mt-3 flex-1 text-small leading-relaxed',
-              tone === 'indigo' ? 'text-khadi-200/85' : 'text-ink-500',
+              tone === 'brand' ? 'text-mist-200/85' : 'text-ink-500',
             )}
           >
             {children}
@@ -419,12 +419,12 @@ export function StatTile({
   onDark?: boolean
 }) {
   return (
-    <div className={cn('group/stat flex items-start gap-3.5', className)}>
-      <span className="relative grid size-11 shrink-0 place-items-center">
+    <div className={cn('group/stat flex items-start gap-3', className)}>
+      <span className="relative grid size-10 shrink-0 place-items-center">
         <Ring
           className={cn(
             'absolute inset-0 size-full motion-safe:animate-[spin_28s_linear_infinite]',
-            onDark ? 'text-haldi-300/45' : 'text-terracotta-300/70',
+            onDark ? 'text-orange-300/45' : 'text-sky-300/70',
           )}
         />
         {/* The medallion answers a hover on the whole tile rather than on
@@ -432,8 +432,8 @@ export function StatTile({
             on it is a detail nobody ever sees. */}
         <span
           className={cn(
-            'grid size-8 place-items-center rounded-full transition-transform duration-300 ease-out-soft group-hover/stat:scale-110 motion-reduce:transition-none',
-            onDark ? 'bg-khadi-50/12 text-haldi-300' : 'bg-terracotta-50 text-terracotta-600',
+            'grid size-7 place-items-center rounded-full transition-transform duration-300 ease-out-soft group-hover/stat:scale-110 motion-reduce:transition-none',
+            onDark ? 'bg-mist-50/12 text-orange-300' : 'bg-brand-50 text-brand-500',
           )}
           aria-hidden="true"
         >
@@ -445,15 +445,18 @@ export function StatTile({
         <p
           className={cn(
             'font-numeral text-h3 font-semibold leading-none',
-            onDark ? 'text-khadi-50' : 'text-indigo-ink-700',
+            onDark ? 'text-mist-50' : 'text-brand-700',
           )}
         >
           {typeof value === 'number' ? <Counter value={value} /> : value}
         </p>
+        {/* 30ch, not 24ch. The labels are one short sentence each now, and at
+            24ch a 36-character line broke onto three, which is what the panel
+            was paying for in height. */}
         <p
           className={cn(
-            'mt-1.5 max-w-[24ch] text-small leading-snug',
-            onDark ? 'text-khadi-200/85' : 'text-ink-500',
+            'mt-1 max-w-[30ch] text-small leading-snug',
+            onDark ? 'text-mist-200/85' : 'text-ink-500',
           )}
         >
           {label}
@@ -471,7 +474,7 @@ export function StatTile({
 export function QuoteCard({
   children,
   attribution,
-  tone = 'haldi',
+  tone = 'orange',
   className,
   photo,
   photoAlt,
@@ -507,7 +510,7 @@ export function QuoteCard({
         className,
       )}
     >
-      {backdrop ? <CardBackground variant={backdrop} onDark={tone === 'indigo'} /> : null}
+      {backdrop ? <CardBackground variant={backdrop} onDark={tone === 'brand'} /> : null}
       {object ? <ObjectBadge seed={object} /> : null}
       {photo ? (
         <Photo
@@ -523,7 +526,7 @@ export function QuoteCard({
         <blockquote
           className={cn(
             'font-display text-h3 leading-snug',
-            tone === 'indigo' ? 'text-khadi-50' : 'text-indigo-ink-700',
+            tone === 'brand' ? 'text-mist-50' : 'text-brand-700',
           )}
         >
           {children}
@@ -535,7 +538,7 @@ export function QuoteCard({
               // 700 rather than 600: the card gradient darkens toward its foot
               // and the attribution sits at the bottom, which took the pair
               // just under 4.5:1.
-              tone === 'indigo' ? 'text-haldi-300' : 'text-terracotta-700',
+              tone === 'brand' ? 'text-orange-300' : 'text-brand-600',
             )}
           >
             {attribution}
@@ -566,20 +569,20 @@ export function QuoteCard({
  */
 export function Marker({
   children,
-  tone = 'terracotta',
+  tone = 'sky',
   className,
   size = 'md',
 }: {
   children: ReactNode
-  tone?: 'terracotta' | 'indigo' | 'haldi' | 'neem'
+  tone?: 'sky' | 'brand' | 'orange' | 'green'
   className?: string
   size?: 'sm' | 'md' | 'lg'
 }) {
   const tones = {
-    terracotta: 'bg-terracotta-100 text-terracotta-700',
-    indigo: 'bg-indigo-ink-100 text-indigo-ink-700',
-    haldi: 'bg-haldi-100 text-haldi-600',
-    neem: 'bg-neem-100 text-neem-600',
+    sky: 'bg-sky-100 text-sky-700',
+    brand: 'bg-brand-100 text-brand-700',
+    orange: 'bg-orange-100 text-orange-600',
+    green: 'bg-green-100 text-green-600',
   }
   const sizes = {
     sm: 'size-9 text-sm',
@@ -617,11 +620,11 @@ export function Chip({
   icon?: ReactNode
 }) {
   const tones = {
-    neutral: 'bg-khadi-200 text-ink-600',
-    accent: 'bg-terracotta-100 text-terracotta-700',
+    neutral: 'bg-mist-200 text-ink-600',
+    accent: 'bg-brand-100 text-brand-600',
     muted: 'bg-transparent text-ink-400 hairline',
-    onDark: 'bg-khadi-50/10 text-khadi-100',
-    positive: 'bg-neem-100 text-neem-600',
+    onDark: 'bg-mist-50/10 text-mist-100',
+    positive: 'bg-green-100 text-green-600',
   }
 
   return (
@@ -675,14 +678,14 @@ export function FeatureChip({
     <div
       className={cn(
         'flex items-center gap-3.5 rounded-full py-2.5 pl-2.5 pr-6',
-        tone === 'onDark' ? 'bg-khadi-50/10 text-khadi-100' : 'bg-khadi-50 text-ink-600 hairline',
+        tone === 'onDark' ? 'bg-mist-50/10 text-mist-100' : 'bg-mist-50 text-ink-600 hairline',
         className,
       )}
     >
       <span
         className={cn(
           'grid size-10 shrink-0 place-items-center rounded-full',
-          tone === 'onDark' ? 'bg-haldi-300 text-indigo-ink-800' : 'bg-terracotta-500 text-khadi-50',
+          tone === 'onDark' ? 'bg-orange-300 text-brand-800' : 'bg-brand-500 text-white',
         )}
         aria-hidden="true"
       >
@@ -710,7 +713,7 @@ export function PersonCard({
   role,
   photo,
   photoAlt,
-  colour = 'indigo',
+  colour = 'brand',
   reserved = false,
   children,
   className,
@@ -719,24 +722,24 @@ export function PersonCard({
   role?: ReactNode
   photo?: PhotoName
   photoAlt?: string
-  colour?: 'indigo' | 'terracotta' | 'neem' | 'haldi'
+  colour?: 'brand' | 'sky' | 'green' | 'orange'
   /** Draws the empty state: the frame with nothing in it yet. */
   reserved?: boolean
   children?: ReactNode
   className?: string
 }) {
   const portraitTints = {
-    indigo: 'bg-indigo-ink-500',
-    terracotta: 'bg-terracotta-400',
-    neem: 'bg-neem-400',
-    haldi: 'bg-haldi-400',
+    brand: 'bg-brand-500',
+    sky: 'bg-sky-400',
+    green: 'bg-green-400',
+    orange: 'bg-orange-400',
   }
 
   return (
     <div
       className={cn(
-        'group flex h-full flex-col items-center rounded-3xl border-2 border-dashed border-khadi-400 bg-khadi-50/60 p-5 text-center',
-        'transition-colors duration-300 hover:border-terracotta-300',
+        'group flex h-full flex-col items-center rounded-3xl border-2 border-dashed border-mist-400 bg-mist-50/60 p-5 text-center',
+        'transition-colors duration-300 hover:border-brand-300',
         className,
       )}
     >
@@ -755,14 +758,14 @@ export function PersonCard({
             className="grid aspect-[4/5] w-full place-items-center px-6"
             aria-hidden="true"
           >
-            <span className="text-2xs font-semibold uppercase leading-relaxed tracking-[0.14em] text-khadi-50/85">
+            <span className="text-2xs font-semibold uppercase leading-relaxed tracking-[0.14em] text-mist-50/85">
               {reserved ? 'Portrait to follow' : null}
             </span>
           </div>
         )}
       </div>
 
-      <h3 className="mt-5 font-display text-h3 font-semibold text-indigo-ink-700">{name}</h3>
+      <h3 className="mt-5 font-display text-h3 font-semibold text-brand-700">{name}</h3>
       {role ? <p className="mt-1 text-small text-ink-400">{role}</p> : null}
       {children ? <div className="mt-4 w-full">{children}</div> : null}
     </div>
@@ -782,26 +785,26 @@ export function PersonCard({
  * lower half over the flat colour rather than over the photograph, so legibility
  * never depends on what the picture happens to be doing.
  */
-type PanelColour = 'terracotta' | 'indigo' | 'neem' | 'haldi'
+type PanelColour = 'sky' | 'brand' | 'green' | 'orange'
 
 /**
  * The 600s, not the 500s. Every 500 put the eyebrow under 4.5:1 against its
- * own ground — haldi-500 managed only 2.58:1, which fails even the 3:1 floor
+ * own ground — orange-500 managed only 2.58:1, which fails even the 3:1 floor
  * large text is allowed.
  */
 const panelFields: Record<PanelColour, string> = {
-  terracotta: 'bg-terracotta-600',
-  indigo: 'bg-indigo-ink-600',
-  neem: 'bg-neem-600',
-  haldi: 'bg-haldi-600',
+  sky: 'bg-sky-600',
+  brand: 'bg-brand-600',
+  green: 'bg-green-600',
+  orange: 'bg-orange-600',
 }
 
 /** Matching gradient origins, so the fade leaves the photograph invisibly. */
 const panelFades: Record<PanelColour, string> = {
-  terracotta: 'from-terracotta-600',
-  indigo: 'from-indigo-ink-600',
-  neem: 'from-neem-600',
-  haldi: 'from-haldi-600',
+  sky: 'from-sky-600',
+  brand: 'from-brand-600',
+  green: 'from-green-600',
+  orange: 'from-orange-600',
 }
 
 export function ColourPanel({
@@ -851,11 +854,11 @@ export function ColourPanel({
 
       <div className="relative mt-auto p-6 sm:p-7">
         {eyebrow ? (
-          <p className="mb-2 text-2xs font-semibold uppercase tracking-[0.16em] text-khadi-100">
+          <p className="mb-2 text-2xs font-semibold uppercase tracking-[0.16em] text-mist-100">
             {eyebrow}
           </p>
         ) : null}
-        <h3 className="font-display text-h2 leading-tight text-khadi-50">{title}</h3>
+        <h3 className="font-display text-h2 leading-tight text-mist-50">{title}</h3>
       </div>
     </>
   )

@@ -3,6 +3,7 @@ import { Outlet, ScrollRestoration, useLocation, useNavigationType } from 'react
 import { Navbar } from './navbar'
 import { Footer } from './Footer'
 import { AdmissionCta } from '@/sections/shared/AdmissionCta'
+import { MobileCtaBar, MobileCtaSpacer } from './MobileCtaBar'
 import { NavToneContext, type NavTone } from './nav-tone'
 import { useScrollReveal, usePageTransition } from '@/animations/gsap'
 
@@ -88,6 +89,10 @@ export function SiteLayout() {
         </main>
         <AdmissionCta />
         <Footer />
+        {/* Reserves the sticky bar's height so it never sits on the footer's
+            last line. Both halves disappear together above `sm`. */}
+        <MobileCtaSpacer />
+        <MobileCtaBar />
         <ScrollRestoration getKey={(location) => location.pathname} />
       </div>
     </NavToneContext.Provider>

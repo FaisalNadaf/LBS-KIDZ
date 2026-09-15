@@ -5,13 +5,14 @@ import { ButtonLink, TextLink } from '@/components/ui/Button'
 import { Reveal } from '@/animations/Reveal'
 import { PaperBoat } from '@/components/art/primitives'
 import { routes } from '@/data/routes'
+import { CTA_SEAM } from '@/components/ui/SectionDivider'
 
 export function NotFoundPage() {
   return (
     <>
       <Seo page={pageSeo.notFound} />
 
-      <Section tone="khadi" size="lg" className="pt-36">
+      <Section tone="mist" size="lg" className="pt-36" divider={CTA_SEAM}>
         <Container size="narrow">
           <Reveal className="text-center">
             <div className="mx-auto h-20 w-auto motion-safe:animate-drift">

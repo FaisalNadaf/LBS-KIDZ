@@ -4,6 +4,11 @@
 @import "@fontsource-variable/plus-jakarta-sans/index.css";
 @import "@fontsource/tiro-devanagari-hindi/400.css";
 
+/* The brand palette, derived from the five letter colours of the logo. See the
+   note at the head of the design-system block below, and
+   `scripts/build-palette.mjs`. */
+@import "./palette.generated.css";
+
 /* ==========================================================================
    Window-shape variant
 
@@ -58,46 +63,18 @@
 }
 
 /* ==========================================================================
-   Metric-matched fallback faces
-
-   Both webfaces load with `font-display: swap`, so text paints in a system
-   font first and swaps when the real face arrives. The two have different
-   advance widths, so the swap reflowed the line and everything beside it
-   moved — it was the largest layout shift on the site.
-
-   `size-adjust` scales the fallback so its average advance width matches the
-   real face, which makes the swap almost invisible and takes the reflow out of
-   CLS entirely. The percentages are measured, not guessed: run
-   `node scripts/font-metrics.mjs` against a running server to re-derive them if
-   either family is ever changed.
-   ========================================================================== */
-
-@font-face {
-  font-family: "Jakarta Fallback";
-  src: local("Arial");
-  size-adjust: 102.9%;
-  ascent-override: 96%;
-  descent-override: 24%;
-  line-gap-override: 0%;
-}
-
-@font-face {
-  font-family: "Fraunces Fallback";
-  src: local("Georgia");
-  size-adjust: 105.3%;
-  ascent-override: 94%;
-  descent-override: 24%;
-  line-gap-override: 0%;
-}
-
-/* ==========================================================================
    LBS KidZ Design System
 
-   Palette direction is fixed by the source documents:
-   "soft earthy tones with a signature accent (khadi white, warm terracotta,
-    deep blue)" and "avoiding the cluttered primary-color look common to
-    preschool websites".
-   Source: Website Reference Document S7; Project Decisions Log S7.
+   COLOUR lives in `palette.generated.css`, which `scripts/build-palette.mjs`
+   derives from the logo and imports above. The hierarchy is fixed there:
+   `brand` (#0160A0) is the primary — buttons, links, active states, headings,
+   the deep bands; `sky` (#009FE3) the secondary; `green`, `orange` and `coral`
+   are success, warning and error, and accents in that order of frequency.
+   Surfaces are `mist` (white, then a faint blue ground) and text is `ink`, both
+   on the brand blue's own hue. Tailwind's default palette is switched off, so
+   an off-brand utility renders nothing. The generator refuses to emit a
+   palette whose text pairs fall below WCAG AA. Change a colour there, never
+   here.
 
    Everything below is a token. No component may invent a size, gap, radius or
    duration of its own: if a value is needed twice it belongs here, and if it is
@@ -105,82 +82,6 @@
    ========================================================================== */
 
 @theme {
-  /* --- Khadi: the paper-like ground of the whole site ------------------- */
-  --color-khadi-50:  #FDFBF7;
-  --color-khadi-100: #FAF6EE;
-  --color-khadi-200: #F3EDE0;
-  --color-khadi-300: #E8DFCC;
-  --color-khadi-400: #D8CBB0;
-  --color-khadi-500: #BFAE8E;
-
-  /* --- Terracotta: the signature accent --------------------------------- */
-  --color-terracotta-50:  #FBF1EC;
-  --color-terracotta-100: #F6DFD3;
-  --color-terracotta-200: #EDBFA8;
-  --color-terracotta-300: #E09C7C;
-  --color-terracotta-400: #D07A52;
-  --color-terracotta-500: #C05B34;
-  --color-terracotta-600: #A44826;
-  --color-terracotta-700: #85391E;
-  --color-terracotta-800: #632A16;
-
-  /* --- Indigo/deep blue: authority, trust, the legacy voice -------------- */
-  --color-indigo-ink-50:  #EEF3F8;
-  --color-indigo-ink-100: #D6E2EE;
-  --color-indigo-ink-200: #ADC3DA;
-  --color-indigo-ink-300: #7A9BBD;
-  --color-indigo-ink-400: #46709A;
-  --color-indigo-ink-500: #26507A;
-  --color-indigo-ink-600: #1B3A5C;
-  --color-indigo-ink-700: #16324F;
-  --color-indigo-ink-800: #102438;
-  --color-indigo-ink-900: #0A1826;
-
-  /* --- Haldi: warmth, joy, the child-facing highlight -------------------- */
-  --color-haldi-100: #FBEFD2;
-  --color-haldi-200: #F5DDA3;
-  --color-haldi-300: #EDC76B;
-  --color-haldi-400: #DFAE43;
-  --color-haldi-500: #C9942C;
-  /* Text weight. The 500 is a fill colour: on haldi-100 it measures 2.37:1,
-     well under the 4.5:1 AA floor. This is the lightest haldi that clears it. */
-  --color-haldi-600: #8A6113;
-
-  /* --- Neem: growth, nature, CG-6 (regard for the environment) ---------- */
-  --color-neem-100: #E4EDE4;
-  --color-neem-200: #C4D8C6;
-  --color-neem-300: #9CBCA1;
-  --color-neem-400: #6B8F71;
-  --color-neem-500: #52735A;
-  /* Same reason as haldi-600: the 500 measures 4.43:1 on neem-100. */
-  --color-neem-600: #3B5442;
-
-  /* --- Lilac and blush: decorative pastels, backdrops only --------------
-     The five families above cover the brand. A card-backdrop system needs a
-     wider spread of pastels than a brand palette wants to own, and eight of the
-     ten tints it uses already exist here at the 100-200 weights — terracotta
-     100/200 are the peach and the warm orange, haldi 100/200 the lemon and the
-     yellow, neem 100/200 the green and the mint, indigo-ink 100/200 the pastel
-     and sky blues, khadi 300 the warm beige. These two are the only hues with
-     no equivalent.
-
-     They are deliberately confined to decoration: nothing structural, no text,
-     no border, no interactive state. That keeps the brand direction — khadi,
-     terracotta, deep blue — intact while the backdrops get their full range.
-     Saturation is matched to the existing 100/200 weights, so a lilac disc sits
-     at the same volume as a haldi one and no card shouts louder than its
-     neighbour. */
-  --color-lilac-100: #E9E5F4;
-  --color-lilac-200: #D5CEEA;
-  --color-blush-100: #F9E5E8;
-  --color-blush-200: #F2CFD5;
-
-  /* --- Ink: text ------------------------------------------------------- */
-  --color-ink-400: #6E6459;
-  --color-ink-500: #554C43;
-  --color-ink-600: #3D362F;
-  --color-ink-700: #2A2320;
-  --color-ink-900: #17120F;
 
   /* --- Typography ------------------------------------------------------- */
   --font-display: "Fraunces Variable", "Fraunces", "Fraunces Fallback", Georgia, serif;
@@ -286,14 +187,19 @@
   --radius-2xl: 2rem;
   --radius-3xl: 2.75rem;
 
-  /* --- Shadows: warm-tinted, never neutral grey ------------------------- */
-  --shadow-soft: 0 1px 2px rgba(42, 35, 32, 0.04), 0 4px 16px -6px rgba(42, 35, 32, 0.08);
-  --shadow-card: 0 2px 4px rgba(42, 35, 32, 0.03), 0 12px 32px -12px rgba(42, 35, 32, 0.12);
-  --shadow-lift: 0 4px 8px rgba(42, 35, 32, 0.05), 0 24px 48px -16px rgba(42, 35, 32, 0.18);
-  /* Photographs carry a deeper, warmer shadow than cards, because they sit
-     forward of the page rather than on it. */
-  --shadow-photo: 0 8px 20px -8px rgba(42, 35, 32, 0.16), 0 32px 64px -24px rgba(42, 35, 32, 0.26);
-  --shadow-inset-hair: inset 0 0 0 1px rgba(42, 35, 32, 0.07);
+  /* --- Shadows: tinted with the deep brand blue, never neutral grey -------
+     A grey shadow under a blue-tinted card reads as dirt; one mixed from the
+     brand's own darkest step reads as depth in the same light. `lift` is the
+     hover state, and carries a touch more of the blue so a raised card picks up
+     a glow rather than just a darker edge — plus a faint blue hairline, since a
+     hover shadow replaces the resting `hairline` rather than adding to it. */
+  --shadow-soft: 0 1px 2px color-mix(in oklab, var(--color-brand-900) 5%, transparent), 0 4px 16px -6px color-mix(in oklab, var(--color-brand-900) 9%, transparent);
+  --shadow-card: 0 2px 4px color-mix(in oklab, var(--color-brand-900) 4%, transparent), 0 12px 32px -12px color-mix(in oklab, var(--color-brand-900) 13%, transparent);
+  --shadow-lift: inset 0 0 0 1px color-mix(in oklab, var(--color-brand-400) 22%, transparent), 0 4px 8px color-mix(in oklab, var(--color-brand-900) 6%, transparent), 0 24px 48px -16px color-mix(in oklab, var(--color-brand-700) 24%, transparent);
+  /* Photographs carry a deeper shadow than cards, because they sit forward of
+     the page rather than on it. */
+  --shadow-photo: 0 8px 20px -8px color-mix(in oklab, var(--color-brand-900) 16%, transparent), 0 32px 64px -24px color-mix(in oklab, var(--color-brand-900) 24%, transparent);
+  --shadow-inset-hair: inset 0 0 0 1px color-mix(in oklab, var(--color-brand-800) 9%, transparent);
 
   /* --- Motion -----------------------------------------------------------
      One easing language shared by GSAP, CSS transitions and the keyframes
@@ -387,7 +293,7 @@
 
 @layer base {
   * {
-    border-color: var(--color-khadi-300);
+    border-color: var(--color-mist-300);
   }
 
   /**
@@ -415,7 +321,7 @@
   }
 
   body {
-    background-color: var(--color-khadi-100);
+    background-color: var(--color-mist-100);
     color: var(--color-ink-700);
     font-family: var(--font-sans);
     font-synthesis-weight: none;
@@ -428,7 +334,7 @@
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     font-optical-sizing: auto;
-    color: var(--color-indigo-ink-700);
+    color: var(--color-brand-700);
     text-wrap: balance;
     letter-spacing: -0.015em;
   }
@@ -437,21 +343,36 @@
     text-wrap: pretty;
   }
 
-  /* Visible, branded focus ring on every interactive element. */
+  /* Visible, branded focus ring on every interactive element.
+
+     The colour is a variable because one ring cannot serve both grounds: the
+     brand blue clears 3:1 on white and on the page ground but all but vanishes
+     on the deep bands. Those bands set `--focus-ring` to a light sky step (the
+     `on-dark` utility below), and everything inside them inherits it. */
   :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
-    outline: 2px solid var(--color-terracotta-500);
+    outline: 2px solid var(--focus-ring, var(--color-brand-500));
     outline-offset: 3px;
     border-radius: var(--radius-xs);
   }
 
   ::selection {
-    background-color: var(--color-haldi-200);
+    background-color: var(--color-sky-200);
     color: var(--color-ink-900);
   }
 
   img, svg, video {
     display: block;
     max-width: 100%;
+  }
+
+  /* No drag preview. Pressing and dragging a photograph makes the browser pull
+     a see-through copy of it along with the pointer, which reads as the picture
+     coming loose from the layout. `draggable={false}` on each element does the
+     same job in Firefox, which ignores this property; the guard in `main.tsx`
+     covers a picture inside a link, where the link itself is what drags. */
+  img, video, picture {
+    -webkit-user-drag: none;
+    user-select: none;
   }
 }
 
@@ -502,8 +423,8 @@ html.reveal-ready [data-reveal],
   text-wrap: initial;
 }
 
-/* The khadi paper grain. A single inline SVG turbulence, no image request. */
-@utility bg-khadi-grain {
+/* A faint paper grain. A single inline SVG turbulence, no image request. */
+@utility bg-grain {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
 }
 
@@ -511,10 +432,69 @@ html.reveal-ready [data-reveal],
   box-shadow: var(--shadow-inset-hair);
 }
 
+/* Marks a deep band. Anything focusable inside takes the light ring, which is
+   the only thing that changes: text colours are still set per element. */
+@utility on-dark {
+  --focus-ring: var(--color-sky-300);
+}
+
+/* --------------------------------------------------------------------------
+   Brand gradients. The values live in `palette.generated.css`; these only
+   expose them. Reach for them selectively — a hero overlay, the CTA band, a
+   thin accent rule — never as a default fill.
+   -------------------------------------------------------------------------- */
+
+@utility bg-gradient-brand {
+  background-image: var(--gradient-brand);
+}
+
+@utility bg-gradient-brand-deep {
+  background-image: var(--gradient-brand-deep);
+}
+
+@utility bg-gradient-brand-green {
+  background-image: var(--gradient-brand-green);
+}
+
+@utility bg-gradient-brand-orange {
+  background-image: var(--gradient-brand-orange);
+}
+
+@utility bg-gradient-spectrum {
+  background-image: var(--gradient-spectrum);
+}
+
 /* Used for the "SIMPLE" pillar letters and other single-glyph marks. */
 @utility font-numeral {
   font-family: var(--font-display);
   font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* The page header's photograph, thinned towards two edges rather than cut off
+   at them.
+
+   LEFT: the picture carries on under the text. It rises from nothing at the
+   box's own edge — any strength there draws a vertical line where the box
+   begins — to about a third within a few rem, and reaches full strength past
+   the middle — so the left of the band reads as the same photograph under a
+   light blue overlay, not as a separate blue panel with a picture pasted
+   beside it.
+
+   TOP: thinned, not removed, under the navbar. The light links sit on top of
+   the picture there, and over a white wall they need most of it gone to hold
+   4.5:1 — but the old mask went from nothing to everything in 3.5rem, and
+   where that edge met the left fade it drew a visible corner. This one starts
+   at a fifth of the picture and eases to full over most of the band's height.
+
+   The two layers intersect, so their alphas multiply and the corner where they
+   meet is a soft product of the two, never an edge. */
+@utility mask-page-header {
+  --fade-x: linear-gradient(90deg, transparent 0%, rgb(0 0 0 / 0.3) 16%, rgb(0 0 0 / 0.58) 36%, #000 64%);
+  --fade-y: linear-gradient(180deg, rgb(0 0 0 / 0.2) 0, rgb(0 0 0 / 0.2) calc(var(--nav-h) * 0.55), #000 calc(var(--nav-h) + 7rem));
+  -webkit-mask-image: var(--fade-x), var(--fade-y);
+  mask-image: var(--fade-x), var(--fade-y);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 
 /* --------------------------------------------------------------------------

@@ -31,7 +31,7 @@ export function ErrorPage() {
   }
 
   return (
-    <Section tone="khadi" size="lg" className="pt-36">
+    <Section tone="mist" size="lg" className="pt-36">
       <title>Something went wrong | LBS KidZ</title>
       <meta name="robots" content="noindex, nofollow" />
 
@@ -61,7 +61,7 @@ export function ErrorPage() {
           </div>
 
           {import.meta.env.DEV && detail ? (
-            <p className="mx-auto mt-10 max-w-lg rounded-md bg-khadi-200 px-4 py-3 text-left font-mono text-xs text-ink-500">
+            <p className="mx-auto mt-10 max-w-lg rounded-md bg-mist-200 px-4 py-3 text-left font-mono text-xs text-ink-500">
               {detail}
             </p>
           ) : null}

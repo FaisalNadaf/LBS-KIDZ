@@ -5,6 +5,7 @@ import { Reveal } from '@/animations/Reveal'
 import { ShapedPhoto } from '@/components/media/Photo'
 import { faqs } from '@/data/admissions'
 import { routes } from '@/data/routes'
+import { CTA_SEAM } from '@/components/ui/SectionDivider'
 
 /**
  * FAQ block on the homepage.
@@ -24,7 +25,7 @@ export function HomeFaqSection() {
 
   return (
     <Section
-      divider={{ type: 'cloud', fill: 'var(--color-terracotta-600)' }}
+      divider={CTA_SEAM}
       tone="white" id="faq" labelledBy="home-faq-title">
       <Container size="wide">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">

@@ -7,7 +7,7 @@ import { Photo } from '@/components/media/Photo'
 import { Underline } from '@/components/art/primitives'
 import { Kite, Leaf, Cloud, Star } from '@/components/art/objects'
 import { SectionDivider } from '@/components/ui/SectionDivider'
-import { Ambient, Blob, Float } from '@/animations/Scroll'
+import { Float } from '@/animations/Scroll'
 import { useHeroIntro } from '@/animations/gsap'
 import { useNavTone } from '@/layouts/nav-tone'
 import { heroCopy } from '@/data/positioning'
@@ -88,7 +88,7 @@ export function Hero() {
     <section
       ref={scopeRef}
       aria-labelledby="hero-title"
-      className="relative overflow-hidden bg-khadi-100 bg-khadi-grain"
+      className="relative overflow-hidden bg-mist-100 bg-grain"
     >
       {/* ---- The photographic ground ----
           A full-bleed picture behind the whole fold, held well back so it is a
@@ -151,20 +151,20 @@ export function Hero() {
 
             Below `lg` the column is centred and full width, so the shade has to
             be even. */}
-        <div className="absolute inset-0 bg-indigo-ink-800/45 lg:hidden" />
+        <div className="absolute inset-0 bg-brand-800/45 lg:hidden" />
 
         {/* From `lg` it is one edge. The words are in the left third and the
             child is on the right, so the shade is gone by 62% and the half of
             the picture anyone actually looks at carries nothing at all. */}
-        <div className="absolute inset-0 hidden bg-[linear-gradient(100deg,rgba(16,36,56,0.72)_0%,rgba(16,36,56,0.6)_26%,rgba(16,36,56,0.3)_45%,rgba(16,36,56,0)_62%)] lg:block" />
+        <div className="absolute inset-0 hidden bg-[linear-gradient(100deg,color-mix(in_oklab,var(--color-brand-900)_74%,transparent)_0%,color-mix(in_oklab,var(--color-brand-800)_62%,transparent)_26%,color-mix(in_oklab,var(--color-brand-700)_30%,transparent)_45%,transparent_62%)] lg:block" />
 
         {/* A real strip of shade under the navbar. The bar is transparent over
             this band and the top of the picture is a bright classroom wall, so
             at 35% the links measured 2.5:1 whichever colour they were: too
             light for the dark set, too dark for the light set. Deep enough for
             the light set to win, and only across the height of the bar. */}
-        <div className="absolute inset-x-0 top-0 h-[calc(var(--nav-h)+3.5rem)] bg-linear-to-b from-indigo-ink-900/80 via-indigo-ink-900/50 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-indigo-ink-900/25 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-[calc(var(--nav-h)+3.5rem)] bg-linear-to-b from-brand-900/80 via-brand-900/50 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-brand-900/25 to-transparent" />
       </div>
 
       {/* The screen. Everything inside this div fits between the navbar and the
@@ -184,31 +184,13 @@ export function Hero() {
           creates exactly the horizontal scroll this brief rules out. A
           block-level section is already the full width of the page without
           it. */}
-      <div className="relative flex h-[100svh] min-h-[30rem] flex-col justify-center overflow-hidden pb-10 pt-[calc(var(--nav-h)+1.5rem)]">
+      <div className="on-dark relative flex h-[100svh] min-h-[30rem] flex-col justify-center overflow-hidden pb-10 pt-[calc(var(--nav-h)+1.5rem)]">
         {/* The cream wash that used to sit here has gone with the cream band it
             was drawn for. It covered the top 58% of the fold in
-            `terracotta-50`, which over a photograph is a milky film across the
+            `brand-50`, which over a photograph is a milky film across the
             whole upper half — the last of the "white overlay" still visible
             after the others came off. The band takes its top edge from the
             shade under the navbar instead. */}
-
-        {/* Two fields of colour wandering behind the composition on long,
-            mismatched cycles, so the fold is never completely still. Behind
-            everything and never legible as objects — the moment one of these
-            reads as a shape moving, it is competing with the headline. */}
-        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
-          <Ambient className="-left-[8%] top-[-14%] size-[36rem]" range={34} duration={24}>
-            <Blob tone="haldi" className="size-full" />
-          </Ambient>
-          <Ambient
-            className="-right-[6%] bottom-[-18%] size-[30rem]"
-            range={26}
-            duration={31}
-            delay={3}
-          >
-            <Blob tone="terracotta" className="size-full" />
-          </Ambient>
-        </div>
 
         {/* ---- Drawn objects ----
             Decorative, aria-hidden, and the only things on this screen still
@@ -251,7 +233,10 @@ export function Hero() {
 
             `lg` and up. Below that the words are centred and take the full
             width, and there is no air left to put anything in. */}
-        <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
+        <div
+          className="pointer-events-none absolute inset-0 hidden [--object-shadow:color-mix(in_oklab,var(--color-brand-900)_50%,transparent)] lg:block"
+          aria-hidden="true"
+        >
           {/* Ten o'clock, furthest out: the smaller cloud, drifting in over the
               empty air above the headline. */}
           <Float
@@ -259,13 +244,13 @@ export function Hero() {
             y={8}
             className="absolute left-[40%] top-[11%] wide-window:left-[42%] wide-window:top-[12%]"
           >
-            <Cloud className="h-8 drop-shadow-[0_2px_5px_rgba(16,36,56,0.45)] wide-window:h-9" />
+            <Cloud className="h-8 drop-shadow-[0_2px_5px_var(--object-shadow)] wide-window:h-9" />
           </Float>
 
           {/* Eleven o'clock: the sun-behind-cloud, in the gap between the last
               word of the headline and his hair. */}
           <Float index={1} y={11} className="absolute left-[52%] top-[19%]">
-            <Cloud className="h-10 drop-shadow-[0_2px_6px_rgba(16,36,56,0.5)] wide-window:h-12" />
+            <Cloud className="h-10 drop-shadow-[0_2px_6px_var(--object-shadow)] wide-window:h-12" />
           </Float>
 
           {/* The kite, and the object that moves furthest between the two
@@ -279,7 +264,7 @@ export function Hero() {
             rotate={5}
             className="absolute left-[55%] top-[54%] wide-window:left-[92.5%] wide-window:top-[14%] wider-window:left-[90%]"
           >
-            <Kite className="h-14 drop-shadow-[0_2px_7px_rgba(16,36,56,0.5)] wide-window:h-20" />
+            <Kite className="h-14 drop-shadow-[0_2px_7px_var(--object-shadow)] wide-window:h-20" />
           </Float>
 
           {/* Four o'clock, past his shoulder. Nothing sensible to do with it in
@@ -291,7 +276,7 @@ export function Hero() {
             rotate={-6}
             className="absolute left-[93.5%] top-[56%] hidden wide-window:block wider-window:left-[91%]"
           >
-            <Leaf className="h-11 drop-shadow-[0_2px_6px_rgba(16,36,56,0.55)] wider-window:h-14" />
+            <Leaf className="h-11 drop-shadow-[0_2px_6px_var(--object-shadow)] wider-window:h-14" />
           </Float>
 
           {/* Eight o'clock, and the reason there are five rather than four: with
@@ -308,7 +293,7 @@ export function Hero() {
             rotate={8}
             className="absolute left-[51%] top-[57%] hidden xl:wide-window:block"
           >
-            <Star className="h-6 drop-shadow-[0_2px_5px_rgba(16,36,56,0.5)]" />
+            <Star className="h-6 drop-shadow-[0_2px_5px_var(--object-shadow)]" />
           </Float>
         </div>
 
@@ -346,10 +331,10 @@ export function Hero() {
                 {promises.map((promise) => (
                   <li
                     key={promise}
-                    className="flex items-center gap-2 rounded-full bg-khadi-50/85 py-1.5 pl-1.5 pr-3.5 text-small font-semibold text-ink-600 hairline"
+                    className="flex items-center gap-2 rounded-full bg-white/90 py-1.5 pl-1.5 pr-3.5 text-small font-semibold text-brand-700 hairline"
                   >
                     <span
-                      className="grid size-5 shrink-0 place-items-center rounded-full bg-terracotta-50 text-terracotta-600"
+                      className="grid size-5 shrink-0 place-items-center rounded-full bg-green-100 text-green-600"
                       aria-hidden="true"
                     >
                       <Check className="size-3" strokeWidth={3} />
@@ -366,7 +351,7 @@ export function Hero() {
                   measured for. */}
               <h1
                 id="hero-title"
-                className="mt-5 text-display text-khadi-50 lg:text-[clamp(2.4rem,1.1rem+2.5vw,3.1rem)]"
+                className="mt-5 text-display text-white lg:text-[clamp(2.4rem,1.1rem+2.5vw,3.1rem)]"
               >
                 <span className="block overflow-hidden pb-[0.08em]">
                   <span data-hero-line className="block font-normal">
@@ -375,27 +360,57 @@ export function Hero() {
                 </span>
                 <span className="block overflow-hidden pb-[0.14em]">
                   {/*
-                    Stays `block`. `inline-block` would let the drawn rule measure
-                    the words rather than the column — but it also let the line box
-                    collapse to min-content, and the phrase broke to one word per
-                    line. A rule that overshoots by a few percent is a hand-drawn
-                    flourish; a headline set one word per line is a bug.
+                    The rule is measured against an `inline-block` around the
+                    words, so it sits under them. Measured against the block
+                    line it was a share of the whole column, centred in it — and
+                    from `lg`, where the words are left-aligned, that put it
+                    under the back half of "Learners" and out into empty picture.
+
+                    `[display:inline-block]`, NOT the `inline-block` class. The
+                    theme defines `--spacing-block`, so Tailwind also reads
+                    `inline-block` as the logical-width utility and emits
+                    `inline-size: var(--spacing-block)` beside the display —
+                    about 46px. The box collapsed to that and the phrase broke
+                    one word per line, which is what an earlier attempt at this
+                    ran into and put down to `inline-block` itself.
                   */}
-                  <span data-hero-line className="relative block text-haldi-300">
-                    {heroCopy.h1Emphasis}
-                    {/* Sized to the last line of the phrase, not to the
-                        column. At 92% it ran a full word past "copying" at
-                        either end and stopped reading as an underline. */}
-                    <Underline className="w-[62%] text-haldi-300/70" />
+                  <span data-hero-line className="block text-orange-300">
+                    <span className="relative [display:inline-block]">
+                      {heroCopy.h1Emphasis}
+                      {/* A touch past the words at both ends, so it reads as
+                          drawn under them rather than ruled to their edges.
+                          `max-w-none` because the base reset caps every svg at
+                          100%, which quietly undid the overshoot. */}
+                      <Underline className="w-[104%] max-w-none text-orange-300/70" />
+                    </span>
                   </span>
                 </span>
               </h1>
 
+              {/* The tagline and the supporting line, in the order the Home
+                  specification sets them: tagline directly under the H1 and
+                  smaller, then the supporting line, then the body. Three short
+                  lines rather than one paragraph, so the hero reads as a
+                  masthead and not as a block of copy over a photograph. */}
+              <p
+                data-hero-item
+                className="mx-auto mt-4 max-w-xl text-label font-semibold uppercase tracking-[0.14em] text-orange-300 lg:mx-0"
+              >
+                {heroCopy.tagline}
+              </p>
+
+              <p
+                data-hero-item
+                className="mx-auto mt-4 max-w-xl font-display text-h3 font-semibold text-white lg:mx-0"
+              >
+                {heroCopy.supporting}
+              </p>
+
               {/* Light on the shade, like the heading. This paragraph is the
                   band's tightest contrast either way round — body-sized where
                   the headline is large — so it takes the brightest of the
-                  khadi steps rather than a muted one. */}
-              <p data-hero-item className="mx-auto mt-6 max-w-xl text-lead text-khadi-100 lg:mx-0 lg:max-w-lg">
+                  mist steps rather than a muted one. */}
+              <p data-hero-item className="mx-auto mt-4 max-w-xl text-lead text-mist-100 lg:mx-0 lg:max-w-lg">
                 {heroCopy.standfirst}
               </p>
 
@@ -406,8 +421,13 @@ export function Hero() {
                 <ButtonLink to={primaryCta.href} size="lg" withArrow>
                   {primaryCta.label}
                 </ButtonLink>
-                <ButtonLink to={routes.curriculum} variant="secondary" size="lg">
-                  How we teach
+                {/* "Discover Our Legacy", per the specification's secondary CTA.
+                    It used to point at Curriculum, which the page previews four
+                    sections further down anyway; the Legacy strip is the very
+                    next band, so this hands a reader straight into the story
+                    the hero has just opened. */}
+                <ButtonLink to={routes.legacy} variant="secondary" size="lg" withArrow>
+                  Discover Our Legacy
                 </ButtonLink>
               </div>
             </div>
@@ -426,36 +446,58 @@ export function Hero() {
           stretching past 50rem — so it settles with the entrance rather than
           waiting for a scroll that may never come. */}
       <Container size="composition" className="relative pb-section-sm">
-        <ul
+        <div
           data-hero-item
-          className="grid gap-5 rounded-2xl bg-khadi-50 px-5 py-4 shadow-soft hairline sm:grid-cols-3 sm:gap-0 sm:px-6 sm:py-5"
+          className="rounded-2xl bg-mist-50 px-5 py-4 shadow-soft hairline sm:px-6 sm:py-5"
         >
+        {/* ONE LINE OF LABEL EACH, AND THE ZONES ARE NOT NAMED HERE.
+            The third label used to spell out all five zone names, which ran to
+            five lines and set the height of the whole strip: the other two
+            needed two lines and got five, so most of this panel was empty. The
+            names are already on this page, in full, in the "Opening in Indore"
+            band, which is where a parent looking for their neighbourhood will
+            actually read them. A figure in a hero strip is a claim to be
+            checked further down, not the place to do the checking. */}
+        <ul className="grid gap-4 sm:grid-cols-3 sm:gap-0">
           <li className="sm:pr-5">
             <StatTile
               value="0"
-              label="Examinations, at any stage. Assessment happens inside the activity."
+              label="Examinations, at any stage."
               icon={<Ban className="size-5" aria-hidden="true" />}
             />
           </li>
-          <li className="sm:border-l sm:border-khadi-300 sm:px-5">
+          <li className="sm:border-l sm:border-mist-300 sm:px-5">
             <StatTile
               value={programs.length}
-              label="Classes, from Playgroup through to UKG, on one continuous idea."
+              label="Classes, Playgroup through to UKG."
               icon={<Layers className="size-5" aria-hidden="true" />}
             />
           </li>
-          <li className="sm:border-l sm:border-khadi-300 sm:pl-5">
+          <li className="sm:border-l sm:border-mist-300 sm:pl-5">
             <StatTile
               value={zones.length}
-              label={`Indore zones we are opening in first: ${zones.map((z) => z.name).join(', ')}.`}
+              label="Indore zones we are opening in first."
               icon={<MapPin className="size-5" aria-hidden="true" />}
             />
           </li>
         </ul>
+
+        {/* The functional local phrasing, once, in body copy rather than in the
+            headline. "Meta title/H1 should be functional and local; brand
+            tagline sits below the fold." Source: Keyword & AEO Strategy S3.
+
+            Inside the panel rather than under it. Under it, this line sits on
+            the foot of the hero photograph, and a photograph is not a surface
+            a fixed text colour can be trusted on: at 1440 it landed as dark
+            ink on the dark half of the frame and was unreadable. */}
+        <p className="mt-3.5 border-t border-mist-300 pt-3.5 text-center text-small text-ink-400">
+          {heroCopy.searchLine}
+        </p>
+        </div>
       </Container>
 
       {/* The hero closes into the positioning band. A gentle sweep, because
-          that step is khadi-100 to khadi-50 and there is almost no contrast
+          that step is mist-100 to mist-50 and there is almost no contrast
           to carry a deeper curve. The spacer sits below the fold-height div, so
           the hero's one-screen budget is untouched. */}
       <SectionDivider type="gentle" to="white" />

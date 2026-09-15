@@ -120,6 +120,7 @@ export function Photo({
           loading={priority ? 'eager' : 'lazy'}
           decoding={priority ? 'sync' : 'async'}
           fetchPriority={priority ? 'high' : 'auto'}
+          draggable={false}
           className={cn(
             'absolute inset-0 size-full object-cover',
             focus ? undefined : 'object-center',
@@ -197,21 +198,11 @@ export function ShapedPhoto({
 }
 
 /**
- * A photograph set into an even mat of colour, with a soft glow of the same hue
- * behind it.
- *
- * The earlier version put the same shape behind the photograph and slid it a
- * few pixels diagonally. On a rectangle that reads as a deliberate offset; on
- * an arch it leaves a crescent of colour down one side and reads as printing
- * misregistration — the photograph looks slipped rather than framed.
- *
- * An even mat cannot look misaligned, because there is no alignment to get
- * wrong. The blurred glow does the job the offset was trying to do — giving the
- * object depth and lifting it off the page — without a hard edge that has to
- * line up with anything.
+ * A photograph on a plate of colour: a crisp shape slid off one corner
+ * (`plate`), or an even surround (`ring`). Never a blurred glow — see `depth`.
  */
 export function PhotoOnColour({
-  colour = 'haldi',
+  colour = 'orange',
   shape = 'leaf',
   matShape,
   spread = 'edge',
@@ -221,7 +212,7 @@ export function PhotoOnColour({
   children,
   ...photo
 }: PhotoProps & {
-  colour?: 'haldi' | 'neem' | 'terracotta' | 'indigo' | 'khadi'
+  colour?: 'orange' | 'green' | 'sky' | 'brand' | 'mist'
   shape?: PhotoShape
   /**
    * The silhouette of the colour behind the photograph, when it should differ
@@ -242,26 +233,16 @@ export function PhotoOnColour({
    * its own right, which is the treatment that needs `matShape` to earn it.
    * Anything using `block` must have room beside it — the plate is `absolute`
    * and its parent does not clip, so a full-width picture in a narrow gutter
-   * would push the document sideways, which is the same trap `halo` documents.
+   * would push the document sideways.
    */
   spread?: 'edge' | 'block'
   /**
-   * How the colour sits behind the photograph.
-   *
-   * `plate` keeps the colour crisp and slides it off the corner, which reads
-   * as a printed sticker and stays inside the photograph's own box. `halo`
-   * blooms it out of focus on every side instead — right for a large picture
-   * with room around it, wrong below about 18rem, where the blur stops being a
-   * glow and turns into haze.
-   *
-   * `plate` is the default because `halo` is the one that can break a page:
-   * its bloom sits 28px outside the frame from `sm` up, nothing clips it, and
-   * a photograph running the full width of a container whose gutter is
-   * narrower than that pushes the document sideways. A 768px viewport measured
-   * 771px of scroll width until the last one came off this site. Only reach
-   * for `halo` where the picture has at least that much room beside it.
+   * How the colour sits behind the photograph. `plate` keeps it crisp and
+   * slides it off a corner; `ring` surrounds the picture evenly. There is no
+   * blurred glow option: a soft bloom around a picture read as a shadow that
+   * did not belong to anything.
    */
-  depth?: 'halo' | 'plate' | 'ring'
+  depth?: 'plate' | 'ring'
   /** Which corner a `plate` slides towards. */
   lean?: 'left' | 'right' | 'none'
   children?: ReactNode
@@ -277,27 +258,19 @@ export function PhotoOnColour({
    * material uses for a photograph sitting on a colour.
    */
   const mat = {
-    haldi: 'bg-haldi-200',
-    neem: 'bg-neem-200',
-    terracotta: 'bg-terracotta-200',
-    indigo: 'bg-indigo-ink-200',
-    khadi: 'bg-khadi-300',
+    orange: 'bg-orange-200',
+    green: 'bg-green-200',
+    sky: 'bg-sky-200',
+    brand: 'bg-brand-200',
+    mist: 'bg-mist-300',
   }
   const matBold = {
-    haldi: 'bg-haldi-400',
-    neem: 'bg-neem-400',
-    terracotta: 'bg-terracotta-400',
-    indigo: 'bg-indigo-ink-400',
-    khadi: 'bg-khadi-500',
+    orange: 'bg-orange-400',
+    green: 'bg-green-400',
+    sky: 'bg-sky-400',
+    brand: 'bg-brand-400',
+    mist: 'bg-mist-500',
   }
-  const glow = {
-    haldi: 'bg-haldi-300/40',
-    neem: 'bg-neem-300/40',
-    terracotta: 'bg-terracotta-300/38',
-    indigo: 'bg-indigo-ink-300/38',
-    khadi: 'bg-khadi-400/38',
-  }
-
   // Down and outward, so the pair of them leans away from the centre of a
   // composition rather than both leaning the same way.
   const plateShift = {
@@ -314,9 +287,8 @@ export function PhotoOnColour({
     // Held back to `lg` and above, where a picture sits in a column with a
     // gutter beside it. Below that the layout is one column at ~92vw and the
     // extra 18px a side has nowhere to go: the plate is absolutely positioned,
-    // nothing clips it, and it would add horizontal scroll to the document —
-    // the same failure `halo` carries a paragraph about. Under `lg` this is
-    // simply the `edge` treatment.
+    // nothing clips it, and it would add horizontal scroll to the document.
+    // Under `lg` this is simply the `edge` treatment.
     block: {
       left: '-translate-x-3 translate-y-3 lg:-translate-x-4 lg:translate-y-4 lg:scale-[1.05]',
       right: 'translate-x-3 translate-y-3 lg:translate-x-4 lg:translate-y-4 lg:scale-[1.05]',
@@ -380,34 +352,15 @@ export function PhotoOnColour({
 
   return (
     <div className={cn('relative', className)}>
-      {depth === 'halo' ? (
-        <>
-          {/* Blurred halo. No edge, so nothing can look misregistered. */}
-          <div
-            aria-hidden="true"
-            className={cn(
-              'pointer-events-none absolute -inset-5 blur-2xl sm:-inset-7',
-              shapeClasses[shape],
-              glow[colour],
-            )}
-          />
-          {/* An even mat, the same shape, the same on every side. */}
-          <div
-            aria-hidden="true"
-            className={cn('absolute -inset-2 sm:-inset-2.5', shapeClasses[shape], mat[colour])}
-          />
-        </>
-      ) : (
-        <div
-          aria-hidden="true"
-          className={cn(
-            'absolute inset-0 transition-transform duration-500 ease-out-soft',
-            shapeClasses[matShape ?? shape],
-            spread === 'block' ? matBold[colour] : mat[colour],
-            plateShift[spread][lean],
-          )}
-        />
-      )}
+      <div
+        aria-hidden="true"
+        className={cn(
+          'absolute inset-0 transition-transform duration-500 ease-out-soft',
+          shapeClasses[matShape ?? shape],
+          spread === 'block' ? matBold[colour] : mat[colour],
+          plateShift[spread][lean],
+        )}
+      />
       <ShapedPhoto
         {...photo}
         shape={shape}

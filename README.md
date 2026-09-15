@@ -69,22 +69,6 @@ Zoom is simulated the way Chrome does it: the CSS viewport shrinks while the
 device pixel ratio rises. A CSS `transform: scale()` would pass while the real
 thing broke, because media queries and `vh` units would not move.
 
-**Zoom and layout audit** (needs a server already running):
-
-```bash
-node scripts/zoom-audit.mjs http://localhost:3000
-```
-
-Loads 18 routes at ten viewport/zoom combinations — 1440, 1280, 1024, 834, 768,
-430, 390 and 375 px, at 100%, 110% and 125% browser zoom — and reports
-horizontal overflow, content colliding with the fixed navbar, text clipped by a
-non-scrolling ancestor, and controls under the 44px touch minimum. It also
-reports the spread in page-header height, which should stay near 0.40vh.
-
-Zoom is simulated the way Chrome does it: the CSS viewport shrinks while the
-device pixel ratio rises. A CSS `transform: scale()` would pass while the real
-thing broke, because media queries and `vh` units would not move.
-
 **Contrast audit** (needs a server already running):
 
 ```bash
@@ -96,6 +80,58 @@ anything under WCAG AA. Colours are recovered by compositing each sample over wh
 rather than by parsing the computed string, because Tailwind v4 compiles opacity modifiers to
 `color-mix()` and returns them as `oklab(...)`. Two cases it cannot resolve — the fixed navbar over a
 hero, and text on a photograph's scrim — are reported separately for a human to check.
+
+**Content audit** (needs a server already running):
+
+```bash
+node scripts/content-audit.mjs http://localhost:3000
+```
+
+Loads the twelve pages that have their own content specification (D09-D14, plus the Founder's Note,
+Value Stories, Parenting Tips, Fees & Admissions, FAQs and Contact Us documents), scrolls each so
+scroll-revealed sections mount, and checks the rendered text: every phrase the specification requires
+is present, nothing it forbids is, and no em dash appears in visible copy, metadata or an accessible
+name. Grepping `src/` proves nothing here — a string can be in the source and still be behind a flag
+or inside a section commented out of the tree.
+
+Three exclusions are machine-checked because each is an instruction that source-code drift would
+quietly undo: the Honesty Shop is out of this build entirely (D11 §8, restated by the Value Stories
+document); Parenting Tips carries no NEP 2020 or policy language in its page body; and Fees &
+Admissions carries neither a fee figure nor any framing against other schools. Exclusions are
+measured inside `<main>`, since the footer's keyword block names policy phrases site-wide by
+requirement and is not what those rules are about.
+
+**Brand assets** (only when the logo files change):
+
+```bash
+node scripts/build-logo-assets.mjs
+```
+
+Derives every published logo asset from the three supplied artwork files: crops each to the artwork,
+keys the cream ground to transparency by un-blending rather than thresholding, and emits the navbar
+wordmark, the full lockup, the stacked portrait, the paper-plane mark, the favicons, the app icon and
+the share card. Nothing is redrawn or recoloured.
+
+**Brand palette** (only when the brand colours change):
+
+```bash
+node scripts/build-palette.mjs           # regenerate src/styles/palette.generated.css
+node scripts/build-palette.mjs --check   # verify contrast only, no write
+```
+
+Builds the whole colour system from the five letter colours of the logo, with a fixed hierarchy:
+`brand` #0160A0 (primary: buttons, links, active states, headings, deep bands), `sky` #009FE3
+(secondary: hovers, highlights, information), then `green` #3E9D3F, `orange` #F69E09 and `coral`
+#EA574D as success, warning and error. Surfaces are `mist` (white, then a faint blue page ground) and
+text is `ink`, both on the brand blue's hue. Each family is a 50–900 ramp built in OKLab, holding hue
+exactly and gamut-mapping by chroma so no tint clips to a different colour. The generated file also
+switches off Tailwind's default palette (so `bg-red-500` renders nothing), defines semantic aliases
+(`bg-primary`, `text-error`, `bg-success-soft`…), `--brand-*` variables and the brand gradients.
+
+It checks 75 colour pairs the components actually use against their WCAG AA floors and **exits
+non-zero if any fails**, so the palette cannot regress into something illegible. Several logo colours
+cannot carry text at all — the orange measures 2.14:1 on white — which is why each family has separate
+text weights below its fill weights. Never edit `palette.generated.css` by hand.
 
 **Font metrics** (only when a typeface changes):
 
@@ -192,8 +228,11 @@ Tier A/B/C keywords at all.
   canonical, robots, Open Graph, Twitter and JSON-LD already in the markup, plus a `<noscript>`
   summary. Crawlers and AI answer engines get correct metadata without executing JavaScript.
 - `scripts/generate-sitemap.mjs` writes `sitemap.xml` and `robots.txt` from the same data.
-- FAQPage structured data uses the exact Tier C question set, phrased about LBS KidZ's own practice.
-  The one question the strategy leaves unfinalised is excluded from the markup until it is answered.
+- FAQPage structured data appears on exactly the two pages that display questions, and carries the
+  set each of those pages actually shows: fourteen on `/faqs`, five on Curriculum. The two sets are
+  separate because the FAQs and Curriculum documents each require their own wording verbatim. Home
+  and Admissions used to carry this markup and no longer do: neither renders a single question, and
+  FAQPage markup is supposed to describe content a visitor can see.
 
 Nothing unverifiable is emitted in structured data: no address, no rating, no award, no accreditation,
 no price.
@@ -233,13 +272,16 @@ no price.
 | Value stories, parenting resources | `src/data/parents.ts` |
 | Positioning, parity layer, hero copy | `src/data/positioning.ts` |
 | Legal page wording | `src/pages/PolicyPage.tsx` |
-| Logo | `src/layouts/Logo.tsx`, `public/favicon.svg`, `public/og-image.svg` |
+| Logo artwork | the three source JPEGs, then `node scripts/build-logo-assets.mjs` |
+| Brand colours | the anchors in `scripts/build-palette.mjs`, then run it |
 
-After editing `public/og-image.svg`, re-render the PNG that social platforms actually read:
+**The logo and the palette are both generated, and neither is edited by hand.**
 
-```bash
-node -e "require('sharp')('public/og-image.svg',{density:144}).resize(1200,630,{fit:'fill'}).png().toFile('public/og-image.png')"
-```
+`src/layouts/Logo.tsx` only chooses which generated variant goes where; the pixels come from the
+supplied artwork via `scripts/build-logo-assets.mjs`, which also emits the favicons, the app icon and
+the share card. `src/styles/palette.generated.css` is written by `scripts/build-palette.mjs` from
+colours sampled off that same artwork, and it refuses to emit a palette whose text pairs fall below
+WCAG AA. Editing either output directly means the next run silently reverts you.
 
 ---
 

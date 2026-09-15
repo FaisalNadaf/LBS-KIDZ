@@ -73,7 +73,7 @@ export function DesktopNav({
             aria-hidden="true"
             className={cn(
               'pointer-events-none absolute inset-y-1.5 left-0 -z-10 rounded-lg',
-              onDark ? 'bg-khadi-50/12' : 'bg-khadi-200/80',
+              onDark ? 'bg-white/12' : 'bg-brand-50',
             )}
             style={{ x: sx, width: sw }}
             animate={{ opacity: pillVisible ? 1 : 0 }}
@@ -140,10 +140,13 @@ function NavItemView({
   }, [open])
 
   const trigger = cn(
-    'relative inline-flex h-11 items-center gap-1 rounded-lg px-3 text-[0.8125rem] font-semibold',
+    'relative inline-flex h-11 items-center gap-1 rounded-lg px-3 text-[0.8125rem] font-semibold whitespace-nowrap',
     'transition-colors duration-200',
     'focus-visible:outline-2 focus-visible:outline-offset-2',
-    onDark ? 'text-khadi-100 hover:text-khadi-50' : 'text-indigo-ink-700 hover:text-terracotta-700',
+    /* Ink, not blue, at rest: with every item already blue the active one had
+       nothing to stand apart from. Hover leans to the secondary blue, and the
+       page you are on takes the primary. */
+    onDark ? 'text-mist-100 hover:text-sky-200' : 'text-ink-700 hover:text-sky-600',
   )
 
   if (item.kind === 'link') {
@@ -156,7 +159,7 @@ function NavItemView({
           // a screen reader.
           aria-label={item.short ? item.label : undefined}
           className={({ isActive }) =>
-            cn(trigger, isActive && (onDark ? 'text-haldi-300' : 'text-terracotta-600'))
+            cn(trigger, isActive && (onDark ? 'text-sky-200' : 'text-brand-500'))
           }
         >
           {({ isActive }) => (
@@ -206,7 +209,7 @@ function NavItemView({
         aria-expanded={open}
         className={cn(
           trigger,
-          open && (onDark ? 'text-khadi-50' : 'text-terracotta-700'),
+          open && (onDark ? 'text-white' : 'text-brand-500'),
         )}
       >
         {item.short ?? item.label}
@@ -256,7 +259,7 @@ function NavItemView({
       >
         <div
           className={cn(
-            'overflow-hidden rounded-xl border border-khadi-300/70 bg-khadi-50/95 p-2 shadow-lift',
+            'overflow-hidden rounded-xl border border-mist-300/70 bg-mist-50/95 p-2 shadow-lift',
             // The blur is what stops a translucent panel over a photograph
             // turning into unreadable text on a busy background.
             'backdrop-blur-xl',
@@ -290,7 +293,9 @@ function ActiveRule({ active, onDark }: { active: boolean; onDark: boolean }) {
       className={cn(
         'absolute inset-x-3 bottom-1.5 h-0.5 origin-center rounded-full transition-transform duration-300 ease-out-soft motion-reduce:transition-none',
         active ? 'scale-x-100' : 'scale-x-0',
-        onDark ? 'bg-haldi-300' : 'bg-terracotta-500',
+        /* On the deep headers the primary blue would vanish into the band, so
+           the rule there is the light sky step. */
+        onDark ? 'bg-sky-300' : 'bg-brand-500',
       )}
       aria-hidden="true"
     />
@@ -318,11 +323,11 @@ function OverviewRow({
       <Link
         to={href}
         onClick={onClick}
-        className="group/row mb-1 flex items-center justify-between gap-3 rounded-lg bg-terracotta-50 px-3.5 py-3 transition-colors duration-200 hover:bg-terracotta-100"
+        className="group/row mb-1 flex items-center justify-between gap-3 rounded-lg bg-brand-50 px-3.5 py-3 transition-colors duration-200 hover:bg-brand-100"
       >
-        <span className="text-sm font-semibold text-indigo-ink-700">Everything in {label}</span>
+        <span className="text-sm font-semibold text-brand-700">Everything in {label}</span>
         <ArrowRight
-          className="size-4 shrink-0 text-terracotta-600 transition-transform duration-200 ease-out-soft group-hover/row:translate-x-1 motion-reduce:transition-none"
+          className="size-4 shrink-0 text-brand-500 transition-transform duration-200 ease-out-soft group-hover/row:translate-x-1 motion-reduce:transition-none"
           aria-hidden="true"
         />
       </Link>
@@ -352,17 +357,17 @@ function DropdownRow({
       className={({ isActive }) =>
         cn(
           'group/row flex items-start gap-3 rounded-lg px-3 py-2.5 transition-colors duration-200',
-          isActive ? 'bg-khadi-200/80' : 'hover:bg-khadi-200/70',
+          isActive ? 'bg-brand-50' : 'hover:bg-sky-50',
         )
       }
     >
       {Icon ? (
         <span
           className={cn(
-            'mt-0.5 grid size-9 shrink-0 place-items-center rounded-lg bg-terracotta-50 text-terracotta-600',
+            'mt-0.5 grid size-9 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-500',
             'transition-[background-color,color,transform] duration-200 ease-out-soft',
             !reduced && 'group-hover/row:-translate-y-0.5',
-            'group-hover/row:bg-terracotta-600 group-hover/row:text-khadi-50',
+            'group-hover/row:bg-brand-500 group-hover/row:text-mist-50',
           )}
           aria-hidden="true"
         >
@@ -372,10 +377,10 @@ function DropdownRow({
 
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-1.5">
-          <span className="text-sm font-semibold leading-snug text-indigo-ink-700">{label}</span>
+          <span className="text-sm font-semibold leading-snug text-brand-700">{label}</span>
           <ArrowRight
             className={cn(
-              'size-3.5 shrink-0 text-terracotta-600 opacity-0 transition-[opacity,transform] duration-200 ease-out-soft',
+              'size-3.5 shrink-0 text-brand-500 opacity-0 transition-[opacity,transform] duration-200 ease-out-soft',
               'group-hover/row:translate-x-0.5 group-hover/row:opacity-100',
               'motion-reduce:transition-none',
             )}

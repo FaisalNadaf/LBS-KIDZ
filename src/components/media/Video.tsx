@@ -143,6 +143,7 @@ export function AmbientVideo({
         playsInline
         autoPlay={wantsMotion}
         preload="none"
+        draggable={false}
         // A silent decorative loop is not content anyone needs announced, and
         // the poster carries the description for anyone who does look.
         aria-label={alt ?? meta.alt}
@@ -174,19 +175,19 @@ export function AmbientVideo({
  * same object.
  */
 export function VideoOnColour({
-  colour = 'haldi',
+  colour = 'orange',
   shape = 'rounded',
   className,
   ...video
 }: Parameters<typeof AmbientVideo>[0] & {
-  colour?: 'haldi' | 'neem' | 'terracotta' | 'indigo' | 'khadi'
+  colour?: 'orange' | 'green' | 'sky' | 'brand' | 'mist'
 }) {
   const surround = {
-    haldi: 'bg-haldi-400',
-    neem: 'bg-neem-400',
-    terracotta: 'bg-terracotta-400',
-    indigo: 'bg-indigo-ink-400',
-    khadi: 'bg-khadi-500',
+    orange: 'bg-orange-400',
+    green: 'bg-green-400',
+    sky: 'bg-sky-400',
+    brand: 'bg-brand-400',
+    mist: 'bg-mist-500',
   }
 
   return (

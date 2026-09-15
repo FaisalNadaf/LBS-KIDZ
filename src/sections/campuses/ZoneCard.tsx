@@ -21,10 +21,10 @@ import { zoneDirectionsUrl, zoneMapEmbedUrl, type Zone } from '@/data/campuses'
  * no card at all.
  *
  * THE PHOTOGRAPH IS OF INDORE, NOT OF THE ZONE, and the caption under it says
- * so. There is no usable photograph of Kanadia Road, Rau or Bicholi Mardana on
- * Commons — two return nothing at all — so a street captioned with a locality
- * name would be inventing the one thing this page refuses to. Three different
- * real photographs of the city instead, each named in the line beneath it.
+ * so. No usable photograph exists on Commons for any of the five zones by name
+ * — most return nothing at all — so a street captioned with a locality name
+ * would be inventing the one thing this page refuses to. Five different real
+ * photographs of the city instead, each named in the line beneath it.
  *
  * THE MAPS ARE JUST THERE. They were behind a "show the map" button, which is
  * an extra decision asked of every reader to save a load most of them wanted
@@ -33,7 +33,21 @@ import { zoneDirectionsUrl, zoneMapEmbedUrl, type Zone } from '@/data/campuses'
  * each frame as it nears the viewport, which is the same saving without the
  * click.
  */
-export function ZoneCard({ zone, index }: { zone: Zone; index: number }) {
+export function ZoneCard({
+  zone,
+  index,
+  className,
+}: {
+  zone: Zone
+  index: number
+  /**
+   * Sizing from the parent. The cards lay out in a flex row rather than a grid
+   * so a short last row centres, which means each card carries its own column
+   * width instead of inheriting a track. See the comment on the list in
+   * `CampusesPage`.
+   */
+  className?: string
+}) {
   const reduced = usePrefersReducedMotion()
   const accent = ACCENTS[index % ACCENTS.length]
 
@@ -47,23 +61,13 @@ export function ZoneCard({ zone, index }: { zone: Zone; index: number }) {
         accent.shape,
         accent.card,
         accent.ring,
+        className,
       )}
       initial={reduced ? false : { opacity: 0, y: 26 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.5, ease: EASE.out, delay: index * 0.08 }}
     >
-      {/* A blurred bloom of the card's own colour, so the ground under the
-          text is lit rather than flat. `isolate` on the card keeps the `-z-10`
-          inside it instead of dropping it behind the section. */}
-      <span
-        className={cn(
-          'pointer-events-none absolute -right-16 top-1/3 -z-10 size-56 rounded-full blur-3xl',
-          accent.bloom,
-        )}
-        aria-hidden="true"
-      />
-
       {/* ---- Top: the picture ---- */}
       <div className={cn('relative aspect-[16/10] overflow-hidden', accent.photoShape)}>
         <Photo
@@ -78,12 +82,12 @@ export function ZoneCard({ zone, index }: { zone: Zone; index: number }) {
         />
         {/* A foot of shade, so the chip reads whatever the picture is doing. */}
         <span
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-indigo-ink-800/70 to-transparent"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-brand-800/70 to-transparent"
           aria-hidden="true"
         />
         <span className="absolute bottom-3 left-4">
           <Chip tone="onDark" className="whitespace-nowrap">
-            <LiveDot tone="terracotta" />
+            <LiveDot tone="coral" />
             In preparation
           </Chip>
         </span>
@@ -92,7 +96,7 @@ export function ZoneCard({ zone, index }: { zone: Zone; index: number }) {
       {/* What the picture actually is. Two jobs in one line: it stops a photo
           of Indore being read as a photo of this zone, and it carries the
           attribution these CC BY images require. */}
-      <p className="border-b border-khadi-200 px-6 py-2 text-2xs leading-relaxed text-ink-400">
+      <p className="border-b border-mist-200 px-6 py-2 text-2xs leading-relaxed text-ink-400">
         {zone.photoCredit}
       </p>
 
@@ -106,7 +110,7 @@ export function ZoneCard({ zone, index }: { zone: Zone; index: number }) {
             <MapPin className="size-5" strokeWidth={1.9} />
           </span>
           <div className="min-w-0">
-            <h3 className="font-display text-h3 font-semibold leading-tight text-indigo-ink-700">
+            <h3 className="font-display text-h3 font-semibold leading-tight text-brand-700">
               {zone.name}
             </h3>
             <p className="mt-1 text-sm text-ink-400">{zone.area}</p>
@@ -146,7 +150,7 @@ export function ZoneCard({ zone, index }: { zone: Zone; index: number }) {
       </div>
 
       {/* ---- Bottom: the map ---- */}
-      <div className={cn('relative mt-auto h-56 border-t bg-khadi-200', accent.mapEdge)}>
+      <div className={cn('relative mt-auto h-56 border-t bg-mist-200', accent.mapEdge)}>
         <iframe
           title={`Map of ${zone.name}, Indore`}
           src={zoneMapEmbedUrl(zone)}
@@ -164,8 +168,8 @@ export function ZoneCard({ zone, index }: { zone: Zone; index: number }) {
             className="pointer-events-none absolute left-1/2 top-1/2 grid -translate-x-1/2 -translate-y-1/2 place-items-center"
             aria-hidden="true"
           >
-            <span className="absolute size-8 rounded-full bg-terracotta-500/30 motion-safe:animate-ping" />
-            <span className="relative grid size-6 place-items-center rounded-full bg-terracotta-600 text-khadi-50 shadow-lift ring-2 ring-khadi-50">
+            <span className="absolute size-8 rounded-full bg-coral-500/30 motion-safe:animate-ping" />
+            <span className="relative grid size-6 place-items-center rounded-full bg-coral-600 text-mist-50 shadow-lift ring-2 ring-mist-50">
               <MapPin className="size-3.5" strokeWidth={2.4} />
             </span>
           </span>
@@ -181,38 +185,37 @@ export function ZoneCard({ zone, index }: { zone: Zone; index: number }) {
  * The copy in these cards is identical word for word — it has to be, because
  * the same thing is true of all three zones — so everything that tells them
  * apart has to be visual. Each gets its own squared corner, its own tinted
- * ground and its own bloom, and the picture's corners follow the card's so the
+ * ground, and the picture's corners follow the card's so the
  * two read as one object rather than a photograph laid on a panel.
  */
 const ACCENTS = [
   {
     shape: 'rounded-[2rem] rounded-tl-md',
     photoShape: 'rounded-tl-md',
-    card: 'bg-linear-to-b from-terracotta-50/80 to-khadi-50',
-    ring: 'ring-terracotta-200/70',
-    bloom: 'bg-terracotta-200/40',
-    chip: 'bg-terracotta-100 text-terracotta-700',
-    button: 'bg-terracotta-600 text-khadi-50 hover:bg-terracotta-700',
-    mapEdge: 'border-terracotta-200/70',
+    card: 'bg-linear-to-b from-sky-50/80 to-mist-50',
+    ring: 'ring-sky-200/70',
+    chip: 'bg-sky-100 text-sky-700',
+    button: 'bg-sky-600 text-mist-50 hover:bg-sky-700',
+    mapEdge: 'border-sky-200/70',
   },
   {
     shape: 'rounded-[2rem] rounded-tr-md',
     photoShape: 'rounded-tr-md',
-    card: 'bg-linear-to-b from-haldi-100/70 to-khadi-50',
-    ring: 'ring-haldi-200/70',
-    bloom: 'bg-haldi-200/45',
-    chip: 'bg-haldi-100 text-haldi-600',
-    button: 'bg-indigo-ink-700 text-khadi-50 hover:bg-indigo-ink-600',
-    mapEdge: 'border-haldi-200/70',
+    card: 'bg-linear-to-b from-orange-100/70 to-mist-50',
+    ring: 'ring-orange-200/70',
+    chip: 'bg-orange-100 text-orange-600',
+    button: 'bg-brand-700 text-mist-50 hover:bg-brand-600',
+    mapEdge: 'border-orange-200/70',
   },
   {
     shape: 'rounded-[2rem] rounded-bl-md',
     photoShape: '',
-    card: 'bg-linear-to-b from-neem-100/70 to-khadi-50',
-    ring: 'ring-neem-200/70',
-    bloom: 'bg-neem-200/45',
-    chip: 'bg-neem-100 text-neem-600',
-    button: 'bg-neem-500 text-khadi-50 hover:bg-neem-600',
-    mapEdge: 'border-neem-200/70',
+    card: 'bg-linear-to-b from-green-100/70 to-mist-50',
+    ring: 'ring-green-200/70',
+    chip: 'bg-green-100 text-green-600',
+    // 600, not 500: white on the logo green measures 3.31:1, under the AA
+    // floor for a filled button, and 700 is the step it hovers to.
+    button: 'bg-green-600 text-mist-50 hover:bg-green-700',
+    mapEdge: 'border-green-200/70',
   },
 ]

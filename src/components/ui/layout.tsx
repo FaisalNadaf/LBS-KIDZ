@@ -1,7 +1,6 @@
 import type { ReactNode, ElementType } from 'react'
 import { cn } from '@/lib/cn'
 import { ObjectScatter } from '@/components/art/ObjectScatter'
-import { Ambient, Blob, type BlobTone } from '@/animations/Scroll'
 import { Reveal } from '@/animations/Reveal'
 import { SplitHeading } from '@/animations/Scroll'
 import { Grain } from '@/components/art/primitives'
@@ -46,15 +45,24 @@ export function Container({
    Section
    ========================================================================== */
 
-type Tone = 'khadi' | 'white' | 'indigo' | 'terracotta' | 'neem' | 'haldi'
+type Tone = 'mist' | 'white' | 'brand' | 'sky' | 'green' | 'orange'
 
+/**
+ * The bands a page can be made of.
+ *
+ * Mostly light: `white` and `mist` (the faint blue page ground) carry the bulk
+ * of every page, and `sky`, `green` and `orange` are the palest step of their
+ * family — enough to separate one band from the next, never enough to read as a
+ * coloured section. `brand` is the one deep band, and it marks itself `on-dark`
+ * so anything focusable inside picks up the light focus ring.
+ */
 const toneClasses: Record<Tone, string> = {
-  khadi: 'bg-khadi-100 text-ink-700',
-  white: 'bg-khadi-50 text-ink-700',
-  indigo: 'bg-indigo-ink-700 text-khadi-100',
-  terracotta: 'bg-terracotta-50 text-ink-700',
-  neem: 'bg-neem-100 text-ink-700',
-  haldi: 'bg-haldi-100 text-ink-700',
+  mist: 'bg-mist-100 text-ink-700',
+  white: 'bg-mist-50 text-ink-700',
+  brand: 'on-dark bg-brand-700 text-mist-100',
+  sky: 'bg-sky-50 text-ink-700',
+  green: 'bg-green-50 text-ink-700',
+  orange: 'bg-orange-50 text-ink-700',
 }
 
 /**
@@ -72,63 +80,16 @@ const toneClasses: Record<Tone, string> = {
  * `py-16 sm:py-20 lg:py-24` stack — which is also what makes the rhythm hold at
  * 110% and 125% browser zoom, where the vw term shrinks with the viewport.
  */
-/**
- * The palette the drifting background fields can take.
- *
- * Named by mood rather than by hue so a call site says what the band is doing,
- * not what colour to paint: `warm` for the pages that sell, `calm` for the ones
- * that explain, `growth` for anything about the child rather than the school.
- */
-export type AmbientTone = 'warm' | 'calm' | 'growth'
-
-const ambientPairs: Record<AmbientTone, [BlobTone, BlobTone]> = {
-  warm: ['terracotta', 'haldi'],
-  calm: ['indigo', 'lilac'],
-  growth: ['neem', 'haldi'],
-}
-
-/**
- * Two blobs, deliberately mismatched.
- *
- * Different sizes, opposite corners, different travel ranges and durations that
- * do not divide into each other — 22 and 29 seconds, so the pair takes over ten
- * minutes to return to the same relative position. Matched durations would make
- * the band visibly loop, which is the difference between a background that is
- * alive and one that is animating.
- *
- * `-z-10` inside the band's own `isolate`, so these paint above the tone and
- * beneath every piece of content, and can never wash over text.
- */
-function SectionAmbient({ tone }: { tone: AmbientTone }) {
-  const [a, b] = ambientPairs[tone]
-  return (
-    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
-      <Ambient className="-left-[12%] top-[-18%] size-[34rem]" range={30} duration={22}>
-        <Blob tone={a} className="size-full" />
-      </Ambient>
-      <Ambient
-        className="-right-[10%] bottom-[-22%] size-[28rem]"
-        range={24}
-        duration={29}
-        delay={2.5}
-      >
-        <Blob tone={b} className="size-full" />
-      </Ambient>
-    </div>
-  )
-}
-
 export function Section({
   children,
   className,
-  tone = 'khadi',
+  tone = 'mist',
   id,
   size = 'default',
   as: Tag = 'section',
   labelledBy,
   divider,
   decor = true,
-  ambient,
 }: {
   children: ReactNode
   className?: string
@@ -140,7 +101,7 @@ export function Section({
   /**
    * A shaped seam at the foot of this band, painted in the colour of the band
    * below it. `to` names that band's tone; `fill` takes any CSS colour for a
-   * ground that is not one of the tones, such as the terracotta CTA.
+   * ground that is not one of the tones, such as the brand-blue CTA.
    */
   divider?: {
     type?: DividerType
@@ -157,22 +118,8 @@ export function Section({
    * foot of the band, which stays empty at every viewport — see CENTRED_SLOTS.
    */
   decor?: boolean | 'centred'
-  /**
-   * Two soft fields of colour wandering slowly behind the band.
-   *
-   * Opt-in per section rather than on by default, for two reasons. A page where
-   * every band has moving atmosphere has no atmosphere — the effect only reads
-   * where its neighbours are still. And these are the largest composited
-   * surfaces on the page, so they are given to the four or five bands that
-   * carry the page's argument and withheld from policy text and link lists.
-   *
-   * The hook behind them declines to run on touch hardware entirely: a phone
-   * should not be compositing two 30rem gradients continuously for something
-   * nobody is looking at.
-   */
-  ambient?: AmbientTone
 }) {
-  const onDarkTone = tone === 'indigo' || tone === 'terracotta'
+  const onDarkTone = tone === 'brand'
 
   /**
    * A band with a divider reserves the curve's height in its own bottom
@@ -214,7 +161,6 @@ export function Section({
         className,
       )}
     >
-      {ambient ? <SectionAmbient tone={ambient} /> : null}
       {decor ? (
         <ObjectScatter
           seed={id ?? labelledBy ?? tone}
@@ -249,11 +195,14 @@ export function Eyebrow({
     <p
       className={cn(
         'flex items-center gap-2 text-2xs font-semibold uppercase tracking-[0.16em]',
-        onDark ? 'text-haldi-300' : 'text-terracotta-600',
+        onDark ? 'text-orange-300' : 'text-brand-500',
         className,
       )}
     >
-      <Grain className="shrink-0" />
+      {/* Two-tone on purpose: the label in the primary, the mark in the
+          secondary, which is the smallest place the logo's two blues can sit
+          side by side. The mark is decoration, so the lighter blue is safe. */}
+      <Grain className={cn('shrink-0', onDark ? 'text-orange-400' : 'text-sky-400')} />
       {children}
     </p>
   )
@@ -333,7 +282,7 @@ export function SectionHeader({
           happens to sit — every section on the site opens the same way, and
           that consistency is what makes the sequencing read as a system. */}
       {splitTitle ? (
-        <SplitHeading as={Tag} id={id} className={cn('text-h2', onDark && 'text-khadi-50')}>
+        <SplitHeading as={Tag} id={id} className={cn('text-h2', onDark && 'text-mist-50')}>
           {title}
         </SplitHeading>
       ) : (
@@ -343,7 +292,7 @@ export function SectionHeader({
           tier="lead"
           direction="rise"
           delay={0.05}
-          className={cn('text-h2', onDark && 'text-khadi-50')}
+          className={cn('text-h2', onDark && 'text-mist-50')}
         >
           {title}
         </Reveal>
@@ -356,7 +305,7 @@ export function SectionHeader({
             // Capped in characters, not pixels: the type scale is fluid, so a
             // fixed max-width means a different line length at every viewport.
             'max-w-[62ch] text-lead',
-            onDark ? 'text-khadi-200/90' : 'text-ink-500',
+            onDark ? 'text-mist-200/90' : 'text-ink-500',
           )}
         >
           {standfirst}
@@ -394,7 +343,7 @@ export function Prose({ children, className }: { children: ReactNode; className?
       className={cn(
         'max-w-prose space-y-4 text-body text-ink-500',
         '[&_strong]:font-semibold [&_strong]:text-ink-700',
-        '[&_a]:text-terracotta-600 [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-terracotta-700',
+        '[&_a]:text-brand-500 [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-sky-600',
         className,
       )}
     >
@@ -423,7 +372,7 @@ export function SourceNote({
     <p
       className={cn(
         'flex gap-2.5 border-l-2 pl-3.5 text-small leading-relaxed',
-        onDark ? 'border-haldi-400/60 text-khadi-200/80' : 'border-terracotta-300 text-ink-400',
+        onDark ? 'border-orange-400/60 text-mist-200/80' : 'border-sky-300 text-ink-400',
         className,
       )}
     >

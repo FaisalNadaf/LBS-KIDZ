@@ -18,6 +18,7 @@ import {
   zones
 } from '@/data/campuses'
 import { routes } from '@/data/routes'
+import { CTA_SEAM } from '@/components/ui/SectionDivider'
 
 /**
  * Campuses.
@@ -43,11 +44,12 @@ export function CampusesPage() {
         /* The full phase-one explanation is still on the page below. A
            header carries the signpost, not the argument. */
         standfirst="The Indore zones we are opening in first. Each campus gets its address, photographs and map the day it is ready."
-        photo="school-friends"
+        photo="indore-gandhi-hall"
+        photoFocus="55% 45%"
       />
 
       {/* ---- Zones ---- */}
-      <Section tone="khadi" id="zones" labelledBy="zones-title" divider={{ type: 'gentle', to: 'white' }}>
+      <Section tone="mist" id="zones" labelledBy="zones-title" divider={{ type: 'gentle', to: 'white' }}>
         <Container size="wide">
           <SectionHeader
             id="zones-title"
@@ -69,9 +71,22 @@ export function CampusesPage() {
               Not a `RevealGroup`: the cards carry their own staggered entrance
               in Motion, which also drives the hover lift and the picture's zoom,
               so one system owns the whole card rather than two overlapping. */}
-          <div className="mt-block grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {/* FLEX, NOT GRID, SO A SHORT LAST ROW CENTRES.
+              There are five zones and three columns, so the second row carries
+              two cards and a grid left-aligns them, hanging an empty third
+              track off the right of the section. A wrapping flex row centres
+              whatever the last row holds, and it does so for any number of
+              zones: add a sixth and the rows fill evenly, add a seventh and the
+              single card centres itself. The widths below are the three- and
+              two-column tracks worked out by hand, `gap-6` being 1.5rem. */}
+          <div className="mt-block flex flex-wrap justify-center gap-6">
             {zones.map((zone, i) => (
-              <ZoneCard key={zone.slug} zone={zone} index={i} />
+              <ZoneCard
+                key={zone.slug}
+                zone={zone}
+                index={i}
+                className="w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]"
+              />
             ))}
           </div>
 
@@ -79,7 +94,7 @@ export function CampusesPage() {
       </Section>
 
       {/* ---- Safety ---- */}
-      <Section tone="white" id="safety" labelledBy="safety-title" divider={{ type: 'blob', to: 'khadi' }}>
+      <Section tone="white" id="safety" labelledBy="safety-title" divider={{ type: 'blob', to: 'mist' }}>
         <Container size="wide">
           <SectionHeader
             id="safety-title"
@@ -93,18 +108,18 @@ export function CampusesPage() {
               <RevealItem key={group.group} className="h-full">
                 <Card
                   className="flex h-full flex-col"
-                  tone="sand"
+                  tone="mist"
                   object={group.group}
                   shape={cardShapeCycle[(i + 1) % cardShapeCycle.length]}
                   backdrop={cardBackdropCycle[(i + 1) % cardBackdropCycle.length]}
                 >
-                  <h3 className="font-display text-h4 font-semibold text-indigo-ink-700">
+                  <h3 className="font-display text-h4 font-semibold text-brand-700">
                     {group.group}
                   </h3>
                   <ul className="mt-5 space-y-3">
                     {group.items.map((item) => (
                       <li key={item} className="flex gap-3 text-sm leading-relaxed text-ink-500">
-                        <Grain className="mt-1.5 shrink-0 text-terracotta-500" />
+                        <Grain className="mt-1.5 shrink-0 text-sky-500" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -131,7 +146,7 @@ export function CampusesPage() {
           with children in it would read as our room, which is the one thing
           this page must not imply while nothing is open yet. */}
       <ContentImageSection
-        tone="khadi"
+        tone="mist"
         id="environment"
         labelledBy="environment-title"
         side="right"
@@ -140,7 +155,7 @@ export function CampusesPage() {
         standfirst={classroomEnvironment.body}
         photo="school-kit"
         photoAlt="The materials a child works with: a packed school bag of books, pencils and a ruler"
-        photoRatio="3 / 2" divider={{ type: 'cloud', fill: 'var(--color-terracotta-600)' }}
+        photoRatio="3 / 2" divider={CTA_SEAM}
       >
         <div className="mt-6">
           <TextLink to={routes.curriculum}>How the room connects to the day</TextLink>

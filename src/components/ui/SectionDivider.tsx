@@ -56,7 +56,7 @@ import { cn } from '@/lib/cn'
  */
 
 /** The tones a band can be, matching `Section`'s own vocabulary. */
-export type DividerTone = 'khadi' | 'white' | 'indigo' | 'terracotta' | 'neem' | 'haldi'
+export type DividerTone = 'mist' | 'white' | 'brand' | 'sky' | 'green' | 'orange'
 
 /**
  * Each tone's flat background as a CSS colour, mirroring `toneClasses` in
@@ -64,12 +64,12 @@ export type DividerTone = 'khadi' | 'white' | 'indigo' | 'terracotta' | 'neem' |
  * `fill`, and a Tailwind background utility cannot get inside an SVG.
  */
 const TONE_FILL: Record<DividerTone, string> = {
-  khadi: 'var(--color-khadi-100)',
-  white: 'var(--color-khadi-50)',
-  indigo: 'var(--color-indigo-ink-700)',
-  terracotta: 'var(--color-terracotta-50)',
-  neem: 'var(--color-neem-100)',
-  haldi: 'var(--color-haldi-100)',
+  mist: 'var(--color-mist-100)',
+  white: 'var(--color-mist-50)',
+  brand: 'var(--color-brand-700)',
+  sky: 'var(--color-sky-50)',
+  green: 'var(--color-green-50)',
+  orange: 'var(--color-orange-50)',
 }
 
 export type DividerType =
@@ -239,6 +239,18 @@ const SHAPE: Record<DividerType, Shape> = {
  * The rendered height of each variant, for a band that has to reserve the space
  * itself rather than take the spacer. See the `flush` prop.
  */
+/**
+ * The edge every page's last band closes into the site-wide Register Interest
+ * band with: the band's own blue reaching up in a row of clouds.
+ *
+ * One constant rather than a shape picked per page, because it was picked per
+ * page — clouds on most, a scallop on the policy pages, a tight wave on the
+ * sitemap, and on the homepage and the 404 nothing at all, so the band started
+ * on a ruled line. The CTA is the same band everywhere, so the seam into it is
+ * too. A page whose last band leaves this off shows that straight line again.
+ */
+export const CTA_SEAM = { type: 'cloud', fill: 'var(--color-primary)' } as const
+
 export const DIVIDER_HEIGHT: Record<DividerType, string> = {
   asymmetric: 'clamp(2.25rem,5.5vw,6.5rem)',
   reverse: 'clamp(2.25rem,5.5vw,6.5rem)',
@@ -312,7 +324,7 @@ export function SectionDivider({
           position === 'top' ? '-top-px -scale-y-100' : '-bottom-px',
           className,
         )}
-        style={{ ['--divider-fill' as string]: fill ?? (to ? TONE_FILL[to] : TONE_FILL.khadi) }}
+        style={{ ['--divider-fill' as string]: fill ?? (to ? TONE_FILL[to] : TONE_FILL.mist) }}
       >
         <svg
           viewBox={`0 0 1440 ${shape.box}`}

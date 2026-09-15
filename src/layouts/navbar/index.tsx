@@ -29,7 +29,7 @@ import { MenuIcon } from './MenuIcon'
  * bar can own its pointer tracking and the sheet can own its accordions without
  * either being a branch inside the other.
  *
- * TWO COLOUR STATES. Transparent over the hero, and a khadi bar once scrolled.
+ * TWO COLOUR STATES. Transparent over the hero, and a white bar once scrolled.
  * Over a dark page header the transparent state flips to light-on-dark;
  * otherwise the wordmark and links would be ink on deep blue.
  *
@@ -66,7 +66,7 @@ export function Navbar() {
     <>
       <a
         href="#main"
-        className="sr-only z-100 focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:rounded-md focus:bg-indigo-ink-700 focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-khadi-50"
+        className="sr-only z-100 focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:rounded-md focus:bg-brand-600 focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-white"
       >
         Skip to main content
       </a>
@@ -79,7 +79,7 @@ export function Navbar() {
           'fixed inset-x-0 top-0 z-50',
           'transition-[background-color,box-shadow,backdrop-filter,border-color] duration-300 ease-out-soft',
           solid
-            ? 'border-b border-khadi-300/70 bg-khadi-50/85 shadow-soft backdrop-blur-xl'
+            ? 'border-b border-mist-300/70 bg-mist-50/85 shadow-soft backdrop-blur-xl'
             : 'border-b border-transparent bg-transparent',
         )}
       >
@@ -117,8 +117,8 @@ export function Navbar() {
                 className={cn(
                   'grid size-11 place-items-center rounded-lg transition-colors duration-200 lg:hidden',
                   onDark
-                    ? 'text-khadi-50 hover:bg-khadi-50/15'
-                    : 'text-indigo-ink-700 hover:bg-khadi-200',
+                    ? 'text-white hover:bg-white/15'
+                    : 'text-brand-700 hover:bg-brand-50',
                 )}
               >
                 <span className="sr-only">{mobileOpen ? 'Close menu' : 'Open menu'}</span>

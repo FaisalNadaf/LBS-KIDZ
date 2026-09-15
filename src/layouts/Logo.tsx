@@ -2,98 +2,154 @@ import { Link } from 'react-router-dom'
 import { cn } from '@/lib/cn'
 
 /**
- * The wheat-stalk mark on its own, without the wordmark or the link.
+ * The LBS KidZ logo.
  *
- * Split out of `Logo` for the loading screen, which needs the mark at 3x the
- * navbar's size and must not render a link: an overlay that covers the site is
- * no place for a control that navigates, and it would be the one focusable
- * thing on screen while the site underneath is inert.
+ * These are the real supplied artwork files, cropped and keyed to transparency
+ * by `scripts/build-logo-assets.mjs`. Nothing here is drawn, recoloured or
+ * approximated: earlier versions of this component built a wordmark out of type
+ * plus a wheat-stalk SVG because no logo file had been supplied, and that stand-in
+ * is now gone.
  *
- * Colour comes from `currentColor` so a caller sets it with a text utility.
- * `vectorEffect` is not used: the stroke is meant to thicken with the mark.
+ * THREE VARIANTS, BECAUSE ONE LOCKUP CANNOT SERVE EVERY SLOT.
+ *
+ *   `wordmark`  LBS KidZ and the paper plane. The only variant that survives
+ *               navbar height: at 40px the full lockup's initiative line is
+ *               under 3px tall and the strapline is a smudge.
+ *   `lockup`    The complete landscape artwork, straplines included. For the
+ *               footer and anywhere the brand is introduced rather than merely
+ *               identified, at 200px wide or more.
+ *   `stacked`   The portrait artwork, for square-ish slots — the loading screen.
+ *
+ * ASPECT RATIOS ARE INTRINSIC AND FIXED. Every usage sets a height and lets the
+ * width follow, so the artwork can never be stretched: there is no code path
+ * here that sets both. The `width`/`height` attributes carry the real pixel
+ * dimensions of each file so the box is reserved before the image decodes,
+ * which is what keeps the navbar from shifting on first paint.
  */
-export function LogoMark({ className }: { className?: string }) {
+
+/** Real pixel dimensions of each generated file, from its own manifest. */
+export const logoVariants = {
+  wordmark: { src: '/images/brand/lbs-kidz-wordmark.png', width: 960, height: 325 },
+  lockup: { src: '/images/brand/lbs-kidz-lockup.png', width: 1100, height: 547 },
+  stacked: { src: '/images/brand/lbs-kidz-stacked.png', width: 820, height: 910 },
+  mark: { src: '/images/brand/lbs-kidz-mark.png', width: 512, height: 551 },
+} as const
+
+export type LogoVariant = keyof typeof logoVariants
+
+/**
+ * The artwork on its own, with no link and no wrapper.
+ *
+ * Split out for the loading screen, which needs the logo at eight times navbar
+ * size and must not render a link: an overlay covering an `inert` site is no
+ * place for a control that navigates, and it would be the one focusable thing
+ * on screen.
+ *
+ * `alt=""` by default because in almost every position the logo sits inside
+ * something that is already labelled — the home link, a heading, a figure. A
+ * caller that puts it somewhere unlabelled passes its own `alt`.
+ */
+export function LogoArt({
+  variant = 'wordmark',
+  className,
+  alt = '',
+  priority = false,
+}: {
+  variant?: LogoVariant
+  className?: string
+  alt?: string
+  priority?: boolean
+}) {
+  const art = logoVariants[variant]
   return (
-    <svg viewBox="0 0 32 32" className={className} aria-hidden="true" focusable="false">
-      <g
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.9"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M16 29V12" />
-        <path d="M16 15c-4-1-6-4-5.5-7.5" />
-        <path d="M16 15c4-1 6-4 5.5-7.5" />
-        <path d="M16 21c-4-1-6-4-5.5-7.5" />
-        <path d="M16 21c4-1 6-4 5.5-7.5" />
-        <path d="M16 12c-1.6-3 -1.2-6 0-9 1.2 3 1.6 6 0 9Z" />
-      </g>
-    </svg>
+    <img
+      src={art.src}
+      width={art.width}
+      height={art.height}
+      alt={alt}
+      /* Height-driven: `w-auto` is what makes stretching impossible however the
+         caller sizes it. */
+      className={cn('w-auto', className)}
+      decoding="async"
+      draggable={false}
+      loading={priority ? 'eager' : 'lazy'}
+      {...(priority ? { fetchPriority: 'high' as const } : {})}
+      aria-hidden={alt === '' ? true : undefined}
+    />
   )
 }
 
 /**
- * The LBS KidZ wordmark.
+ * The logo as the site's home link. The navbar's and the footer's brand block.
  *
- * Built from type plus the wheat-stalk motif rather than as a supplied asset,
- * because no logo file accompanies the source documents. It is deliberately a
- * single component so replacing it with the official artwork later is a
- * one-file change.
- * See docs/decisions-and-todos.md item T-05.
+ * The artwork is shown exactly as supplied, on every ground. There is no dark
+ * variant, and drawing one would mean recolouring the logo.
+ *
+ * NO OUTLINE ON DARK, BY CLIENT DIRECTION (15 Sep 2026). It used to carry a
+ * 1.5px white outline and a soft shadow over the deep blue headers, because
+ * three of its glyphs — the "L", the "B" bowl and the "K" — are the brand blue
+ * and measure about 1.4:1 against a band a few steps deeper. The outline read as
+ * a white glow behind the mark and was removed. Those glyphs are quieter over a
+ * deep header as a result; the rest of the wordmark carries it, and the bar
+ * turns white as soon as the reader scrolls. `onDark` is kept so a future
+ * treatment has somewhere to go without touching the call sites.
+ *
+ * Sized a step up from the first build so the logo holds its own against the
+ * navigation beside it: 44px on phones and tablets, 52px from `xl`. Between
+ * 1024 and 1279 it stays at 40px, because that is where the full desktop menu
+ * first appears and a wider logo pushed "For Parents" onto two lines.
  */
 export function Logo({
   className,
-  onDark = false,
-  showTagline = false,
+  variant = 'wordmark',
+  sizeClassName = 'h-11 lg:h-10 xl:h-13',
 }: {
   className?: string
+  /** Accepted and currently unused: the mark is identical on every ground. */
   onDark?: boolean
-  showTagline?: boolean
+  variant?: LogoVariant
+  /** Sets the height. The width always follows the artwork. */
+  sizeClassName?: string
 }) {
   return (
     <Link
       to="/"
-      className={cn('group inline-flex items-center gap-3', className)}
+      className={cn(
+        'group inline-flex items-center rounded-md transition-opacity duration-200 hover:opacity-90',
+        className,
+      )}
       aria-label="LBS KidZ, home"
     >
-      <span
-        className={cn(
-          'grid size-11 shrink-0 place-items-center rounded-lg transition-colors duration-200',
-          onDark ? 'bg-khadi-50/10' : 'bg-terracotta-500',
-        )}
-      >
-        <LogoMark className={cn('size-7', onDark ? 'text-khadi-100' : 'text-khadi-50')} />
-      </span>
+      <LogoArt
+        variant={variant}
+        priority
+        className={sizeClassName}
+      />
+    </Link>
+  )
+}
 
-      {/*
-        The wordmark is set in the display face, which arrives after first paint
-        with `font-display: swap`. Georgia stands in until then and is narrower,
-        so the swap used to widen this block and push the whole nav sideways —
-        it was the single largest layout shift on the site (0.024 of a 0.024
-        CLS). A floor on the width means the swap happens inside a box that has
-        already been reserved, and nothing beside it moves.
-      */}
-      <span className="flex min-w-[6.75rem] flex-col leading-none">
-        <span
-          className={cn(
-            'font-display whitespace-nowrap text-xl font-semibold tracking-tight',
-            onDark ? 'text-khadi-50' : 'text-indigo-ink-700',
-          )}
-        >
-          LBS <span className={onDark ? 'text-haldi-300' : 'text-terracotta-600'}>KidZ</span>
-        </span>
-        {showTagline ? (
-          <span
-            className={cn(
-              'mt-1.5 whitespace-nowrap text-2xs font-medium uppercase tracking-[0.14em]',
-              onDark ? 'text-khadi-300/80' : 'text-ink-400',
-            )}
-          >
-            Little Karmayogis in the making
-          </span>
-        ) : null}
-      </span>
+/**
+ * The full lockup on a light plaque, for use on the deep blue footer.
+ *
+ * The artwork's smallest line — "An Initiative of Lal Bahadur Shastri Group of
+ * Institutions" — is set in near-black, so on the dark band it disappears
+ * entirely while the rest of the logo still reads. Recolouring it is not an
+ * option: it is the supplied artwork. Giving it a light surface to sit on keeps
+ * every line of the real logo legible, and the plaque takes the site's own cut
+ * corner so it reads as a designed brand block rather than as a pasted image.
+ */
+export function LogoPlaque({ className }: { className?: string }) {
+  return (
+    <Link
+      to="/"
+      className={cn(
+        'corner-cut-lg group inline-flex bg-mist-50 p-4 shadow-lift transition-transform duration-300 ease-out-soft hover:-translate-y-0.5 sm:p-5',
+        className,
+      )}
+      aria-label="LBS KidZ, home"
+    >
+      <LogoArt variant="lockup" className="h-20 sm:h-24" />
     </Link>
   )
 }

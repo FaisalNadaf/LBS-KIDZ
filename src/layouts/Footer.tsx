@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowUp, Facebook, Instagram, MapPin, MessageCircle, Youtube } from 'lucide-react'
 import { Container } from '@/components/ui/layout'
-import { Logo } from './Logo'
+import { LogoPlaque } from './Logo'
 import { contact, site } from '@/data/site'
 import {
   footerExploreLinks,
@@ -12,7 +12,6 @@ import {
 import { WheatStalk } from '@/components/art/primitives'
 import { ObjectScatter } from '@/components/art/ObjectScatter'
 import { Reveal, RevealItem } from '@/animations/Reveal'
-import { Ambient, Blob } from '@/animations/Scroll'
 import { Magnetic } from '@/animations/interactions'
 import { cn } from '@/lib/cn'
 
@@ -52,26 +51,21 @@ const hasSocial = Object.values(contact.social).some((s) => !s.pending)
 
 export function Footer() {
   return (
-    <footer className="relative isolate overflow-hidden bg-indigo-ink-800 text-khadi-200">
+    <footer className="on-dark relative isolate overflow-hidden bg-brand-800 text-mist-200">
       <div
-        className="pointer-events-none absolute -right-10 bottom-0 h-72 text-khadi-100/[0.06]"
+        className="pointer-events-none absolute -right-10 bottom-0 h-72 text-mist-100/[0.06]"
         aria-hidden="true"
       >
         <WheatStalk />
       </div>
 
-      {/* One slow field of colour, so the largest block of flat dark on the site
-          is not completely inert. Far enough down and low enough in contrast
-          that it never competes with the panels above it. */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
-        <Ambient className="-left-[6%] top-[-30%] size-[34rem]" range={28} duration={26}>
-          <Blob tone="indigo" className="size-full" />
-        </Ambient>
-      </div>
+      {/* `inline`: the object scatter is rendered before the `relative`
+          Container, so DOM order already puts it behind the content.
 
-      {/* `inline`: the footer's `-z-10` blob layer above needs the `isolate`,
-          but the object scatter is rendered before the `relative` Container and
-          DOM order already puts it behind the content. */}
+          No ambient glow on this band. It used to carry a drifting field of
+          light blue, and because the band clips its own children the glow
+          stopped dead at the footer's top edge — a visible light line directly
+          under the CTA's curve, which is flat brand-800 like the footer. */}
       <ObjectScatter seed="site-footer" variant="cap" onDark inline />
 
       <Container size="wide" className="relative py-16 lg:py-20">
@@ -79,17 +73,21 @@ export function Footer() {
           {/* ---- 2.1 School information ---- */}
           <Reveal className="sm:col-span-2 lg:col-span-5" tier="quiet">
             <Panel className="h-full">
-              <Logo onDark showTagline />
+              <LogoPlaque />
 
-              <p className="mt-6 max-w-sm text-sm leading-relaxed text-khadi-300/85">
+              {/* The logo's colours as one short rule: the only gradient in the
+                  footer, and small enough to read as a signature. */}
+              <span className="mt-6 block h-1 w-14 rounded-full bg-gradient-spectrum" aria-hidden="true" />
+
+              <p className="mt-5 max-w-sm text-sm leading-relaxed text-mist-300/85">
                 A preschool brand under {site.parentGroup}, built in partnership between{' '}
                 {site.operator} and the {site.partner}.
               </p>
 
               <address className="mt-6 space-y-3 not-italic text-sm">
                 {contact.address.pending ? (
-                  <p className="flex items-start gap-2.5 text-khadi-300/80">
-                    <MapPin className="mt-0.5 size-4 shrink-0 text-haldi-300" aria-hidden="true" />
+                  <p className="flex items-start gap-2.5 text-mist-300/80">
+                    <MapPin className="mt-0.5 size-4 shrink-0 text-orange-300" aria-hidden="true" />
                     <span>
                       Campus addresses are published as each campus opens. We are launching across{' '}
                       Indore.
@@ -97,7 +95,7 @@ export function Footer() {
                   </p>
                 ) : (
                   <p className="flex items-start gap-2.5">
-                    <MapPin className="mt-0.5 size-4 shrink-0 text-haldi-300" aria-hidden="true" />
+                    <MapPin className="mt-0.5 size-4 shrink-0 text-orange-300" aria-hidden="true" />
                     <span>{contact.address.lines.join(', ')}</span>
                   </p>
                 )}
@@ -106,7 +104,7 @@ export function Footer() {
                   <p>
                     <a
                       href={`tel:${contact.phone.value}`}
-                      className="transition-colors hover:text-khadi-50"
+                      className="transition-colors hover:text-sky-200"
                     >
                       {contact.phone.display}
                     </a>
@@ -115,10 +113,10 @@ export function Footer() {
 
                 {contact.whatsapp.pending ? null : (
                   <p className="flex items-center gap-2.5">
-                    <MessageCircle className="size-4 shrink-0 text-haldi-300" aria-hidden="true" />
+                    <MessageCircle className="size-4 shrink-0 text-orange-300" aria-hidden="true" />
                     <a
                       href={`https://wa.me/${contact.whatsapp.value}`}
-                      className="transition-colors hover:text-khadi-50"
+                      className="transition-colors hover:text-sky-200"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
@@ -131,7 +129,7 @@ export function Footer() {
                   <p>
                     <a
                       href={`mailto:${contact.email.value}`}
-                      className="transition-colors hover:text-khadi-50"
+                      className="transition-colors hover:text-sky-200"
                     >
                       {contact.email.display}
                     </a>
@@ -185,7 +183,7 @@ export function Footer() {
               <FooterLink key={link.href} {...link} />
             ))}
             {footerUtilityLinks.length ? (
-              <li className="mt-3 border-t border-khadi-100/10 pt-3">
+              <li className="mt-3 border-t border-mist-100/10 pt-3">
                 <ul>
                   {footerUtilityLinks.map((link) => (
                     <FooterLink key={link.href} {...link} />
@@ -206,17 +204,17 @@ export function Footer() {
                   <Link
                     to={link.href}
                     className={cn(
-                      'group/pill inline-flex items-center gap-2 rounded-full border border-khadi-100/15 py-2 pl-4 pr-3.5',
-                      'text-sm leading-snug text-khadi-300/90',
+                      'group/pill inline-flex items-center gap-2 rounded-full border border-mist-100/15 py-2 pl-4 pr-3.5',
+                      'text-sm leading-snug text-mist-300/90',
                       'transition-[background-color,border-color,color] duration-200 ease-out-soft',
-                      'hover:border-haldi-300/45 hover:bg-khadi-50/[0.07] hover:text-khadi-50',
+                      'hover:border-orange-300/45 hover:bg-mist-50/[0.07] hover:text-sky-200',
                     )}
                   >
                     {link.label}
                     {/* The dot only earns its place on hover: eighteen static
                         dots in a wrapped row would read as bullet points. */}
                     <span
-                      className="size-1.5 shrink-0 rounded-full bg-haldi-300 opacity-0 transition-opacity duration-200 group-hover/pill:opacity-100 motion-reduce:transition-none"
+                      className="size-1.5 shrink-0 rounded-full bg-orange-300 opacity-0 transition-opacity duration-200 group-hover/pill:opacity-100 motion-reduce:transition-none"
                       aria-hidden="true"
                     />
                   </Link>
@@ -227,10 +225,20 @@ export function Footer() {
         </Reveal>
 
         {/* ---- 2.5 Copyright ---- */}
-        <div className="mt-10 flex flex-col gap-4 border-t border-khadi-100/10 pt-7 text-xs text-khadi-300/70 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-4 border-t border-mist-100/10 pt-7 text-xs text-mist-300/70 sm:flex-row sm:items-center sm:justify-between">
           <p>{site.copyrightLine}</p>
-          <div className="flex items-center gap-5">
-            <Link to="/sitemap" className="transition-colors hover:text-khadi-50">
+          {/* `gap-2` and negative margins rather than `gap-5`: the link needs a
+              44px-tall hit area to meet the touch minimum, and the padding that
+              buys it would otherwise push this row 16px taller than the line of
+              copyright text beside it. The margins pull the box back to the
+              text's own height, so the target grows and the layout does not.
+              `Sitemap` was the one control on the site under the minimum, on
+              every page, at every width. */}
+          <div className="-my-2.5 flex items-center gap-2">
+            <Link
+              to="/sitemap"
+              className="inline-flex min-h-11 items-center rounded-md px-2.5 transition-colors hover:text-sky-200"
+            >
               Sitemap
             </Link>
             <BackToTop />
@@ -246,7 +254,7 @@ export function Footer() {
 /**
  * The panel surface.
  *
- * Deliberately not the site's `Card`. That component carries a khadi paper
+ * Deliberately not the site's `Card`. That component carries a white
  * gradient, a hairline built for a light ground and a pointer tilt — all three
  * are wrong at the foot of a dark page, and the tilt in particular would have
  * thirty links leaning about under the cursor. This is the same idea expressed
@@ -258,9 +266,9 @@ function Panel({ children, className }: { children: React.ReactNode; className?:
   return (
     <div
       className={cn(
-        'rounded-xl border border-khadi-100/10 bg-khadi-50/[0.035] p-6 sm:p-7',
+        'rounded-xl border border-mist-100/10 bg-mist-50/[0.035] p-6 sm:p-7',
         'transition-[background-color,border-color] duration-300 ease-out-soft',
-        'hover:border-khadi-100/[0.18] hover:bg-khadi-50/[0.055]',
+        'hover:border-mist-100/[0.18] hover:bg-mist-50/[0.055]',
         className,
       )}
     >
@@ -271,8 +279,8 @@ function Panel({ children, className }: { children: React.ReactNode; className?:
 
 function PanelHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="flex items-center gap-2.5 text-2xs font-semibold uppercase tracking-[0.16em] text-haldi-300">
-      <span className="h-px w-5 shrink-0 rounded-full bg-haldi-300/60" aria-hidden="true" />
+    <h2 className="flex items-center gap-2.5 text-2xs font-semibold uppercase tracking-[0.16em] text-orange-300">
+      <span className="h-px w-5 shrink-0 rounded-full bg-orange-300/60" aria-hidden="true" />
       {children}
     </h2>
   )
@@ -325,14 +333,14 @@ function FooterLink({ label, href }: { label: string; href: string }) {
          */
         className={cn(
           'group/row relative block rounded-lg px-3 py-2 text-sm leading-snug',
-          'text-khadi-300/85 transition-[color,background-color] duration-200 ease-out-soft',
-          'hover:bg-khadi-50/[0.06] hover:text-khadi-50',
+          'text-mist-300/85 transition-[color,background-color] duration-200 ease-out-soft',
+          'hover:bg-mist-50/[0.06] hover:text-sky-200',
         )}
       >
         {/* The same growing accent rule the navbar dropdown rows use, so a link
             list behaves identically wherever it appears on the site. */}
         <span
-          className="absolute inset-y-1.5 left-0 w-0.5 origin-top scale-y-0 rounded-full bg-haldi-300 transition-transform duration-300 ease-out-soft group-hover/row:scale-y-100 motion-reduce:transition-none"
+          className="absolute inset-y-1.5 left-0 w-0.5 origin-top scale-y-0 rounded-full bg-orange-300 transition-transform duration-300 ease-out-soft group-hover/row:scale-y-100 motion-reduce:transition-none"
           aria-hidden="true"
         />
         {/* `block` for the same reason the anchor is: an inline-block here is
@@ -367,9 +375,9 @@ function SocialLink({
         target="_blank"
         aria-label={label}
         className={cn(
-          'grid size-11 place-items-center rounded-lg border border-khadi-100/10 bg-khadi-100/[0.06] text-khadi-100',
+          'grid size-11 place-items-center rounded-lg border border-mist-100/10 bg-mist-100/[0.06] text-mist-100',
           'transition-[background-color,border-color,color] duration-200',
-          'hover:border-haldi-300/40 hover:bg-khadi-100/15 hover:text-haldi-300',
+          'hover:border-orange-300/40 hover:bg-mist-100/15 hover:text-orange-300',
         )}
       >
         {children}
@@ -395,7 +403,7 @@ function BackToTop() {
         const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
         window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' })
       }}
-      className="group/top inline-flex items-center gap-2 rounded-full border border-khadi-100/15 py-1.5 pl-3.5 pr-3 transition-[background-color,border-color,color] duration-200 hover:border-haldi-300/40 hover:bg-khadi-50/[0.06] hover:text-khadi-50"
+      className="group/top inline-flex items-center gap-2 rounded-full border border-mist-100/15 py-1.5 pl-3.5 pr-3 transition-[background-color,border-color,color] duration-200 hover:border-orange-300/40 hover:bg-mist-50/[0.06] hover:text-sky-200"
     >
       Back to top
       <ArrowUp

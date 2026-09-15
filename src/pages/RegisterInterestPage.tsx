@@ -5,6 +5,7 @@ import { Container, Section } from '@/components/ui/layout'
 import { Card } from '@/components/ui/Card'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Reveal } from '@/animations/Reveal'
+import { StepList } from '@/components/ui/misc'
 import { Grain } from '@/components/art/primitives'
 import { EnquiryForm } from '@/components/forms/EnquiryForm'
 import { primaryCta } from '@/data/site'
@@ -30,11 +31,11 @@ export function RegisterInterestPage() {
         eyebrow={primaryCta.label}
         title="Tell us about your child"
         standfirst="A few details is all we need. We will come back to you with class options, the fee, and the campus nearest to you."
-        photo="girl-blue-kurta"
-        photoFocus="50% 22%"
+        photo="mother-daughter-laughing"
+        photoFocus="55% 25%"
       />
 
-      <Section tone="khadi" divider={{ type: 'layered', fill: 'var(--color-indigo-ink-800)' }}>
+      <Section tone="mist" divider={{ type: 'layered', fill: 'var(--color-brand-800)' }}>
         <Container size="wide">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-7">
@@ -47,40 +48,34 @@ export function RegisterInterestPage() {
 
             <div className="space-y-6 lg:col-span-5">
               <Reveal>
-                <Card tone="sand" object="register-interest-next" backdrop="yellow-double">
-                  <h2 className="font-display text-h3 font-semibold text-indigo-ink-700">
+                <Card tone="mist" object="register-interest-next" backdrop="yellow-double">
+                  <h2 className="font-display text-h3 font-semibold text-brand-700">
                     What happens next
                   </h2>
-                  <ol className="mt-5 space-y-4">
-                    {[
+                  {/* Shared with Fees & Admissions, which promises a parent the
+                      same three things. See `StepList`. */}
+                  <StepList
+                    className="mt-5"
+                    steps={[
                       'We call you back on the number you give us.',
                       'We answer your questions about the class, the fee and the campus.',
                       'If it feels right, we take it forward when admissions open in your zone.',
-                    ].map((step, i) => (
-                      <li key={step} className="flex gap-4">
-                        <span className="font-numeral shrink-0 text-sm font-semibold text-terracotta-600">
-                          {String(i + 1).padStart(2, '0')}
-                        </span>
-                        <span className="text-body text-ink-500">
-                          {step}
-                        </span>
-                      </li>
-                    ))}
-                  </ol>
+                    ]}
+                  />
                 </Card>
               </Reveal>
 
               <Reveal delay={0.06}>
-                <Card tone="indigo" object="register-interest-what" backdrop="green-blob">
-                  <h2 className="font-display text-h3 font-semibold text-khadi-50">
+                <Card tone="brand" object="register-interest-what" backdrop="green-blob">
+                  <h2 className="font-display text-h3 font-semibold text-mist-50">
                     What you are registering for
                   </h2>
                   <ul className="mt-5 space-y-3">
                     {positioningPillars.map((pillar) => (
                       <li key={pillar.slug} className="flex gap-3">
-                        <Grain className="mt-1.5 shrink-0 text-haldi-300" />
-                        <span className="text-sm leading-relaxed text-khadi-200/90">
-                          <strong className="font-semibold text-khadi-50">{pillar.label}.</strong>{' '}
+                        <Grain className="mt-1.5 shrink-0 text-orange-300" />
+                        <span className="text-sm leading-relaxed text-mist-200/90">
+                          <strong className="font-semibold text-mist-50">{pillar.label}.</strong>{' '}
                           {pillar.body}
                         </span>
                       </li>

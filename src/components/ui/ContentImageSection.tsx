@@ -58,13 +58,13 @@ export function ContentImageSection({
   photoFocus?: string
   /** Which side the photograph sits on from `lg` up. */
   side?: 'left' | 'right'
-  tone?: 'khadi' | 'white' | 'indigo' | 'terracotta' | 'neem' | 'haldi'
+  tone?: 'mist' | 'white' | 'brand' | 'sky' | 'green' | 'orange'
   size?: 'sm' | 'default' | 'lg'
   /** Rendered beneath the photograph — a caption, a chip row, a second image. */
   aside?: ReactNode
   className?: string
 }) {
-  const onDark = tone === 'indigo'
+  const onDark = tone === 'brand'
 
   return (
     <Section

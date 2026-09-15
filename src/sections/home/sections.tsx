@@ -1,14 +1,24 @@
 import { Link } from 'react-router-dom'
-import { Check, Minus, Languages, Music2 } from 'lucide-react'
+import {
+  Blocks,
+  Check,
+  HeartHandshake,
+  Languages,
+  MapPin,
+  Minus,
+  Music2,
+  ShieldCheck,
+  Sprout,
+  Users,
+} from 'lucide-react'
 import { Container, Eyebrow, Section, SectionHeader } from '@/components/ui/layout'
-import { SectionDivider } from '@/components/ui/SectionDivider'
+import { SectionDivider, CTA_SEAM } from '@/components/ui/SectionDivider'
 import {
   Card,
   cardShapeCycle,
   Chip,
   ColourPanel,
   FeatureChip,
-  Marker,
   QuoteCard,
   cardBackdropCycle
 } from '@/components/ui/Card'
@@ -22,19 +32,24 @@ import { Sparks } from '@/components/art/objects'
 import { DealtObject } from '@/components/art/ObjectScatter'
 import { cn } from '@/lib/cn'
 import { routes } from '@/data/routes'
-import { SITE_PHASE } from '@/data/site'
+import { primaryCta, SITE_PHASE } from '@/data/site'
 import {
   brandLayerIntro,
+  curriculumPreview,
   deliberateChoices,
   differentiator,
+  foundersNoteTeaser,
   parityLayer,
-  positioningPillars
+  positioningPillars,
+  reassurance,
+  whyLbsKidz,
+  type PositioningPillar,
 } from '@/data/positioning'
 import { littleKarmayogis, sankalpCalendar } from '@/data/brand-framework'
 import { PillarStrip } from '@/sections/shared/PillarStrip'
 import { zones, campusPhaseState } from '@/data/campuses'
-import { dailySchedule, languagePosition } from '@/data/curriculum'
-import { legacyIntro, legacyMoments } from '@/data/legacy'
+import { dailySchedule } from '@/data/curriculum'
+import { legacyStrip, legacyMoments } from '@/data/legacy'
 import { valueStories } from '@/data/parents'
 
 /**
@@ -51,7 +66,7 @@ import { valueStories } from '@/data/parents'
  * 2. Bands hand over to each other. Alternating flat colours with hard
  *    horizontal seams is the other half of the "assembled from parts" problem,
  *    so sections curve into one another (`edge`), photographs bleed across the
- *    join, and the palette moves khadi â†’ white â†’ indigo â†’ terracotta in a
+ *    join, and the palette moves mist → white → brand → sky in a
  *    deliberate order rather than at random.
  *
  * Photographs are real children; none is claimed as ours anywhere in the copy.
@@ -85,175 +100,168 @@ import { valueStories } from '@/data/parents'
    marker, a neem marker, a haldi mat around one photograph and a neem mat
    around the other — five accents competing inside one screen, over a sixth
    from whatever the photographs themselves were wearing. The section now runs
-   on warm card against white ground, with terracotta as the single accent:
+   on a pale card against white ground, with the brand blue as the single accent:
    the numerals index the pillars on their own, and the photographs are matted
    in nothing at all.
    ========================================================================== */
 
 /**
- * Where each cell sits from `lg` up.
+ * The six cards' icons, keyed by the `icon` name each pillar carries.
  *
- * Explicit placement rather than auto-flow, because the reading order and the
- * visual order are not the same: the DOM runs heading, pillar, picture,
- * pillar, picture, pillar, which is the order a phone should stack them in and
- * the order a screen reader should hear. Auto-flow would put the row-two
- * picture on the left and break the alternation.
- *
- * The two rows that pair a card with a photograph centre the card against it.
- * A 3:2 photograph is most of a row taller than four lines of text, so at
- * `items-start` each of those rows ended in a 240px hole beside the card. A
- * nudge downwards was the first attempt and only moved the hole; centring
- * splits the difference and reads as an alignment rather than a gap.
+ * Kept here rather than in the data file because it is a rendering decision:
+ * the content layer names a concept, this layer picks the glyph for it, and
+ * swapping icon sets should not mean touching the copy.
  */
-const positioningCells = {
-  header: 'lg:col-start-1 lg:row-start-1',
-  first: 'lg:col-start-2 lg:row-start-1',
-  photoTop: 'lg:col-start-2 lg:row-start-2',
-  second: 'lg:col-start-1 lg:row-start-2 lg:self-center',
-  photoFoot: 'lg:col-start-1 lg:row-start-3',
-  third: 'lg:col-start-2 lg:row-start-3 lg:self-center'
-}
+const whyIcons = {
+  legacy: Users,
+  values: HeartHandshake,
+  safety: ShieldCheck,
+  learning: Blocks,
+  language: Languages,
+  growth: Sprout,
+} as const
 
 /**
- * The corner each pillar card leads with.
+ * The corner each card leads with.
  *
  * An earlier pass cut a concave notch out of the corner facing the next card,
- * on the theory that the bites would trace the reading path and make the three
- * cards read as pieces of one sheet. They did not: with a photograph sitting
- * between any two cards there is nothing to fill a concave corner, so each one
- * read as a chunk taken out of the card rather than as a join, which is the
- * opposite of what it was for. A concave corner only says "joined" when the
- * neighbour's convex corner sits in it.
+ * on the theory that the bites would trace the reading path and make the cards
+ * read as pieces of one sheet. They did not: with a photograph sitting between
+ * any two cards there is nothing to fill a concave corner, so each one read as
+ * a chunk taken out of the card rather than as a join, which is the opposite of
+ * what it was for. A concave corner only says "joined" when the neighbour's
+ * convex corner sits in it.
  *
  * What replaces it says the same thing with convex geometry: each card takes
- * one corner all the way round, on the side facing the next card in the
- * zigzag, so the three lead into each other down the page. Nothing is removed
- * from the card, so nothing can look damaged.
+ * one corner all the way round, so the set leads into itself across the grid.
+ * Nothing is removed from the card, so nothing can look damaged.
  */
 const pillarShapes = [
   'rounded-xl rounded-bl-[3rem]',
   'rounded-xl rounded-br-[3rem]',
   'rounded-xl rounded-tl-[3rem]',
+  'rounded-xl rounded-tr-[3rem]',
 ] as const
 
+/**
+ * Section 3 of the Home specification: "Why LBS KidZ", six icon-led cards under
+ * the heading "A Foundation Strong Enough to Last a Lifetime".
+ *
+ * WHY IT IS A BENTO OF EIGHT AND NOT A GRID OF SIX. The specification asks for
+ * six cards and generous white space; the band also has to carry the page's
+ * first two photographs, which used to sit inside a three-card zigzag that
+ * cannot survive the count doubling. Six cards and two pictures is eight cells,
+ * which is exactly two rows of four, and putting one photograph at the end of
+ * the first row and the other at the head of the second gives the block its
+ * diagonal without a single explicit grid placement.
+ *
+ * THE ONE-SCREEN CONSTRAINT IS GONE, deliberately. The old three-card layout
+ * was sized to fit `100svh`; six cards cannot, and the only way to pretend
+ * otherwise is to set the copy small enough that nobody reads it.
+ */
 export function PositioningSection() {
-  const pillarCards = positioningPillars.map((pillar, i) => (
-    <Card
-      key={pillar.slug}
-      tone="sand"
-      padded={false}
-      backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}
-      className={cn(
-        'flex gap-4 p-5 sm:gap-5 sm:p-6',
-        pillarShapes[i % pillarShapes.length],
-      )}
-    >
-      <Marker>{String(i + 1).padStart(2, '0')}</Marker>
-      <div className="min-w-0">
-        <h3 className="font-display text-h3 font-semibold text-indigo-ink-700">
-          {pillar.headline}
-        </h3>
-        {/* A 610px card at 14px is an 85-character line. Capping the measure is
-            most of what stopped these reading as a wall. */}
-        <p className="mt-2 max-w-[54ch] text-small leading-relaxed text-ink-600">
-          {pillar.body}
-        </p>
-      </div>
-    </Card>
-  ))
-
   return (
     <Section
       tone="white"
-      id="positioning"
-      ambient="warm"
-      labelledBy="positioning-title"
-      size="sm"
-      divider={{ type: 'asymmetric', to: 'indigo' }}
-      /* Content is vertically centred inside a full-screen minimum height, so
-         it does not sit below the top padding the way every other section's
-         does — it rides up into it, and the standard object at `left-[11%]
-         top-4` lands on the eyebrow. `'centred'` moves the whole set into the
-         foot of the band, which stays empty at every viewport. */
+      id="why-lbs-kidz"
+     
+      labelledBy="why-lbs-kidz-title"
+      divider={{ type: 'asymmetric', to: 'brand' }}
+      /* The standard decor set sits at `left-[11%] top-4`, which lands on the
+         eyebrow. `'centred'` moves it into the foot of the band, which stays
+         empty at every viewport. */
       decor="centred"
-      /* The pillars and photographs enter from the left and the right, and a
+      /* The cards and photographs enter from the left and the right, and a
          horizontal entrance translate is added to the document's scroll width
-         while it is running — 2px of transient sideways scroll on a phone.
-         `clip` rather than `hidden`: it contains the overflow without making
-         this a scroll container, which `hidden` would do. */
-      className="overflow-x-clip lg:flex lg:min-h-[calc(100svh-var(--nav-h))] lg:items-center"
+         while it runs: 2px of transient sideways scroll on a phone. `clip`
+         rather than `hidden`, which would make this a scroll container. */
+      className="overflow-x-clip"
     >
       <Container size="wide">
+        <SectionHeader
+          id="why-lbs-kidz-title"
+          eyebrow={whyLbsKidz.eyebrow}
+          title={whyLbsKidz.headline}
+          standfirst={whyLbsKidz.standfirst}
+        />
+
         <RevealGroup
-          className="grid items-start gap-x-8 gap-y-8 lg:grid-cols-2 lg:gap-x-12 lg:gap-y-6"
-          each={0.08}
+          className="mt-block grid gap-gutter sm:grid-cols-2 lg:grid-cols-4"
+          each={0.07}
         >
-          <RevealItem className={positioningCells.header}>
-            <SectionHeader
-              id="positioning-title"
-              eyebrow="What this means for your child"
-              title="Three things we have decided, and will not quietly change"
-              standfirst="Each one is a locked decision on this project, not a line written for a website."
-            />
-          </RevealItem>
+          {positioningPillars.slice(0, 3).map((pillar, i) => (
+            <RevealItem key={pillar.slug} className="h-full">
+              <WhyCard pillar={pillar} index={i} />
+            </RevealItem>
+          ))}
 
-          {/* Each cell enters from its own side, so the alternation is legible
-              while it settles and not only once it has. */}
-          <RevealItem className={positioningCells.first} direction="right">
-            {pillarCards[0]}
-          </RevealItem>
-
-          {/* A wide band wants a horizontally composed picture. This one is
-              three children in a row, so it fills the width; `counting-tray`
-              was here first and is a single upright child, which at 14:5 left
-              half a frame of empty wall and took the top of her head off no
-              matter where `focus` was put. No colour mat either: a 12px band
-              of saturated haldi around a photograph that is already mostly red
-              uniform was two accents fighting over one cell.
-
-              `focus` sits above centre because a 14:5 crop of a 4:3 frame keeps
-              barely a third of its height, and the faces are in the top half. */}
-          <RevealItem className={positioningCells.photoTop} direction="right">
+          {/* A horizontally composed picture, which is what this cell wants:
+              three children in a row, so it fills the width it is given.
+              `focus` sits above centre because the crop keeps the faces in the
+              top half of the frame. */}
+          <RevealItem className="sm:col-span-2 lg:col-span-1" direction="right">
             <VideoOnColour
               name="children-classroom-play"
               shape="leaf"
-              colour="neem"
-              ratioClassName="aspect-[4/3] lg:aspect-[14/5]"
+              colour="green"
+              ratioClassName="aspect-[4/3] lg:aspect-auto lg:h-full"
               focus="50% 40%"
+              className="h-full"
             />
           </RevealItem>
 
-          <RevealItem className={positioningCells.second} direction="left">
-            {pillarCards[1]}
-          </RevealItem>
-
-          {/* Was a flat-lay of a lunch box on saturated orange — the loudest
-              thing in the section, the only frame without a child in it, and
-              the second stock product shot in a page of documentary
-              photographs. A girl painting outdoors carries the same warmth as
-              the palette and is nothing like the classroom above it, which the
-              other frame from that same shoot could not manage. */}
-          <RevealItem className={positioningCells.photoFoot} direction="left">
+          <RevealItem className="sm:col-span-2 lg:col-span-1" direction="left">
             <VideoOnColour
               name="child-painting"
               shape="leaf-alt"
-              colour="haldi"
-              ratioClassName="aspect-[4/3] lg:aspect-[14/5]"
+              colour="sky"
+              ratioClassName="aspect-[4/3] lg:aspect-auto lg:h-full"
               focus="50% 45%"
+              className="h-full"
             />
           </RevealItem>
 
-          <RevealItem className={positioningCells.third} direction="right">
-            {pillarCards[2]}
-          </RevealItem>
+          {positioningPillars.slice(3).map((pillar, i) => (
+            <RevealItem key={pillar.slug} className="h-full">
+              <WhyCard pillar={pillar} index={i + 3} />
+            </RevealItem>
+          ))}
         </RevealGroup>
       </Container>
     </Section>
   )
 }
 
+/** One of the six: icon, short title, one line, in that order. */
+function WhyCard({ pillar, index }: { pillar: PositioningPillar; index: number }) {
+  const Icon = whyIcons[pillar.icon as keyof typeof whyIcons] ?? Sprout
+
+  return (
+    <Card
+      tone="mist"
+      padded={false}
+      backdrop={cardBackdropCycle[index % cardBackdropCycle.length]}
+      className={cn(
+        'flex h-full flex-col p-5 sm:p-6',
+        pillarShapes[index % pillarShapes.length],
+      )}
+    >
+      <span
+        className="mb-4 grid size-11 shrink-0 place-items-center rounded-xl bg-mist-50 text-brand-600 shadow-soft"
+        aria-hidden="true"
+      >
+        <Icon className="size-5" strokeWidth={1.9} />
+      </span>
+      <h3 className="font-display text-h4 font-semibold text-brand-700">{pillar.label}</h3>
+      {/* Capping the measure is most of what stops a row of six reading as a
+          wall of text. */}
+      <p className="mt-2 max-w-[42ch] text-small leading-relaxed text-ink-600">{pillar.body}</p>
+    </Card>
+  )
+}
+
 /* ==========================================================================
-   2. Why LBS KidZ: the differentiator, stated plainly
+   2. What sets this apart: the differentiator, stated plainly
 
    Layout: deep blue. The headline and its action sit top left, a wide
    photograph fills the top right, and the ledger runs underneath as four cards
@@ -292,9 +300,9 @@ const ledgerShapes = [
 export function DifferentiatorSection() {
   return (
     <Section
-      tone="indigo"
+      tone="brand"
       id="why"
-      ambient="growth"
+     
       labelledBy="why-title"
       /* This band held 880px against a 900px viewport — a whole screen for a
          heading, one picture and four short cards, most of it air. The small
@@ -304,7 +312,7 @@ export function DifferentiatorSection() {
       size="sm"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <Drift y={70} className="absolute -right-16 top-10 hidden h-72 text-khadi-100/5 sm:block">
+        <Drift y={70} className="absolute -right-16 top-10 hidden h-72 text-mist-100/5 sm:block">
           <WheatStalk />
         </Drift>
       </div>
@@ -364,18 +372,18 @@ export function DifferentiatorSection() {
               return (
                 <RevealItem key={choice.avoided} className="h-full">
                   <Card
-                    tone="indigo"
+                    tone="brand"
                     padded={false}
                     shape={cardShapeCycle[i % cardShapeCycle.length]}
                     backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}
                     className={cn('flex h-full flex-col', pad)}
                   >
-                    <p className="flex items-start gap-2.5 text-small text-khadi-300/75 line-through decoration-terracotta-400/70 decoration-2">
+                    <p className="flex items-start gap-2.5 text-small text-mist-300 line-through decoration-coral-300 decoration-2">
                       <Minus className="mt-0.5 size-4 shrink-0 no-underline" aria-hidden="true" />
                       <span>{choice.avoided}</span>
                     </p>
-                    <p className="mt-2.5 flex items-start gap-2.5 text-small leading-relaxed text-khadi-100">
-                      <Check className="mt-0.5 size-4 shrink-0 text-haldi-300" aria-hidden="true" />
+                    <p className="mt-2.5 flex items-start gap-2.5 text-small leading-relaxed text-mist-100">
+                      <Check className="mt-0.5 size-4 shrink-0 text-orange-300" aria-hidden="true" />
                       <span>{choice.instead}</span>
                     </p>
                   </Card>
@@ -392,43 +400,57 @@ export function DifferentiatorSection() {
 /* ==========================================================================
    3. The legacy, in brief
 
-   Layout: a bento. The first moment is the largest tile because it is the one
-   that explains the name over the door; the other three sit beside it.
+   Layout: one row. The opening moment, which explains the name over the door,
+   beside a photograph. The rest of the timeline lives on the Legacy page, which
+   the button on the header line leads to; on the homepage it was four columns
+   of biography between the reader and everything else the school does.
    ========================================================================== */
 
 export function LegacySection() {
-  const [lead, ...rest] = legacyMoments
+  const [lead] = legacyMoments
 
   return (
-    <Section tone="khadi" id="legacy" labelledBy="legacy-title">
+    <Section tone="mist" id="legacy" labelledBy="legacy-title">
       <Container size="wide">
         <SectionHeader
           id="legacy-title"
-          eyebrow={legacyIntro.eyebrow}
-          title={legacyIntro.headline}
-          standfirst={legacyIntro.standfirst}
+          eyebrow={legacyStrip.eyebrow}
+          title={legacyStrip.headline}
+          standfirst={legacyStrip.body}
           actions={
             <ButtonLink to={routes.legacy} variant="outline" withArrow>
-              The full legacy
+              {legacyStrip.linkLabel}
             </ButtonLink>
           }
         />
 
+        {/* ---- The row ----
+             The opening moment beside the photograph, two cells each.
+
+             THE PHOTOGRAPH HAS TO SHARE A ROW WITH A CARD, and that is what
+             sets this arrangement rather than taste. It is sized
+             `lg:aspect-auto lg:h-full` so it fills whatever the row turns out
+             to be, which is only defined if something else in the row has an
+             intrinsic height. Left alone on a row of its own — which is what
+             happened when the moment count went from four to five and it was
+             pushed onto a third row — `h-full` resolves against a row whose
+             height it is itself supposed to set, and the cell collapses to
+             nothing. The picture simply vanished. */}
         <RevealGroup className="mt-block grid gap-5 sm:grid-cols-2 lg:grid-cols-4" each={0.07}>
           {lead ? (
             <RevealItem className="sm:col-span-2 lg:col-span-2">
-              <Card tone="indigo" className="flex h-full flex-col justify-between gap-8" object={lead.title} backdrop="sky-circle">
+              <Card tone="brand" className="flex h-full flex-col justify-between gap-8" object={lead.title} backdrop="sky-circle">
                 <div>
-                  <span className="font-numeral text-2xs font-semibold uppercase tracking-[0.16em] text-haldi-300">
+                  <span className="font-numeral text-2xs font-semibold uppercase tracking-[0.16em] text-orange-300">
                     {lead.year}
                   </span>
-                  <h3 className="mt-3 font-display text-h2 font-semibold text-khadi-50">
+                  <h3 className="mt-3 font-display text-h2 font-semibold text-mist-50">
                     {lead.title}
                   </h3>
-                  <p className="mt-4 text-body text-khadi-200/85">{lead.body}</p>
+                  <p className="mt-4 text-body text-mist-200/85">{lead.body}</p>
                 </div>
                 <div
-                  className="h-24 self-end text-haldi-300/40 motion-safe:animate-bob"
+                  className="h-24 self-end text-orange-300/40 motion-safe:animate-bob"
                   aria-hidden="true"
                 >
                   <WheatStalk />
@@ -437,35 +459,17 @@ export function LegacySection() {
             </RevealItem>
           ) : null}
 
-          {rest.map((moment) => (
-            <RevealItem key={moment.year} className="lg:col-span-1">
-              <Card className="flex h-full flex-col" object={moment.title} backdrop="yellow-block">
-                <span className="font-numeral text-2xs font-semibold uppercase tracking-[0.16em] text-terracotta-600">
-                  {moment.year}
-                </span>
-                <h3 className="mt-2 font-display text-h4 font-semibold text-indigo-ink-700">
-                  {moment.title}
-                </h3>
-                <p className="mt-3 text-small leading-relaxed text-ink-500">{moment.body}</p>
-              </Card>
-            </RevealItem>
-          ))}
-
-          {/* The bento's fourth small cell. A photograph rather than a gap:
-              four moments and three tiles would otherwise leave a hole exactly
-              where the eye finishes reading. */}
-          {/* The bento's wide closing cell. Row one is 2 + 1 + 1, row two is
-              1 + 3, so nothing is left as a hole where the eye finishes. */}
-          <RevealItem className="sm:col-span-2 lg:col-span-3">
+          <RevealItem className="sm:col-span-2 lg:col-span-2">
             <ShapedPhoto
               name="wheat-sunrise"
               shape="cut"
               interactive
-              sizes="(min-width: 1024px) 56vw, 92vw"
+              sizes="(min-width: 1024px) 44vw, 92vw"
               ratioClassName="aspect-[16/9] lg:aspect-auto lg:h-full"
               className="h-full"
             />
           </RevealItem>
+
         </RevealGroup>
       </Container>
     </Section>
@@ -482,13 +486,13 @@ export function LegacySection() {
 
 export function FieldBandSection() {
   return (
-    <section aria-labelledby="field-band-title" className="relative bg-khadi-100">
+    <section aria-labelledby="field-band-title" className="relative bg-mist-100">
       {/* Hung from the top and filled with the indigo above it, because
           this band opens on a full-bleed photograph and has no flat
           colour of its own to lend a divider on the section above. */}
       <SectionDivider
         type="wave"
-        fill="var(--color-indigo-ink-700)"
+        fill="var(--color-brand-700)"
         position="top"
         flush
       />
@@ -508,7 +512,7 @@ export function FieldBandSection() {
             the layer under it is guaranteed dark, so this reaches full opacity
             at the foot of the frame rather than stopping at 80%. */}
         <div
-          className="pointer-events-none absolute inset-0 bg-linear-to-t from-indigo-ink-900 via-indigo-ink-900/55 to-transparent"
+          className="pointer-events-none absolute inset-0 bg-linear-to-t from-brand-900 via-brand-900/55 to-transparent"
           aria-hidden="true"
         />
 
@@ -516,11 +520,11 @@ export function FieldBandSection() {
           <TextReveal
             as="h2"
             id="field-band-title"
-            className="max-w-2xl text-h2 text-khadi-50"
+            className="max-w-2xl text-h2 text-mist-50"
             lines={['A childhood worth having,', 'before anything is asked of it']}
           />
           <Reveal className="max-w-2xl" delay={0.25}>
-            <p className="mt-4 max-w-xl text-body text-khadi-100/85">
+            <p className="mt-4 max-w-xl text-body text-mist-100/85">
               The wheat stalk we use as our mark is not decoration. It comes from a Prime
               Minister who asked a country to skip a meal and skipped it first.
             </p>
@@ -528,7 +532,12 @@ export function FieldBandSection() {
         </Container>
       </div>
 
-      <SectionDivider type="scallop" to="white" />
+      {/* Sky, because the band under this one is `BrandLayerSection`,
+          which is the sky tone. It said `white`, so the scallops came
+          off the foot of the photograph in mist-50 and met a brand-50
+          ground: close enough to look like a printing fault rather than a
+          deliberate shape. */}
+      <SectionDivider type="scallop" to="sky" />
     </section>
   )
 }
@@ -546,9 +555,9 @@ export function PhilosophySection() {
     <Section
       tone="white"
       id="philosophy"
-      ambient="calm"
+     
       labelledBy="philosophy-title"
-      divider={{ type: 'tight-wave', to: 'khadi' }}
+      divider={{ type: 'tight-wave', to: 'mist' }}
       /* The band ran 907px against a 900px viewport, with 192px of it empty
          navy beside a photograph that was centred against a much taller column
          of text. The small padding step and a photograph that fills its own row
@@ -563,14 +572,18 @@ export function PhilosophySection() {
           <div className="lg:col-span-6">
             <SectionHeader
               id="philosophy-title"
-              eyebrow="Learning philosophy"
-              title={languagePosition.headline}
-              standfirst={languagePosition.practice}
+              eyebrow={curriculumPreview.eyebrow}
+              title={curriculumPreview.headline}
+              standfirst={curriculumPreview.body}
             />
 
-            {/* The reference names the two things that matter most in a pair
-                of pills under the standfirst. These are the two the whole
-                language position rests on. */}
+            {/* The language position, in a pair of pills under the standfirst.
+                The Home specification keeps this section to its curriculum
+                preview and puts language in the Why grid above, so the detail
+                that used to be this section's heading is demoted to supporting
+                evidence rather than dropped: it is the single most asked
+                question a parent has about a preschool in Indore. The full
+                argument lives on the Curriculum page. */}
             <Reveal className="mt-6">
               <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <FeatureChip icon={<Languages className="size-5" />}>
@@ -618,7 +631,7 @@ export function PhilosophySection() {
                 interactive
                 sizes="14rem"
                 ratio="1 / 1"
-                className="shadow-photo ring-4 ring-khadi-50"
+                className="shadow-photo ring-4 ring-mist-50"
               />
             </div>
 
@@ -678,14 +691,14 @@ export function DaySection() {
                   <div
                     className={
                       block.isSankalpMoment
-                        ? 'flex items-center gap-4 rounded-lg bg-haldi-100 p-4 hairline sm:p-5'
-                        : 'flex items-center gap-4 rounded-lg bg-khadi-100 p-4 transition-colors duration-300 hover:bg-khadi-200/80 sm:p-5'
+                        ? 'flex items-center gap-4 rounded-lg bg-orange-100 p-4 hairline sm:p-5'
+                        : 'flex items-center gap-4 rounded-lg bg-mist-100 p-4 transition-colors duration-300 hover:bg-mist-200/80 sm:p-5'
                     }
                   >
                     <span className="font-numeral w-6 shrink-0 text-small font-semibold text-ink-400">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <span className="flex-1 text-body font-medium text-indigo-ink-700">
+                    <span className="flex-1 text-body font-medium text-brand-700">
                       {block.name}
                     </span>
                     {block.isSankalpMoment ? (
@@ -710,7 +723,7 @@ export function DaySection() {
 
 export function BrandLayerSection() {
   return (
-    <Section tone="terracotta" id="the-lbs-way" labelledBy="lbs-way-title">
+    <Section tone="sky" id="the-lbs-way" labelledBy="lbs-way-title">
       <Container size="wide">
         <SectionHeader
           id="lbs-way-title"
@@ -719,52 +732,72 @@ export function BrandLayerSection() {
           standfirst={brandLayerIntro.body}
           actions={
             <ButtonLink to={routes.lbsWay} variant="outline" withArrow>
-              The whole framework
+              {brandLayerIntro.linkLabel}
             </ButtonLink>
           }
         />
 
-        <div className="mt-block grid gap-8 lg:grid-cols-12 lg:gap-10">
+        {/* EVERY ROW RUNS THE FULL WIDTH, WHICH IS WHY THIS IS NOT TWO COLUMNS.
+            The acronym used to sit in a seven-column well beside a stack of two
+            cards: the strip is one row about 130px tall, the stack ran to 490,
+            and the difference was 350px of empty tint under the pillars.
+            Worse, the six tiles were cramped into little over half the page,
+            which is the one thing they must not be. The whole point of the
+            strip, and the reason it exists as a component at all, is that six
+            tiles in a row ARE the word: at full width they read as S I M P L E
+            rather than as six small boxes. So the acronym takes the top row
+            outright and the two cards take the row beneath it. */}
+        <div className="mt-block">
           {/* SIMPLE, as the word it spells. The six definitions live on the
               LBS Way page; printing them here as well gave the homepage six
               paragraphs a reader would meet again, verbatim, one click later. */}
-          <div className="lg:col-span-7">
-            <Eyebrow className="mb-5">SIMPLE, the six pillars</Eyebrow>
-            <PillarStrip />
-          </div>
+          <Eyebrow className="mb-5">SIMPLE, the six pillars</Eyebrow>
+          <PillarStrip />
 
-          {/* Little Karmayogis + Sankalp */}
-          <div className="space-y-5 lg:col-span-5">
-            <Reveal>
-              <Card tone="indigo" padded={false} className="overflow-hidden" backdrop="mint-semi">
-                <ShapedPhoto
-                  name="child-arms-open"
-                  shape="rounded"
-                  interactive
-                  sizes="(min-width: 1024px) 30vw, 92vw"
-                  ratio="16 / 10"
-                  focus="50% 30%"
-                  className="rounded-none!"
-                />
-                <div className="p-6 sm:p-7">
-                  <Chip tone="onDark">{littleKarmayogis.role}</Chip>
-                  <h3 className="mt-4 font-display text-h2 font-semibold text-khadi-50">
-                    {littleKarmayogis.name}
-                  </h3>
-                  <p className="mt-3 text-small leading-relaxed text-khadi-200/85">
-                    {littleKarmayogis.usedWhere}
-                  </p>
+          <div className="mt-8 grid gap-6 lg:grid-cols-12 lg:gap-8">
+            {/* Little Karmayogis. Split across the card rather than stacked:
+                stacked at this width the photograph alone ran past 400px and
+                the card towered over its neighbour. Side by side, the picture
+                takes its height from the text instead of setting it. */}
+            <Reveal className="lg:col-span-7">
+              <Card
+                tone="brand"
+                padded={false}
+                className="h-full overflow-hidden"
+                backdrop="mint-semi"
+              >
+                <div className="grid h-full sm:grid-cols-2">
+                  <div className="min-h-56 sm:min-h-full">
+                    <ShapedPhoto
+                      name="child-arms-open"
+                      shape="rounded"
+                      fill
+                      interactive
+                      sizes="(min-width: 1024px) 30vw, 92vw"
+                      focus="50% 30%"
+                      className="rounded-none!"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center p-6 sm:p-7">
+                    <Chip tone="onDark">{littleKarmayogis.role}</Chip>
+                    <h3 className="mt-4 font-display text-h2 font-semibold text-mist-50">
+                      {littleKarmayogis.name}
+                    </h3>
+                    <p className="mt-3 text-small leading-relaxed text-mist-200/85">
+                      {littleKarmayogis.usedWhere}
+                    </p>
+                  </div>
                 </div>
               </Card>
             </Reveal>
 
-            <Reveal delay={0.08}>
-              <Card tone="paper" className="relative" backdrop="blue-peach">
+            <Reveal className="lg:col-span-5" delay={0.08}>
+              <Card tone="paper" className="relative h-full" backdrop="blue-peach">
                 <DealtObject seed="sankalp-card" className="absolute -right-2 top-4 opacity-70" />
-                <h3 className="font-display text-h3 font-semibold text-indigo-ink-700">
+                <h3 className="font-display text-h3 font-semibold text-brand-700">
                   {sankalpCalendar.name}
                 </h3>
-                <p className="mt-2 text-small font-medium text-terracotta-600">
+                <p className="mt-2 text-small font-medium text-brand-500">
                   {sankalpCalendar.cadence}
                 </p>
                 <p className="mt-3 text-small leading-relaxed text-ink-500">
@@ -795,13 +828,13 @@ export function StoriesSection() {
   const panels = [
     // Focus is per photograph, not shared: one value across three different
     // compositions left the girl in the doorway at the very foot of her panel.
-    { colour: 'terracotta', photo: 'girl-blue-door', focus: '50% 72%' },
-    { colour: 'indigo', photo: 'children-in-the-field', focus: '50% 45%' },
-    { colour: 'neem', photo: 'craft-table', focus: '50% 50%' },
+    { colour: 'sky', photo: 'girl-blue-door', focus: '50% 72%' },
+    { colour: 'brand', photo: 'children-in-the-field', focus: '50% 45%' },
+    { colour: 'green', photo: 'craft-table', focus: '50% 50%' },
   ] as const
 
   return (
-    <Section tone="khadi" id="stories" labelledBy="stories-title">
+    <Section tone="mist" id="stories" labelledBy="stories-title">
       <Container size="wide">
         <SectionHeader
           id="stories-title"
@@ -845,29 +878,35 @@ export function StoriesSection() {
 }
 
 /* ==========================================================================
-   10. Reflection close
+   10. Founder's Note teaser
+
+   Section 8 of the Home specification. The quote is the client's own supplied
+   placeholder, flagged as one in `data/positioning.ts`, and is replaced the
+   moment the real message arrives.
    ========================================================================== */
 
 export function ReflectionSection() {
   return (
-    <Section tone="white" size="sm" id="reflection">
+    <Section tone="white" size="sm" id="founders-note" labelledBy="founders-teaser-title">
       <Container size="wide">
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <Reveal className="lg:col-span-6">
-            <QuoteCard tone="haldi" backdrop="blob-duo" attribution="Goodbye Circle, the last block of the day">
-              The last few minutes of the day are not spare time. They are where the day’s value
-              gets said out loud, in a child’s own words.
+            <Eyebrow className="mb-4">{foundersNoteTeaser.eyebrow}</Eyebrow>
+            <h2 id="founders-teaser-title" className="text-h2">
+              {foundersNoteTeaser.headline}
+            </h2>
+
+            <QuoteCard
+              tone="orange"
+              backdrop="blob-duo"
+              attribution={`${foundersNoteTeaser.attribution}, ${foundersNoteTeaser.attributionRole}`}
+              className="mt-7"
+            >
+              {foundersNoteTeaser.quote}
             </QuoteCard>
-            <p className="mt-6 text-body text-ink-500">
-              That slot is in NCERT’s own suggested schedule. We did not invent a new activity to
-              hold our values. We put them where the day already pauses.
-            </p>
-            <p className="mt-4 text-body text-ink-500">
-              The same small action goes home with your child, which is where a value either
-              takes or does not.
-            </p>
-            <TextLink to={routes.lbsWay} className="mt-6">
-              How the week is built around it
+
+            <TextLink to={routes.foundersNote} className="mt-6">
+              {foundersNoteTeaser.linkLabel}
             </TextLink>
           </Reveal>
 
@@ -879,7 +918,7 @@ export function ReflectionSection() {
               sizes="(min-width: 1024px) 46vw, 92vw"
               ratio="4 / 3"
             />
-            <Sparks className="absolute -left-2 top-4 hidden w-10 text-terracotta-400 lg:block" />
+            <Sparks className="absolute -left-2 top-4 hidden w-10 text-orange-400 lg:block" />
             <DealtObject seed="karmayogis" className="absolute -bottom-4 -right-2 hidden motion-safe:animate-bob lg:block" />
           </div>
         </div>
@@ -898,13 +937,18 @@ export function ReflectionSection() {
 
 export function ParitySection() {
   return (
-    <Section tone="khadi" id="what-parents-check" labelledBy="parity-title">
+    <Section tone="mist" id="what-parents-check" labelledBy="parity-title" divider={CTA_SEAM}>
       <Container size="wide">
         <SectionHeader
           id="parity-title"
-          eyebrow="Parent confidence"
-          title="Everything you would check at any good preschool"
-          standfirst="Set against the things a parent actually compares. Where something is not ready yet, it says so."
+          eyebrow={reassurance.eyebrow}
+          title={reassurance.headline}
+          standfirst={reassurance.standfirst}
+          actions={
+            <ButtonLink to={routes.faqs} variant="outline" withArrow>
+              {reassurance.linkLabel}
+            </ButtonLink>
+          }
         />
 
         <RevealGroup
@@ -916,18 +960,18 @@ export function ParitySection() {
             return (
               <RevealItem key={item.category} className="h-full">
                 <Card
-                  tone={available ? 'paper' : 'sand'}
+                  tone={available ? 'paper' : 'mist'}
                   className="flex h-full flex-col"
                   object={item.category}
                   backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-display text-h4 font-semibold text-indigo-ink-700">
+                    <h3 className="font-display text-h4 font-semibold text-brand-700">
                       {item.category}
                     </h3>
                     {available ? (
                       <span
-                        className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-neem-100 text-neem-600"
+                        className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-green-100 text-green-600"
                         aria-hidden="true"
                       >
                         <Check className="size-3.5" strokeWidth={3} />
@@ -944,7 +988,7 @@ export function ParitySection() {
                   {available ? (
                     <Link
                       to={item.href}
-                      className="mt-4 -mb-2.5 inline-flex items-center gap-1.5 py-2.5 text-small font-semibold text-terracotta-600 underline-offset-4 hover:underline"
+                      className="mt-4 -mb-2.5 inline-flex items-center gap-1.5 py-2.5 text-small font-semibold text-brand-500 underline-offset-4 hover:underline"
                     >
                       See it
                     </Link>
@@ -965,35 +1009,62 @@ export function ParitySection() {
 
 export function CampusesSection() {
   return (
-    <Section tone="indigo" id="campuses" labelledBy="campuses-title">
+    /* This band carried no divider, so deep indigo met the white band below it
+       on a dead straight line: the single highest-contrast join on the page and
+       the only one left showing a hard edge. Every other indigo band on this
+       site closes on a curve. */
+    <Section
+      tone="brand"
+      id="campuses"
+      labelledBy="campuses-title"
+      divider={{ type: 'blob', to: 'white' }}
+    >
       <Container size="wide">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
           <div className="lg:col-span-6">
             <SectionHeader
               id="campuses-title"
-              eyebrow="Campuses"
+              eyebrow="Opening in Indore"
               title={campusPhaseState.phase1Headline}
               standfirst={campusPhaseState.phase1Body}
               onDark
             />
             <Reveal className="mt-8">
-              <ButtonLink to={routes.campuses} variant="onDark" withArrow>
-                Zones and safety standards
+              <ButtonLink to={primaryCta.href} variant="onDark" withArrow>
+                Register Your Interest
               </ButtonLink>
             </Reveal>
 
-            <RevealGroup className="mt-block grid gap-3 sm:grid-cols-3" each={0.06}>
+            {/* Zone level only, and the badge says so. The specification is
+                explicit that this block must avoid implying exact addresses
+                exist yet, so each tag carries the locality and the session and
+                nothing that could be mistaken for a street. */}
+            <RevealGroup className="mt-block grid gap-3 sm:grid-cols-2" each={0.06}>
               {zones.map((zone) => (
                 <RevealItem key={zone.slug}>
-                  <div className="rounded-lg bg-khadi-50/[0.07] p-5 text-center transition-colors duration-300 hover:bg-khadi-50/12">
-                    <p className="font-display text-h4 font-semibold text-khadi-50">
-                      {zone.name}
-                    </p>
-                    <p className="mt-1 text-xs text-khadi-300/70">Indore</p>
+                  <div className="flex h-full items-start gap-3 rounded-lg bg-mist-50/[0.07] p-4 transition-colors duration-300 hover:bg-mist-50/12">
+                    <MapPin
+                      className="mt-0.5 size-4 shrink-0 text-orange-300"
+                      aria-hidden="true"
+                    />
+                    <span className="min-w-0">
+                      <span className="block font-display text-h4 font-semibold text-mist-50">
+                        {zone.name}
+                      </span>
+                      <span className="mt-1 block text-2xs uppercase tracking-[0.14em] text-orange-300">
+                        {campusPhaseState.zoneBadge}
+                      </span>
+                    </span>
                   </div>
                 </RevealItem>
               ))}
             </RevealGroup>
+
+            <Reveal className="mt-6">
+              <TextLink to={routes.campuses} onDark>
+                Zones and safety standards
+              </TextLink>
+            </Reveal>
           </div>
 
           <div className="relative lg:col-span-6">
