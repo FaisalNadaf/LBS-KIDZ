@@ -51,7 +51,7 @@ export const pageSeo: Record<string, PageSeo> = {
     primaryKeyword: 'activity based learning preschool, NEP 2020 preschool',
     secondaryKeywords: [
       'no examination policy preschool',
-      'foundational literacy and numeracy',
+      'foundational literacy and numeracy (FLN)',
       'mother tongue medium preschool',
       'NCF foundational stage',
     ],

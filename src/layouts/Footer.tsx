@@ -225,8 +225,36 @@ export function Footer() {
         </Reveal>
 
         {/* ---- 2.5 Copyright ---- */}
-        <div className="mt-10 flex flex-col gap-4 border-t border-mist-100/10 pt-7 text-xs text-mist-300/70 sm:flex-row sm:items-center sm:justify-between">
-          <p>{site.copyrightLine}</p>
+        {/* The row used to sit at `text-mist-300/70`, which is the tone this
+            site uses for text nobody is expected to read. Two of the three
+            organisations named on this site are named here and nowhere else in
+            the footer, so the row carries their names as links: full-strength
+            `mist-300` for the sentences, and the names themselves lifted to
+            `mist-100` in semibold so the eye finds them without the row turning
+            into two more rows of navigation.
+
+            THE LINKS ARE LEFT AT TEXT SIZE. Everything focusable on this site
+            is grown to a 44px target, and these two are the deliberate
+            exception: WCAG 2.2 SC 2.5.8 exempts a link inside a sentence, and
+            the padding that buys the target would have put a 44px box behind
+            three words in the middle of a 12px line. `Sitemap` beside them is
+            not in a sentence, and still gets its own. */}
+        <div className="mt-10 flex flex-col gap-4 border-t border-mist-100/10 pt-7 text-xs text-mist-300 sm:flex-row sm:items-center sm:justify-between">
+          {/* One paragraph, two sentences. They were stacked, which gave a
+              single line of small print its own two-line block at the foot of
+              every page. The dot between them is `aria-hidden`: it is a
+              typographic join, and a screen reader announcing "middle dot"
+              between two finished sentences is noise. */}
+          <p>
+            {site.copyright.before}
+            <FootnoteLink href={site.operatorUrl}>{site.operator}</FootnoteLink>
+            {site.copyright.after}
+            <span className="px-1.5 text-mist-300/50" aria-hidden="true">
+              &middot;
+            </span>
+            {site.credit.prefix}
+            <FootnoteLink href={site.credit.url}>{site.credit.name}</FootnoteLink>
+          </p>
           {/* `gap-2` and negative margins rather than `gap-5`: the link needs a
               44px-tall hit area to meet the touch minimum, and the padding that
               buys it would otherwise push this row 16px taller than the line of
@@ -250,6 +278,33 @@ export function Footer() {
 }
 
 /* ------------------------------------------------------------------ */
+
+/**
+ * A named organisation inside the copyright row, linked to its own site.
+ *
+ * Semibold and a step brighter than the sentence around it, which is the whole
+ * job: at `mist-300` in 12px these names were indistinguishable from the words
+ * either side of them. The underline is permanent rather than a hover
+ * affordance — at this size and this far down the page, a link that only
+ * announces itself on hover is a link most readers never find — and it is
+ * `decoration-mist-300/40` so it reads as a fine rule under the name rather
+ * than as a second line of text.
+ */
+function FootnoteLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(
+        'font-semibold text-mist-100 underline decoration-mist-300/40 underline-offset-2',
+        'transition-colors duration-200 hover:text-sky-200 hover:decoration-sky-200/60',
+      )}
+    >
+      {children}
+    </a>
+  )
+}
 
 /**
  * The panel surface.

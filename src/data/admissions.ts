@@ -108,7 +108,7 @@ export const programs: Program[] = [
     about:
       'The final preschool year builds real confidence: speaking up, trying first, and feeling ready for the classroom that comes next.',
     focus: [
-      'Stronger foundational literacy and numeracy',
+      'Stronger foundational literacy and numeracy (FLN)',
       'Chances to speak, present, and lead small activities',
       'All six SIMPLE values becoming daily habit, not a lesson',
       'A confident, secure step toward primary school',

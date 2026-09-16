@@ -122,7 +122,7 @@ export const positioningPillars: PositioningPillar[] = [
 
 export const differentiator = {
   eyebrow: 'What sets this apart',
-  headline: 'Most schools describe their values. Ours are somebody’s biography.',
+  headline: 'Most schools describe their values. Ours are a leader’s biography.',
   body:
     'Trust, excellence, child-centric: every preschool says these, which is exactly why they no longer mean much. Our values are not adjectives we chose. They are the documented character of one man, which makes each of them a story a four-year-old can actually follow.',
 }

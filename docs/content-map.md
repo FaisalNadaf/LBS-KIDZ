@@ -87,7 +87,7 @@ A fourth column marks provenance:
 | Functional, local H1 and title; tagline below the fold | D3 §3 (Home row) | Faithful |
 | "Little Karmayogis in the making" tagline | D6 §1 (identity name) | Editorial |
 | Three positioning pillars: no examinations / mother tongue first / no hidden charges | D6 §6, D2 §3 | Faithful |
-| "Most schools describe their values. Ours are somebody's biography." | D5 §4, §7 — no researched brand has an authentic ownable origin story; "trust/values/excellence/child-centric" carry little weight | Editorial |
+| "Most schools describe their values. Ours are a leader's biography." | D5 §4, §7 — no researched brand has an authentic ownable origin story; "trust/values/excellence/child-centric" carry little weight | Editorial |
 | Deliberate-choices list (avoided vs instead) | D5 §6 | Faithful |
 | Legacy moments (4 cards) | D2 §6; biography facts | Public record |
 | Language positioning section | D4 §3, D6 §6 | Faithful |
@@ -109,7 +109,7 @@ A fourth column marks provenance:
 | Content | Source | Provenance |
 |---|---|---|
 | Page purpose as primary AEO anchor; only page carrying Tier B/C | D3 §3, §4 | Structural |
-| "We describe our own practice and name NCERT as the source" framing | D3 §4, D1 §1.1 | Faithful |
+| "Our own classroom practice, with NCERT named as the source behind it" framing | D3 §4, D1 §1.1 | Faithful |
 | Four reference documents named | D4 header | Verbatim |
 | Four alignment claims (play-based, mother tongue, no exams, FLN) | D4 §2, §3, §5; D2 §5.1 | Faithful |
 | Activity-based learning description | D3 §6 Q2, D4 §2 | Faithful |

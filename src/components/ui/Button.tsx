@@ -319,3 +319,44 @@ export function TextLink({
     </Link>
   )
 }
+
+/**
+ * `TextLink` for a destination outside this site.
+ *
+ * Same quiet treatment, but an `<a>` rather than a router `Link` — and the
+ * arrow leans out of the corner instead of running right, which is the
+ * convention readers already know for "this leaves the site".
+ */
+export function ExternalTextLink({
+  href,
+  children,
+  className,
+  onDark = false,
+}: {
+  href: string
+  children: ReactNode
+  className?: string
+  onDark?: boolean
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(
+        'group inline-flex items-center gap-1.5 font-semibold transition-colors',
+        'py-2.5 -my-2.5',
+        onDark ? 'text-sky-200 hover:text-white' : 'text-brand-500 hover:text-sky-600',
+        className,
+      )}
+    >
+      <span className="bg-[linear-gradient(currentColor,currentColor)] bg-size-[0%_1.5px] bg-bottom-left bg-no-repeat pb-0.5 transition-[background-size] duration-300 ease-out-soft group-hover:bg-size-[100%_1.5px] motion-reduce:transition-none">
+        {children}
+      </span>
+      <ArrowUpRight
+        className="size-3.5 shrink-0 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0 motion-reduce:group-hover:translate-y-0"
+        aria-hidden="true"
+      />
+    </a>
+  )
+}

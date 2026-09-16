@@ -3,7 +3,7 @@ import { pageSeo } from '@/data/seo'
 import { Container, Section, SectionHeader } from '@/components/ui/layout'
 import { Card, PersonCard } from '@/components/ui/Card'
 import { PageHeader } from '@/components/ui/PageHeader'
-import { TextLink } from '@/components/ui/Button'
+import { ExternalTextLink, TextLink } from '@/components/ui/Button'
 import { Reveal, RevealGroup, RevealItem } from '@/animations/Reveal'
 import { WheatStalk } from '@/components/art/primitives'
 import { founder, foundersLetter, familyPageTone } from '@/data/legacy'
@@ -130,7 +130,7 @@ export function FoundersNotePage() {
         </Container>
       </Section>
 
-      {/* ---- Who is behind LBS KidZ ----
+      {/* ---- The Driving Force of LBS KidZ ----
           Not in D11's four-section layout, and kept. It answers the one
           question the letter raises but does not address, which is who is
           actually running the school alongside the family, and it is the only
@@ -138,23 +138,13 @@ export function FoundersNotePage() {
       <Section tone="white" divider={CTA_SEAM}>
         <Container size="wide">
           <SectionHeader
-            eyebrow="Who is behind LBS KidZ"
+            eyebrow="The Driving Force of LBS KidZ"
             title="Two organisations, one school"
-            standfirst="LBS KidZ is a preschool brand under LBSKidZ Group Indore, developed in strategic partnership."
+            standfirst="LBS KidZ is a preschool brand under the aegis of Lal Bahadur Shastri Educational Society, New Delhi, developed in strategic partnership."
           />
 
           <div className="mt-block grid gap-6 md:grid-cols-2">
             <Reveal>
-              <Card tone="mist" className="h-full" object="founders-operator" backdrop="sky-circle">
-                <h3 className="font-display text-h3 font-semibold text-brand-700">
-                  {site.operator}
-                </h3>
-                <p className="mt-3 text-body text-ink-500">
-                  The operating partner behind the school, its systems and its day-to-day running.
-                </p>
-              </Card>
-            </Reveal>
-            <Reveal delay={0.06}>
               <Card tone="mist" className="h-full" object="founders-partner" backdrop="peach-block">
                 <h3 className="font-display text-h3 font-semibold text-brand-700">
                   {site.partner}
@@ -162,6 +152,24 @@ export function FoundersNotePage() {
                 <p className="mt-3 text-body text-ink-500">
                   The custodian of the name and the legacy this school is built on.
                 </p>
+              </Card>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <Card tone="mist" className="h-full" object="founders-operator" backdrop="sky-circle">
+                <h3 className="font-display text-h3 font-semibold text-brand-700">
+                  {site.operator}
+                </h3>
+                <p className="mt-3 text-body text-ink-500">
+                  The operating partner behind the school, its systems and its day-to-day running.
+                </p>
+                {/* SEP is the only organisation named here with a site of its
+                    own, so the link leaves ours; `_blank` keeps the letter open
+                    behind it. */}
+                <div className="mt-4">
+                  <ExternalTextLink href={site.operatorUrl}>
+                    {site.operatorUrl.replace('https://', '')}
+                  </ExternalTextLink>
+                </div>
               </Card>
             </Reveal>
           </div>

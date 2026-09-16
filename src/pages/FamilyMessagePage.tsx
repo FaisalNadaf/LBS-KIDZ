@@ -1,16 +1,17 @@
 import { Seo } from '@/lib/Seo'
 import { pageSeo } from '@/data/seo'
 import { Container, Section } from '@/components/ui/layout'
+import { Photo } from '@/components/media/Photo'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ButtonLink } from '@/components/ui/Button'
 import { Reveal } from '@/animations/Reveal'
-import { MotifDivider } from '@/components/art/scenes'
 import { WheatStalk } from '@/components/art/primitives'
 import { routes } from '@/data/routes'
 import {
   familyBlessing,
   familyMembers,
   familyMessageIntro,
+  familyPortrait,
   lalitaShastriTribute,
   type FamilyMember,
 } from '@/data/legacy'
@@ -22,6 +23,7 @@ import {
  * else's voice. Sections follow the Family Message Page specification:
  *
  *   1  Hero / Intro                         PageHeader
+ *   1b The family group photograph          FamilyPortrait
  *   2  Anil Shastri Ji's message            Letter
  *   3  In Memory of Shrimati Lalita         Tribute
  *   4  A Note from Manju Shastri Ji         Letter
@@ -50,9 +52,16 @@ import {
  * a memorial tribute, and the specification asks for no brand iconography on
  * this page at all.
  *
- * PHOTOGRAPHS ARE STILL OUTSTANDING: five are needed, a family group photo for
- * the hero plus four portraits. Each slot draws its reserved state rather than
- * collapsing, so the page reads as complete-but-waiting rather than broken.
+ * PHOTOGRAPHS ARE STILL OUTSTANDING: five are needed, a family group photo plus
+ * four portraits. Each slot draws its reserved state rather than collapsing, so
+ * the page reads as complete-but-waiting rather than broken.
+ *
+ * The group photograph is the one D12 §8 lists first and the one that had no
+ * slot at all until now. It is given a mounted frame of its own directly under
+ * the header rather than a place inside it: `PageHeader` renders photographs by
+ * name out of the generated manifest, this picture is not in that manifest, and
+ * nothing may stand in for it, so the header would have had to stay empty and
+ * the real print would have had nowhere to land.
  * See docs/decisions-and-todos.md item T-03.
  */
 export function FamilyMessagePage() {
@@ -66,8 +75,29 @@ export function FamilyMessagePage() {
         eyebrow={familyMessageIntro.eyebrow}
         title={familyMessageIntro.headline}
         standfirst={familyMessageIntro.standfirst}
-        dividerTo="white"
+        dividerTo="mist"
       />
+
+      {/* ---- Section 1b: the family group photograph ----
+           D12 §8's first outstanding picture, which until now had no slot
+           anywhere on the page. It opens the page rather than filling the
+           header: `PageHeader` takes a name from the generated photograph
+           manifest, and this picture is not in it and will not be stood in for
+           — the two Shastri family pages take no stock photography at all. */}
+      <Section
+        tone="mist"
+        size="sm"
+        id="family-portrait"
+        labelledBy="family-portrait-caption"
+        divider={{ type: 'gentle', to: 'white' }}
+        decor={false}
+      >
+        <Container>
+          <Reveal>
+            <FamilyPortrait />
+          </Reveal>
+        </Container>
+      </Section>
 
       {/* ---- Section 2: the primary letter ---- */}
       <Section tone="white" id="anil-shastri" labelledBy="anil-shastri-title" decor={false}>
@@ -123,9 +153,11 @@ export function FamilyMessagePage() {
         <Container size="narrow">
           {manju ? <Letter member={manju} /> : null}
 
-          <Reveal className="my-14 sm:my-20">
-            <MotifDivider />
-          </Reveal>
+          {/* Space, not an ornament. Two sheets already separate themselves, and
+              the `MotifDivider` that used to sit here carried a wheat stalk —
+              which quietly contradicted the tribute's claim below to be the one
+              place the motif appears on this page. */}
+          <div className="h-14 sm:h-20" />
 
           {nextGeneration ? <Letter member={nextGeneration} /> : null}
         </Container>
@@ -168,7 +200,120 @@ export function FamilyMessagePage() {
 /* ------------------------------------------------------------------ */
 
 /**
- * One family member's letter.
+ * The family group photograph, mounted.
+ *
+ * WHY IT IS A MOUNT AND NOT A ROUNDED RECTANGLE. Everything else on this page
+ * is a letter, and a letter does not compete for attention. The one picture the
+ * specification puts first can, so it is framed the way a photograph that
+ * matters actually gets framed: a white mount, a warm field inside it, and an
+ * engraved plaque beneath. The field is 3:2, the shape a group photograph
+ * almost always arrives in, and it holds that shape whether it has a picture in
+ * it or not — which is the entire point of reserving it.
+ *
+ * THE MOUNT IS WEIGHTED. More margin at the foot than at the head, which is
+ * what a framer does so a picture does not look like it is sliding down its own
+ * glass. It earns its keep twice here: the plaque overlaps into that deeper
+ * bottom margin and so never crosses the picture, which it would have to if the
+ * mount were even and which would put a blue box over the family's faces the
+ * day the photograph lands.
+ *
+ * CONCENTRIC CORNERS AT THE HEAD. The field's radius is the mount's radius less
+ * the mount's width at each breakpoint (40px less 12px, then 40px less 20px),
+ * so the white band stays even across the top and sides instead of pinching at
+ * the corners. It is also why neither box wears `shape-arch`: a 999px radius is
+ * clamped to half of each box's own height, so two boxes of different heights
+ * curve differently and the mount would read thicker at the crown.
+ *
+ * THE RESERVED STATE. Warm paper rather than grey, because a large pale
+ * rectangle the same tone as its frame reads as a void and a photographic
+ * ground reads as a picture that has not arrived. The dashed fillet is the
+ * house's word for "reserved" — `PersonCard` established it, on the grounds
+ * that a dashed frame says the thing is coming in a way a solid one cannot —
+ * drawn inside the field so it sits where a framer's fillet line would. Both
+ * the fillet and the words go the day the photograph lands. Nothing else moves.
+ */
+function FamilyPortrait() {
+  const { photo, caption, eyebrow, reservedLabel, reservedNote } = familyPortrait
+
+  return (
+    <figure className="mx-auto max-w-2xl">
+      <div className="shape-soft relative bg-mist-50 p-3 pb-10 shadow-card hairline sm:p-5 sm:pb-14">
+        <div className="relative aspect-[3/2] overflow-hidden rounded-[1.75rem] bg-gradient-to-b from-orange-50 via-mist-50 to-mist-200 sm:rounded-[1.25rem]">
+          {photo ? (
+            <Photo
+              name={photo}
+              alt={caption}
+              sizes="(min-width: 768px) 40rem, 92vw"
+              ratio="3 / 2"
+              className="size-full"
+              priority
+            />
+          ) : (
+            /* Said in as many words. A silent tinted rectangle on this page of
+               all pages reads as an image that failed to load. */
+            <div className="absolute inset-2 grid place-items-center rounded-[1.25rem] border border-dashed border-orange-200 px-6 text-center sm:inset-3 sm:rounded-[1rem]">
+              <div>
+                <p className="text-2xs font-semibold uppercase tracking-[0.14em] text-brand-500">
+                  {reservedLabel}
+                </p>
+                {/* A short rule under the label, the width of a caption rather
+                    than the width of the field: it gives the two lines a join
+                    and keeps the middle of the field from reading as a gap. */}
+                <span
+                  className="mx-auto mt-4 block h-px w-12 bg-orange-300"
+                  aria-hidden="true"
+                />
+                <p className="mx-auto mt-4 max-w-[42ch] font-display text-lead leading-relaxed text-ink-500">
+                  {reservedNote}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* The plaque, overlapping the weighted foot of the mount so the two read
+          as one object. Deep blue because a white label on a white mount is not
+          a label. */}
+      <figcaption className="relative z-10 mx-auto -mt-7 w-[min(26rem,80%)] rounded-2xl bg-brand-700 px-6 py-4 text-center shadow-card sm:-mt-9">
+        <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-orange-300">
+          {eyebrow}
+        </p>
+        <p
+          id="family-portrait-caption"
+          className="mt-1.5 font-display text-h3 font-semibold text-mist-100"
+        >
+          {caption}
+        </p>
+      </figcaption>
+    </figure>
+  )
+}
+
+/**
+ * One family member's letter, on its own sheet.
+ *
+ * WHY THE SHEETS ARE NOT A RETURN TO THE CARD GRID. The 2x2 of `PersonCard`s
+ * that stood here was rejected because four small cards cannot hold a
+ * seven-paragraph letter without turning it into four columns of small print.
+ * The objection was to the grid, not to the sheet: one letter per sheet, full
+ * measure, stacked down a single column is still the layout D12 §4 asks for.
+ * What it adds is an edge. Three letters run straight onto the page ground with
+ * nothing but white space between them, and by the third the reader has no way
+ * of telling where one voice stopped and the next began.
+ *
+ * WHY THE PAPER IS WARM. The bands these sit in are white — `mist-50` is
+ * literally #FFFFFF — so a white sheet on them would have no edge at all;
+ * `mist` for the bands was the obvious alternative and is not available,
+ * because the tribute's whole treatment rests on its being the one place on
+ * this page where the ground changes colour. Cream on the white band keeps that
+ * true, and it is the same cream as the family photograph's field at the top of
+ * the page, so the two read as one material.
+ *
+ * The cream is flat rather than a gradient down to white. A gradient was the
+ * first attempt and it fails on exactly the letter that needs this most: Anil
+ * Shastri Ji's runs seven paragraphs, so the paper had turned white long before
+ * the halfway point and the sheet lost its edge for most of its own height.
  *
  * `lead` marks the primary letter, which takes the larger opening paragraph.
  * Every letter sets its body in the display face, because the specification
@@ -180,19 +325,27 @@ function Letter({ member, lead = false }: { member: FamilyMember; lead?: boolean
   const titleId = `${member.slug}-title`
 
   return (
-    <article aria-labelledby={titleId}>
-      <Reveal className="flex flex-col items-center gap-6 text-center sm:flex-row sm:items-end sm:gap-8 sm:text-left">
-        <PortraitSlot label="Portrait to follow" />
-        <div>
-          <h2 id={titleId} className={lead ? 'text-h1' : 'text-h2'}>
-            {member.name}
-          </h2>
-          <p className="mt-2 text-small text-ink-400">{member.relation}</p>
-        </div>
-      </Reveal>
+    <Reveal>
+      <article
+        aria-labelledby={titleId}
+        className="corner-cut-panel bg-orange-50 p-6 shadow-card hairline sm:p-10 lg:p-12"
+      >
+        {/* The letterhead. A rule under it rather than a band of colour behind
+            it: a letter announces who is writing and then gets on with it. */}
+        <header className="flex flex-col items-center gap-5 border-b border-orange-200 pb-7 text-center sm:flex-row sm:items-center sm:gap-7 sm:text-left">
+          <PortraitSlot label="Portrait to follow" />
+          <div>
+            <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-brand-500">
+              A message from
+            </p>
+            <h2 id={titleId} className={lead ? 'mt-2 text-h1' : 'mt-2 text-h2'}>
+              {member.name}
+            </h2>
+            <p className="mt-2 text-small text-ink-400">{member.relation}</p>
+          </div>
+        </header>
 
-      <Reveal className="mt-10">
-        <div className="space-y-6">
+        <div className="mt-8 space-y-6">
           {member.message?.map((paragraph, i) => (
             <p
               key={paragraph.slice(0, 40)}
@@ -207,19 +360,17 @@ function Letter({ member, lead = false }: { member: FamilyMember; lead?: boolean
           ))}
         </div>
 
-        {/* The sign-off. A rule above it rather than a card around it: a letter
-            ends, it does not sit in a box. */}
-        <footer className="mt-10 border-t border-mist-300 pt-6">
+        {/* The sign-off. A rule above it rather than a box around it: a letter
+            ends, and the sheet is already the box. */}
+        <footer className="mt-10 border-t border-orange-200 pt-6">
           {member.valediction ? (
             <p className="font-display text-lead italic text-ink-500">{member.valediction}</p>
           ) : null}
-          <p className="mt-2 font-display text-h3 font-semibold text-brand-700">
-            {member.name}
-          </p>
+          <p className="mt-2 font-display text-h3 font-semibold text-brand-700">{member.name}</p>
           <p className="mt-1 text-small text-ink-400">{member.relation}</p>
         </footer>
-      </Reveal>
-    </article>
+      </article>
+    </Reveal>
   )
 }
 

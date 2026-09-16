@@ -105,7 +105,7 @@ export const languageAtLbsKidz = {
 /** Section 5 — How We Track Growth. */
 export const trackingGrowth = {
   eyebrow: 'Assessment',
-  headline: 'No Exams. Just Honest, Everyday Observation',
+  headline: 'Assessed Through Activity. Just Honest, Everyday Observation',
   body:
     'There are no formal examinations at LBS KidZ, at any point in the preschool years. Instead, every child’s growth is observed through daily activities, whether that is an oral response, colouring, drawing or a simple task, and marked as Beginner, Progressive, or Proficient. Never as a score. It’s a system built to encourage a child, not compare them to another.',
 }

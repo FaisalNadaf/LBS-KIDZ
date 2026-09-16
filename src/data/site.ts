@@ -17,6 +17,22 @@
  */
 export const SITE_PHASE: 1 | 2 = 1
 
+const OPERATOR = 'School Excellence Program Pvt. Ltd.'
+
+/**
+ * The copyright sentence, in the two pieces that sit either side of the
+ * operator's name.
+ *
+ * It is split because the footer links that name and a link cannot be put
+ * inside a finished string. It is split into constants rather than retyped
+ * because the whole sentence is verbatim from Full Website Sitemap S2.5 and is
+ * audited as verbatim — see docs/final-pdf-compliance-audit.md — so
+ * `copyrightLine` below is now assembled from these rather than written out a
+ * second time. There is no second copy to drift.
+ */
+const COPYRIGHT_BEFORE = '© 2026 LBS KidZ, powered by '
+const COPYRIGHT_AFTER = ' All rights reserved.'
+
 export const site = {
   name: 'LBS KidZ',
   /** Source: Website Reference Document, header. */
@@ -24,14 +40,23 @@ export const site = {
   locale: 'en-IN',
   /** Source: Website Reference Document S1. */
   parentGroup: 'LBSKidZ Group Indore',
-  operator: 'School Excellence Program Pvt. Ltd.',
+  operator: OPERATOR,
+  /** SEP's own site, linked wherever the operating partner is named. */
+  operatorUrl: 'https://theschoolexcel.com',
   partner: 'Lal Bahadur Shastri Educational Society (LBS Group)',
   city: 'Indore',
   state: 'Madhya Pradesh',
   country: 'IN',
   /** Source: Full Website Sitemap S2.5. */
-  copyrightLine:
-    '© 2026 LBS KidZ, powered by School Excellence Program Pvt. Ltd. All rights reserved.',
+  copyrightLine: `${COPYRIGHT_BEFORE}${OPERATOR}${COPYRIGHT_AFTER}`,
+  /** The same sentence, for the footer, which links the operator's name. */
+  copyright: { before: COPYRIGHT_BEFORE, after: COPYRIGHT_AFTER },
+  /** Who built the site. Shown once, in the footer. */
+  credit: {
+    prefix: 'Designed and Developed by ',
+    name: 'Cubiccode',
+    url: 'https://cubiccode.in/',
+  },
 } as const
 
 /**

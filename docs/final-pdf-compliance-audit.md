@@ -34,7 +34,7 @@ Source codes: **D1** Sitemap · **D2** Reference Document · **D3** Keyword & AE
 | Child Protection Policy as plain-language safeguarding statement | D1 §2.3 | ✅ | `PolicyPage.tsx` | POCSO-era governance framing; committee composition pending (T-06) |
 | Mandatory Public Disclosure URL and footer slot reserved, page inactive | D1 §2.3, §4 | ✅ | `/mandatory-public-disclosure` | Live URL, `noindex`, explains it activates on CBSE affiliation |
 | Footer §2.4 utility | D1 §2.4 | ✅ / ⏸️ | `navigation.ts` | FAQs now; Careers and Downloads at Phase 2 |
-| Footer §2.5 copyright line | D1 §2.5 | ✅ | `site.ts` → `copyrightLine` | Verbatim |
+| Footer §2.5 copyright line | D1 §2.5 | ✅ | `site.ts` → `copyrightLine`, assembled from `OPERATOR` + the two `COPYRIGHT_*` constants; the footer renders those same constants either side of a link on the operator's name, so the rendered sentence and `copyrightLine` cannot drift apart | Verbatim |
 | "Explore" keyword-linking block, separate from Quick Links, keyword phrases as link text | D1 §3 | ✅ | `navigation.ts` → `footerExploreLinks` | All six phrases verbatim; deep-linked to anchors |
 | Zone entries added to Explore in Phase 2 | D1 §3 | ⏸️ | same | Kanadia Road, Rau, Bicholi Mardana |
 | Keyword-bearing URL slugs as a fixed requirement | D1 §3 | ✅ | `routes.ts` | See C-07, C-08 |

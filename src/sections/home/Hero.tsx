@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { Check, MapPin, Layers, Ban } from 'lucide-react'
+import { Check, MapPin, Layers, Shapes } from 'lucide-react'
 import { Container } from '@/components/ui/layout'
 import { ButtonLink } from '@/components/ui/Button'
 import { StatTile } from '@/components/ui/Card'
@@ -67,7 +67,11 @@ import { routes } from '@/data/routes'
  * phase-shifted, so they never bob in unison.
  */
 
-const promises = ['No examinations, ever', 'Mother tongue first, English joyfully', 'No hidden charges']
+const promises = [
+  'Activities First, Progress Naturally',
+  'Mother Tongue First, English Joyfully',
+  'Everything Included, Nothing Added Later',
+]
 
 export function Hero() {
   const scopeRef = useRef<HTMLElement>(null)
@@ -323,10 +327,12 @@ export function Hero() {
             <div className="w-full max-w-xl text-center lg:max-w-[52rem] lg:text-left xl:max-w-[58rem]">
               {/* Pills rather than three loose ticks. Given a shape they read as
                   one row of claims; loose, they read as debris above the
-                  headline. */}
+                  headline. They wrap at every width: the three claims are too
+                  long to hold one line even at xl, and a nowrap row would
+                  squeeze each pill until its own text broke instead. */}
               <ul
                 data-hero-item
-                className="mx-auto flex flex-wrap items-center justify-center gap-2 lg:mx-0 lg:flex-nowrap lg:justify-start"
+                className="mx-auto flex flex-wrap items-center justify-center gap-2 lg:mx-0 lg:justify-start"
               >
                 {promises.map((promise) => (
                   <li
@@ -460,10 +466,17 @@ export function Hero() {
             checked further down, not the place to do the checking. */}
         <ul className="grid gap-4 sm:grid-cols-3 sm:gap-0">
           <li className="sm:pr-5">
+            {/* The figure used to be "0" against a label that opened "100% —",
+                so the tile stated two different numbers about the same fact and
+                the one the eye reached first was the one that meant nothing on
+                its own. The claim is about how children are assessed, not about
+                a count of something absent, so the figure is the percentage and
+                the label finishes the sentence. `Ban` went with the zero: a
+                prohibition sign over a positive claim read as a warning. */}
             <StatTile
-              value="0"
-              label="Examinations, at any stage."
-              icon={<Ban className="size-5" aria-hidden="true" />}
+              value="100%"
+              label="Activity-based assessment, not exams."
+              icon={<Shapes className="size-5" aria-hidden="true" />}
             />
           </li>
           <li className="sm:border-l sm:border-mist-300 sm:px-5">

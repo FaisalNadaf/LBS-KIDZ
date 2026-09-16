@@ -1,68 +1,81 @@
-import { Fragment, useRef } from 'react'
-import { Seo } from '@/lib/Seo'
-import { pageSeo } from '@/data/seo'
-import { faqSchema, organizationSchema } from '@/lib/schema'
-import { Container, Eyebrow, Section, SectionHeader } from '@/components/ui/layout'
-import { Card, Chip, Marker, cardBackdropCycle, cardShapeCycle } from '@/components/ui/Card'
-import { PageHeader } from '@/components/ui/PageHeader'
-import { SectionDivider } from '@/components/ui/SectionDivider'
-import { ButtonLink, TextLink } from '@/components/ui/Button'
-import { Reveal, RevealGroup, RevealItem } from '@/animations/Reveal'
-import { useHorizontalTrack } from '@/animations/gsap'
-import { MotifDivider } from '@/components/art/scenes'
-import { ShapedPhoto } from '@/components/media/Photo'
-import { ParallaxPhoto } from '@/animations/Scroll'
-import { DealtObject } from '@/components/art/ObjectScatter'
-import { Grain } from '@/components/art/primitives'
+/** @format */
+
+import { Fragment, useRef } from "react";
+import { Seo } from "@/lib/Seo";
+import { pageSeo } from "@/data/seo";
+import { faqSchema, organizationSchema } from "@/lib/schema";
 import {
-  Apple,
-  ArrowLeftRight,
-  Footprints,
-  BookOpen,
-  CalendarDays,
-  Camera,
-  ClipboardList,
-  Gauge,
-  Heart,
-  Languages,
-  MessageCircle,
-  Moon,
-  Palette,
-  Puzzle,
-  Shapes,
-  Sprout,
-  Send,
-  Sunrise,
-  ToyBrick,
-  Trees,
-  TrendingUp,
-  type LucideIcon,
-} from 'lucide-react'
-import { cn } from '@/lib/cn'
-import { routes } from '@/data/routes'
-import { curriculumFaqs, parentUpdates } from '@/data/admissions'
+	Container,
+	Eyebrow,
+	Section,
+	SectionHeader,
+} from "@/components/ui/layout";
 import {
-  assessmentPrinciples,
-  attainmentLevels,
-  curricularDomains,
-  curriculumFaqIntro,
-  curriculumIntro,
-  dailySchedule,
-  deeperStory,
-  ethicsQuestions,
-  familyInvolvement,
-  growthWays,
-  growthWaysIntro,
-  guidingPrinciples,
-  howWeTeach,
-  languageAtLbsKidz,
-  languagePosition,
-  panchakosha,
-  planningPrinciples,
-  programmeDuration,
-  trackingGrowth,
-} from '@/data/curriculum'
-import { Accordion } from '@/components/ui/Accordion'
+	Card,
+	Chip,
+	Marker,
+	cardBackdropCycle,
+	cardShapeCycle,
+} from "@/components/ui/Card";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { SectionDivider } from "@/components/ui/SectionDivider";
+import { ButtonLink, TextLink } from "@/components/ui/Button";
+import { Reveal, RevealGroup, RevealItem } from "@/animations/Reveal";
+import { useHorizontalTrack } from "@/animations/gsap";
+import { MotifDivider } from "@/components/art/scenes";
+import { ShapedPhoto } from "@/components/media/Photo";
+import { ParallaxPhoto } from "@/animations/Scroll";
+import { DealtObject } from "@/components/art/ObjectScatter";
+import { Grain } from "@/components/art/primitives";
+import {
+	Apple,
+	ArrowLeftRight,
+	Footprints,
+	BookOpen,
+	CalendarDays,
+	Camera,
+	ClipboardList,
+	Gauge,
+	Heart,
+	Languages,
+	MessageCircle,
+	Moon,
+	Palette,
+	Puzzle,
+	Shapes,
+	Sprout,
+	Send,
+	Sunrise,
+	ToyBrick,
+	Trees,
+	TrendingUp,
+	type LucideIcon,
+} from "lucide-react";
+import { cn } from "@/lib/cn";
+import { routes } from "@/data/routes";
+import { curriculumFaqs, parentUpdates } from "@/data/admissions";
+import {
+	assessmentPrinciples,
+	attainmentLevels,
+	curricularDomains,
+	curriculumFaqIntro,
+	curriculumIntro,
+	dailySchedule,
+	deeperStory,
+	ethicsQuestions,
+	familyInvolvement,
+	growthWays,
+	growthWaysIntro,
+	guidingPrinciples,
+	howWeTeach,
+	languageAtLbsKidz,
+	languagePosition,
+	panchakosha,
+	planningPrinciples,
+	programmeDuration,
+	trackingGrowth,
+} from "@/data/curriculum";
+import { Accordion } from "@/components/ui/Accordion";
 
 /**
  * Curriculum & Learning Approach.
@@ -82,42 +95,41 @@ import { Accordion } from '@/components/ui/Accordion'
  * records. Nothing is asserted here that the ERP record cannot evidence.
  */
 export function CurriculumPage() {
-
-  return (
-    <>
-      {/* FAQPage structured data, from the five questions the specification
+	return (
+		<>
+			{/* FAQPage structured data, from the five questions the specification
           names, emitted here rather than on the FAQ page: "Schema markup:
           FAQPage schema using the 5 Q&A pairs in Section 7 verbatim."
           Source: Curriculum Page Content S7. */}
-      <Seo
-        page={pageSeo.curriculum}
-        schemas={[organizationSchema(), faqSchema(schemaFaqs)]}
-      />
+			<Seo
+				page={pageSeo.curriculum}
+				schemas={[organizationSchema(), faqSchema(schemaFaqs)]}
+			/>
 
-      <PageHeader
-        eyebrow={curriculumIntro.eyebrow}
-        title={curriculumIntro.headline}
-        dividerTo="white"
-        photo="montessori-materials-table"
-        photoFocus="55% 45%"
-        standfirst={curriculumIntro.standfirst}
-      />
+			<PageHeader
+				eyebrow={curriculumIntro.eyebrow}
+				title={curriculumIntro.headline}
+				dividerTo="white"
+				photo="montessori-materials-table"
+				photoFocus="55% 45%"
+				standfirst={curriculumIntro.standfirst}
+			/>
 
-      <GrowthWaysSection />
-      <AlignmentSection />
-      <ActivityBasedSection />
-      <TheDaySection />
-      <DayNotesSection />
-      <NoExamsSection />
-      <LanguageSection />
-      <GoalsSection />
-      <PrinciplesSection />
-      <EthicsSection />
-      <WhatYouSeeSection />
-      <DeeperStorySection />
-      <CurriculumFaqSection />
-    </>
-  )
+			<GrowthWaysSection />
+			<AlignmentSection />
+			<ActivityBasedSection />
+			<TheDaySection />
+			<DayNotesSection />
+			<NoExamsSection />
+			<LanguageSection />
+			<GoalsSection />
+			<PrinciplesSection />
+			<EthicsSection />
+			<WhatYouSeeSection />
+			<DeeperStorySection />
+			<CurriculumFaqSection />
+		</>
+	);
 }
 
 /* ========================================================================== */
@@ -133,60 +145,64 @@ export function CurriculumPage() {
  * instead of pass and fail, and shapes for number and letter work.
  */
 const ALIGNMENT_CLAIMS = [
-  {
-    claim: 'Play-based and activity-based days',
-    detail:
-      'Play and activity are the primary context of learning, which is the first design principle in NCERT\u2019s guidelines, not a preference of ours.',
-    icon: ToyBrick,
-    tone: 'sky' as const,
-    medallion: 'bg-sky-100 text-sky-700 ring-sky-200/70'
-  },
-  {
-    claim: 'A mother-tongue foundation',
-    detail:
-      'Home language as the medium of instruction through the Foundational Stage, with English as joyful exposure.',
-    icon: Languages,
-    tone: 'orange' as const,
-    medallion: 'bg-orange-100 text-orange-600 ring-orange-200/70'
-  },
-  {
-    claim: 'No formal examinations',
-    detail:
-      'Continuous, comprehensive and non-competitive assessment, recorded as Beginner, Progressive or Proficient.',
-    icon: Sprout,
-    tone: 'green' as const,
-    medallion: 'bg-green-100 text-green-600 ring-green-200/70'
-  },
-  {
-    claim: 'Foundational literacy and numeracy',
-    detail:
-      'Woven into activities and the environment rather than delivered through workbooks.',
-    icon: Shapes,
-    tone: 'mist' as const,
-    medallion: 'bg-mist-200 text-brand-700 ring-mist-300/70'
-  },
-]
+	{
+		claim: "Play-based and activity-based days",
+		detail:
+			"Play and activity are the primary context of learning, which is the first design principle in NCERT\u2019s guidelines, not a preference of ours.",
+		icon: ToyBrick,
+		tone: "sky" as const,
+		medallion: "bg-sky-100 text-sky-700 ring-sky-200/70",
+	},
+	{
+		claim: "A mother-tongue foundation",
+		detail:
+			"Home language as the medium of instruction through the Foundational Stage, with English as joyful exposure.",
+		icon: Languages,
+		tone: "orange" as const,
+		medallion: "bg-orange-100 text-orange-600 ring-orange-200/70",
+	},
+	{
+		claim: "Growth-focused assessment",
+		detail:
+			"Continuous, comprehensive and non-competitive assessment, recorded as Beginner, Progressive or Proficient.",
+		icon: Sprout,
+		tone: "green" as const,
+		medallion: "bg-green-100 text-green-600 ring-green-200/70",
+	},
+	{
+		claim: "Foundational literacy and numeracy (FLN) ",
+		detail:
+			"Woven into activities and the environment rather than delivered through workbooks.",
+		icon: Shapes,
+		tone: "mist" as const,
+		medallion: "bg-mist-200 text-brand-700 ring-mist-300/70",
+	},
+];
 
 function AlignmentSection() {
-  return (
-    <Section tone="white" id="nep-2020-alignment" labelledBy="alignment-title" divider={{ type: 'gentle', to: 'mist' }}>
-      <Container size="wide">
-        {/* The reference note has moved under the four claims, which is what it
+	return (
+		<Section
+			tone="white"
+			id="nep-2020-alignment"
+			labelledBy="alignment-title"
+			divider={{ type: "gentle", to: "mist" }}>
+			<Container size="wide">
+				{/* The reference note has moved under the four claims, which is what it
             actually sources: beside the heading it annotated a paragraph that
             makes no claim at all. Moving it also squares the two columns, and
             the photograph takes whatever height is left over, so the bay of
             empty white that used to sit under the heading is gone. */}
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="flex flex-col lg:col-span-5">
-            <SectionHeader
-              id="alignment-title"
-              splitTitle
-              eyebrow="Our alignment with NEP 2020 and NCF-FS"
-              title="What we follow, and who says so"
-              standfirst="We describe our own practice and name NCERT as the source for it. We are not in the business of explaining national education policy, and we do not claim to be."
-            />
+				<div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+					<div className="flex flex-col lg:col-span-5">
+						<SectionHeader
+							id="alignment-title"
+							splitTitle
+							eyebrow="Our alignment with NEP 2020 and NCF-FS"
+							title="What we follow, and who says so"
+							standfirst="Everything on this page reflects our own classroom practice and we’ve named NCERT as the source behind it, so you can see exactly how our approach lines up with national guidance."
+						/>
 
-            {/* Sorting by colour into a divided tray is the first two claims
+						{/* Sorting by colour into a divided tray is the first two claims
                 happening at once: play as the context, and number and category
                 arriving through the activity rather than through a workbook.
                 A different silhouette from the `cut`, `petal` and `crest`
@@ -195,121 +211,135 @@ function AlignmentSection() {
                 it cropped both children through the head: the file is square
                 and this frame is landscape, so the vertical crop is severe and
                 a shape that narrows at the top takes the faces with it. */}
-            <Reveal className="mt-8 lg:flex-1" direction="right" tier="lead">
-              <div className="h-64 sm:h-80 lg:h-full lg:min-h-[16rem]">
-                <ShapedPhoto
-                  name="child-sorting-board"
-                  shape="leaf"
-                  fill
-                  interactive
-                  focus="50% 34%"
-                  sizes="(min-width: 1024px) 38vw, 92vw"
-                />
-              </div>
-            </Reveal>
-          </div>
+						<Reveal
+							className="mt-8 lg:flex-1"
+							direction="right"
+							tier="lead">
+							<div className="h-64 sm:h-80 lg:h-full lg:min-h-[16rem]">
+								<ShapedPhoto
+									name="child-sorting-board"
+									shape="leaf"
+									fill
+									interactive
+									focus="50% 34%"
+									sizes="(min-width: 1024px) 38vw, 92vw"
+								/>
+							</div>
+						</Reveal>
+					</div>
 
-          <div className="lg:col-span-6 lg:col-start-7">
-            <RevealGroup className="space-y-4">
-              {ALIGNMENT_CLAIMS.map((row, i) => (
-                <RevealItem key={row.claim}>
-                  <Card
-                    tone={row.tone}
-                    shape={cardShapeCycle[i % cardShapeCycle.length]}
-                    backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}
-                    padded={false}
-                    className="flex items-start gap-4 p-5 sm:gap-5 sm:p-6"
-                  >
-                    {/* The medallion replaces a bare `Grain` marker. Four
+					<div className="lg:col-span-6 lg:col-start-7">
+						<RevealGroup className="space-y-4">
+							{ALIGNMENT_CLAIMS.map((row, i) => (
+								<RevealItem key={row.claim}>
+									<Card
+										tone={row.tone}
+										shape={cardShapeCycle[i % cardShapeCycle.length]}
+										backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}
+										padded={false}
+										className="flex items-start gap-4 p-5 sm:gap-5 sm:p-6">
+										{/* The medallion replaces a bare `Grain` marker. Four
                         near-identical paragraphs in a stack are read as a list
                         of the same thing; a distinct object against a distinct
                         ground gives each claim its own address on the page. */}
-                    <span
-                      className={cn(
-                        'grid size-11 shrink-0 place-items-center rounded-xl shadow-soft ring-1',
-                        'transition-transform duration-300 ease-out-soft group-hover/card:-translate-y-0.5',
-                        'motion-reduce:transition-none motion-reduce:group-hover/card:translate-y-0',
-                        row.medallion,
-                      )}
-                      aria-hidden="true"
-                    >
-                      <row.icon className="size-5" strokeWidth={1.8} />
-                    </span>
+										<span
+											className={cn(
+												"grid size-11 shrink-0 place-items-center rounded-xl shadow-soft ring-1",
+												"transition-transform duration-300 ease-out-soft group-hover/card:-translate-y-0.5",
+												"motion-reduce:transition-none motion-reduce:group-hover/card:translate-y-0",
+												row.medallion,
+											)}
+											aria-hidden="true">
+											<row.icon
+												className="size-5"
+												strokeWidth={1.8}
+											/>
+										</span>
 
-                    <div className="min-w-0">
-                      <h3 className="font-display text-h4 font-semibold text-brand-700">
-                        {row.claim}
-                      </h3>
-                      <p className="mt-1.5 text-sm leading-relaxed text-ink-500">{row.detail}</p>
-                    </div>
-                  </Card>
-                </RevealItem>
-              ))}
-            </RevealGroup>
-
-          </div>
-        </div>
-      </Container>
-    </Section>
-  )
+										<div className="min-w-0">
+											<h3 className="font-display text-h4 font-semibold text-brand-700">
+												{row.claim}
+											</h3>
+											<p className="mt-1.5 text-sm leading-relaxed text-ink-500">
+												{row.detail}
+											</p>
+										</div>
+									</Card>
+								</RevealItem>
+							))}
+						</RevealGroup>
+					</div>
+				</div>
+			</Container>
+		</Section>
+	);
 }
 
 /* ========================================================================== */
 
 function ActivityBasedSection() {
-  return (
-    <Section tone="mist" id="activity-based-learning" labelledBy="abl-title" divider={{ type: 'asymmetric', to: 'brand' }}>
-      <Container size="wide">
-        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-6">
-            <SectionHeader
-              id="abl-title"
-              eyebrow={howWeTeach.eyebrow}
-              title={howWeTeach.headline}
-              standfirst={howWeTeach.body}
-            />
+	return (
+		<Section
+			tone="mist"
+			id="activity-based-learning"
+			labelledBy="abl-title"
+			divider={{ type: "asymmetric", to: "brand" }}>
+			<Container size="wide">
+				<div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+					<div className="lg:col-span-6">
+						<SectionHeader
+							id="abl-title"
+							eyebrow={howWeTeach.eyebrow}
+							title={howWeTeach.headline}
+							standfirst={howWeTeach.body}
+						/>
 
-            <Reveal className="mt-8 space-y-4">
-              <p className="max-w-prose text-body text-ink-500">
-                Quantities, shapes and measures arrive through pouring, sorting, stacking and
-                counting real things. Language arrives through storytelling, rhymes and role-play.
-                Local and indigenous material is used deliberately, because a child does more with
-                what they already recognise.
-              </p>
-              <p className="max-w-prose text-body text-ink-500">
-                A teacher moves between initiating an activity and letting a child choose one.
-                Both are planned for, and the balance across the day is the point.
-              </p>
-            </Reveal>
-          </div>
+						<Reveal className="mt-8 space-y-4">
+							<p className="max-w-prose text-body text-ink-500">
+								Quantities, shapes and measures arrive through pouring, sorting,
+								stacking and counting real things. Language arrives through
+								storytelling, rhymes and role-play. Local and indigenous
+								material is used deliberately, because a child does more with
+								what they already recognise.
+							</p>
+							<p className="max-w-prose text-body text-ink-500">
+								A teacher moves between initiating an activity and letting a
+								child choose one. Both are planned for, and the balance across
+								the day is the point.
+							</p>
+						</Reveal>
+					</div>
 
-          {/* A layered pair rather than one image: the large photograph shows
+					{/* A layered pair rather than one image: the large photograph shows
               the work, the small one shows the material it is done with, and
               the overlap is what stops this reading as text-beside-a-picture. */}
-          <div className="relative lg:col-span-6">
-            <ParallaxPhoto
-              name="stacking-blocks"
-              shape="cut"
-              strength={1.12}
-              sizes="(min-width: 1024px) 46vw, 92vw"
-              ratio="4 / 3"
-            />
-            <div className="absolute -bottom-8 -left-6 hidden w-40 sm:block lg:w-48">
-              <ShapedPhoto
-                name="learning-materials"
-                shape="petal"
-                interactive
-                sizes="12rem"
-                ratio="1 / 1"
-                className="shadow-photo ring-4 ring-mist-100"
-              />
-            </div>
-            <DealtObject seed="curriculum-day" className="absolute -right-3 -top-5 hidden rotate-6 lg:block" />
-          </div>
-        </div>
-      </Container>
-    </Section>
-  )
+					<div className="relative lg:col-span-6">
+						<ParallaxPhoto
+							name="stacking-blocks"
+							shape="cut"
+							strength={1.12}
+							sizes="(min-width: 1024px) 46vw, 92vw"
+							ratio="4 / 3"
+						/>
+						<div className="absolute -bottom-8 -left-6 hidden w-40 sm:block lg:w-48">
+							<ShapedPhoto
+								name="learning-materials"
+								shape="petal"
+								interactive
+								sizes="12rem"
+								ratio="1 / 1"
+								className="shadow-photo ring-4 ring-mist-100"
+							/>
+						</div>
+						<DealtObject
+							seed="curriculum-day"
+							className="absolute -right-3 -top-5 hidden rotate-6 lg:block"
+						/>
+					</div>
+				</div>
+			</Container>
+		</Section>
+	);
 }
 
 /* ==========================================================================
@@ -325,7 +355,16 @@ function ActivityBasedSection() {
  * apart at a glance while the track is moving, and a shape is quicker to
  * recognise in motion than a heading is to read.
  */
-const DAY_ICONS = [Sunrise, Shapes, ToyBrick, Apple, BookOpen, Palette, Trees, Moon]
+const DAY_ICONS = [
+	Sunrise,
+	Shapes,
+	ToyBrick,
+	Apple,
+	BookOpen,
+	Palette,
+	Trees,
+	Moon,
+];
 
 /**
  * How each card's corners are cut.
@@ -337,11 +376,11 @@ const DAY_ICONS = [Sunrise, Shapes, ToyBrick, Apple, BookOpen, Palette, Trees, M
  * them being decorated.
  */
 const DAY_SHAPES = [
-  'rounded-[1.75rem] rounded-tl-md',
-  'rounded-[1.75rem] rounded-br-md',
-  'rounded-[1.75rem] rounded-tr-md',
-  'rounded-[1.75rem] rounded-bl-md',
-]
+	"rounded-[1.75rem] rounded-tl-md",
+	"rounded-[1.75rem] rounded-br-md",
+	"rounded-[1.75rem] rounded-tr-md",
+	"rounded-[1.75rem] rounded-bl-md",
+];
 
 /**
  * A colour per block, cycled across the row.
@@ -360,31 +399,31 @@ const DAY_SHAPES = [
  * the numeral, the edge and the watermark, where it stays a clean hue.
  */
 const DAY_ACCENTS = [
-  {
-    ring: 'ring-orange-300/30',
-    hover: 'hover:ring-orange-300/70',
-    band: 'border-orange-300/25 from-sky-300/20',
-    chip: 'bg-orange-300 text-brand-800',
-    numeral: 'text-orange-300',
-    mark: 'text-orange-300/[0.18]',
-  },
-  {
-    ring: 'ring-sky-300/30',
-    hover: 'hover:ring-sky-300/70',
-    band: 'border-sky-300/25 from-sky-300/25',
-    chip: 'bg-sky-300 text-brand-800',
-    numeral: 'text-sky-200',
-    mark: 'text-sky-300/[0.18]',
-  },
-  {
-    ring: 'ring-green-300/30',
-    hover: 'hover:ring-green-300/70',
-    band: 'border-green-300/25 from-sky-300/20',
-    chip: 'bg-green-300 text-brand-800',
-    numeral: 'text-green-200',
-    mark: 'text-green-300/[0.18]',
-  },
-]
+	{
+		ring: "ring-orange-300/30",
+		hover: "hover:ring-orange-300/70",
+		band: "border-orange-300/25 from-sky-300/20",
+		chip: "bg-orange-300 text-brand-800",
+		numeral: "text-orange-300",
+		mark: "text-orange-300/[0.18]",
+	},
+	{
+		ring: "ring-sky-300/30",
+		hover: "hover:ring-sky-300/70",
+		band: "border-sky-300/25 from-sky-300/25",
+		chip: "bg-sky-300 text-brand-800",
+		numeral: "text-sky-200",
+		mark: "text-sky-300/[0.18]",
+	},
+	{
+		ring: "ring-green-300/30",
+		hover: "hover:ring-green-300/70",
+		band: "border-green-300/25 from-sky-300/20",
+		chip: "bg-green-300 text-brand-800",
+		numeral: "text-green-200",
+		mark: "text-green-300/[0.18]",
+	},
+];
 
 /**
  * Where the photographs sit in the row, keyed by the block they follow.
@@ -395,31 +434,36 @@ const DAY_ACCENTS = [
  * twice, and the second picture lands next to the creative block it belongs to.
  */
 const DAY_PHOTOS = {
-  0: {
-    name: 'working-together' as const,
-    title: 'A morning, in order',
-    kicker: 'Eight blocks',
-  },
-  5: {
-    name: 'art-hands-painting' as const,
-    title: 'Made, not marked',
-    kicker: 'Creative activity',
-  },
-}
+	0: {
+		name: "working-together" as const,
+		title: "A morning, in order",
+		kicker: "Eight blocks",
+	},
+	5: {
+		name: "art-hands-painting" as const,
+		title: "Made, not marked",
+		kicker: "Creative activity",
+	},
+};
 
 function TheDaySection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const trackRef = useRef<HTMLDivElement>(null)
-  const railRef = useRef<HTMLSpanElement>(null)
-  const { enabled: horizontal, distance } = useHorizontalTrack(sectionRef, trackRef, 1024, railRef)
+	const sectionRef = useRef<HTMLElement>(null);
+	const trackRef = useRef<HTMLDivElement>(null);
+	const railRef = useRef<HTMLSpanElement>(null);
+	const { enabled: horizontal, distance } = useHorizontalTrack(
+		sectionRef,
+		trackRef,
+		1024,
+		railRef,
+	);
 
-  return (
-    <section
-      ref={sectionRef}
-      id="the-day"
-      aria-labelledby="day-title"
-      className="relative bg-brand-700 text-mist-100"
-      /* The spacer is only as tall as the track actually needs to travel.
+	return (
+		<section
+			ref={sectionRef}
+			id="the-day"
+			aria-labelledby="day-title"
+			className="relative bg-brand-700 text-mist-100"
+			/* The spacer is only as tall as the track actually needs to travel.
          Without the horizontal scene it collapses to auto height.
 
          NOTHING MAY FOLLOW THE STICKY PANEL INSIDE THIS ELEMENT. The height is
@@ -427,199 +471,204 @@ function TheDaySection() {
          of it, so a sibling underneath has no room of its own and paints
          straight over the cards. The notes that used to sit here have their own
          section now. */
-      style={horizontal ? { height: `calc(100dvh + ${distance}px)` } : undefined}
-    >
-      <div
-        className={
-          horizontal
-            ? // The extra top padding is the fixed navbar. Centring inside the full
-              // viewport puts equal space above and below the content, but the top
-              // share sits under an opaque bar, so what the reader sees is a scene
-              // pushed high with a bay of empty navy under it. Reserving the bar's
-              // height first centres the content in the part of the screen that is
-              // actually visible.
-              'sticky top-0 flex h-dvh flex-col overflow-hidden pb-10 pt-[calc(3rem+var(--nav-h))]'
-            : 'overflow-hidden py-16 sm:py-20 lg:py-24'
-        }
-      >
-        {/* The heading and the track centre in whatever is left once the rail
+			style={
+				horizontal ? { height: `calc(100dvh + ${distance}px)` } : undefined
+			}>
+			<div
+				className={
+					horizontal ?
+						// The extra top padding is the fixed navbar. Centring inside the full
+						// viewport puts equal space above and below the content, but the top
+						// share sits under an opaque bar, so what the reader sees is a scene
+						// pushed high with a bay of empty navy under it. Reserving the bar's
+						// height first centres the content in the part of the screen that is
+						// actually visible.
+						"sticky top-0 flex h-dvh flex-col overflow-hidden pb-10 pt-[calc(3rem+var(--nav-h))]"
+					:	"overflow-hidden py-16 sm:py-20 lg:py-24"
+				}>
+				{/* The heading and the track centre in whatever is left once the rail
             has taken its place at the foot. Centring all three together left a
             173px band of empty navy under the rail, because the rail is short
             and that space had nowhere else to go. Anchored, the scene reaches
             the bottom of the screen and the reader sees cards, not ground. */}
-        <div className="flex flex-1 flex-col justify-center">
-          <Container size="wide">
-            <SectionHeader
-              id="day-title"
-              eyebrow="The preschool day"
-              title="Eight blocks, four hours, five days"
-              standfirst="Our day follows the structure NCERT suggests for a preschool. The programme runs four hours a day, Monday to Friday."
-              onDark
-            />
-          </Container>
+				<div className="flex flex-1 flex-col justify-center">
+					<Container size="wide">
+						<SectionHeader
+							id="day-title"
+							eyebrow="The preschool day"
+							title="Eight blocks, four hours, five days"
+							standfirst="Our day follows the structure NCERT suggests for a preschool. The programme runs four hours a day, Monday to Friday."
+							onDark
+						/>
+					</Container>
 
-          <div className="mt-10 lg:mt-block">
-          <div
-            ref={trackRef}
-            className={
-              horizontal
-                ? 'flex w-max items-stretch gap-5 pl-10 pr-24 will-change-transform'
-                : 'grid gap-4 px-5 sm:grid-cols-2 sm:px-7 lg:px-10'
-            }
-          >
-            {/* Pictures break the run of text. Drawn only where the track
+					<div className="mt-10 lg:mt-block">
+						<div
+							ref={trackRef}
+							className={
+								horizontal ?
+									"flex w-max items-stretch gap-5 pl-10 pr-24 will-change-transform"
+								:	"grid gap-4 px-5 sm:grid-cols-2 sm:px-7 lg:px-10"
+							}>
+							{/* Pictures break the run of text. Drawn only where the track
                 scrolls: stacked vertically they would be two large images
                 between seven cards, which is a different page. */}
-            {horizontal ? <DayPhotoPanel {...DAY_PHOTOS[0]} /> : null}
+							{horizontal ?
+								<DayPhotoPanel {...DAY_PHOTOS[0]} />
+							:	null}
 
-            {dailySchedule.map((block, i) => {
-              const Icon = DAY_ICONS[i % DAY_ICONS.length]
-              const accent = DAY_ACCENTS[i % DAY_ACCENTS.length]
-              const photo = DAY_PHOTOS[i as keyof typeof DAY_PHOTOS]
-              return (
-                <Fragment key={block.name}>
-                  <div
-                    className={cn(
-                      'group/block relative isolate flex flex-col overflow-hidden',
-                      // A lighter ground than the band, which is what actually
-                      // separates a card from the page. The previous version
-                      // tinted the section's own navy and the cards read as
-                      // slightly-different navy, which is the note this section
-                      // kept getting: correct, and invisible.
-                      'bg-brand-600 shadow-lift ring-1',
-                      'transition-[transform,box-shadow] duration-300 ease-out-soft hover:-translate-y-1.5',
-                      'motion-reduce:transition-none motion-reduce:hover:translate-y-0',
-                      accent.ring,
-                      accent.hover,
-                      DAY_SHAPES[i % DAY_SHAPES.length],
-                      horizontal && 'w-[22rem] shrink-0 lg:min-h-[21rem]',
-                    )}
-                  >
-                    {/* The watermark. `isolate` on the card is what keeps
+							{dailySchedule.map((block, i) => {
+								const Icon = DAY_ICONS[i % DAY_ICONS.length];
+								const accent = DAY_ACCENTS[i % DAY_ACCENTS.length];
+								const photo = DAY_PHOTOS[i as keyof typeof DAY_PHOTOS];
+								return (
+									<Fragment key={block.name}>
+										<div
+											className={cn(
+												"group/block relative isolate flex flex-col overflow-hidden",
+												// A lighter ground than the band, which is what actually
+												// separates a card from the page. The previous version
+												// tinted the section's own navy and the cards read as
+												// slightly-different navy, which is the note this section
+												// kept getting: correct, and invisible.
+												"bg-brand-600 shadow-lift ring-1",
+												"transition-[transform,box-shadow] duration-300 ease-out-soft hover:-translate-y-1.5",
+												"motion-reduce:transition-none motion-reduce:hover:translate-y-0",
+												accent.ring,
+												accent.hover,
+												DAY_SHAPES[i % DAY_SHAPES.length],
+												horizontal && "w-[22rem] shrink-0 lg:min-h-[21rem]",
+											)}>
+											{/* The watermark. `isolate` on the card is what keeps
                         `-z-10` behind this card's own text without dropping it
                         behind the card beside it. */}
-                    <Icon
-                      className={cn(
-                        'pointer-events-none absolute -bottom-8 -right-7 -z-10 size-40',
-                        'transition-transform duration-500 ease-out-soft group-hover/block:scale-110 motion-reduce:transition-none',
-                        accent.mark,
-                      )}
-                      strokeWidth={1.1}
-                      aria-hidden="true"
-                    />
+											<Icon
+												className={cn(
+													"pointer-events-none absolute -bottom-8 -right-7 -z-10 size-40",
+													"transition-transform duration-500 ease-out-soft group-hover/block:scale-110 motion-reduce:transition-none",
+													accent.mark,
+												)}
+												strokeWidth={1.1}
+												aria-hidden="true"
+											/>
 
-                    {/* A banded head, so the number and the mark belong to a
+											{/* A banded head, so the number and the mark belong to a
                         strip of colour rather than floating on the body. */}
-                    <div
-                      className={cn(
-                        'flex items-center justify-between gap-3 border-b bg-linear-to-r to-transparent px-7 py-5',
-                        accent.band,
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          'grid size-11 place-items-center rounded-2xl shadow-soft',
-                          'transition-transform duration-300 ease-out-soft group-hover/block:-translate-y-0.5',
-                          'motion-reduce:transition-none motion-reduce:group-hover/block:translate-y-0',
-                          accent.chip,
-                        )}
-                        aria-hidden="true"
-                      >
-                        <Icon className="size-5" strokeWidth={1.9} />
-                      </span>
-                      <span
-                        className={cn(
-                          'font-numeral text-3xl font-semibold leading-none',
-                          accent.numeral,
-                        )}
-                      >
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                    </div>
+											<div
+												className={cn(
+													"flex items-center justify-between gap-3 border-b bg-linear-to-r to-transparent px-7 py-5",
+													accent.band,
+												)}>
+												<span
+													className={cn(
+														"grid size-11 place-items-center rounded-2xl shadow-soft",
+														"transition-transform duration-300 ease-out-soft group-hover/block:-translate-y-0.5",
+														"motion-reduce:transition-none motion-reduce:group-hover/block:translate-y-0",
+														accent.chip,
+													)}
+													aria-hidden="true">
+													<Icon
+														className="size-5"
+														strokeWidth={1.9}
+													/>
+												</span>
+												<span
+													className={cn(
+														"font-numeral text-3xl font-semibold leading-none",
+														accent.numeral,
+													)}>
+													{String(i + 1).padStart(2, "0")}
+												</span>
+											</div>
 
-                    <div className="flex flex-1 flex-col px-7 pb-7 pt-6">
-                      {block.isSankalpMoment ? (
-                        <span className="mb-3">
-                          <Chip tone="onDark">Sankalp Calendar moment</Chip>
-                        </span>
-                      ) : null}
+											<div className="flex flex-1 flex-col px-7 pb-7 pt-6">
+												{block.isSankalpMoment ?
+													<span className="mb-3">
+														<Chip tone="onDark">Sankalp Calendar moment</Chip>
+													</span>
+												:	null}
 
-                      <h3 className="font-display text-h3 font-semibold text-mist-50">
-                        {block.name}
-                      </h3>
-                      <p className="mt-3 text-sm leading-relaxed text-mist-200/90">
-                        {block.detail}
-                      </p>
+												<h3 className="font-display text-h3 font-semibold text-mist-50">
+													{block.name}
+												</h3>
+												<p className="mt-3 text-sm leading-relaxed text-mist-200/90">
+													{block.detail}
+												</p>
 
-                      {block.conduct ? (
-                        <p className="mt-auto pt-5 text-xs font-medium uppercase tracking-wide text-mist-300/85">
-                          {block.conduct}
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
+												{block.conduct ?
+													<p className="mt-auto pt-5 text-xs font-medium uppercase tracking-wide text-mist-300/85">
+														{block.conduct}
+													</p>
+												:	null}
+											</div>
+										</div>
 
-                  {horizontal && photo && i !== 0 ? <DayPhotoPanel {...photo} /> : null}
-                </Fragment>
-              )
-            })}
-            </div>
-          </div>
-        </div>
+										{horizontal && photo && i !== 0 ?
+											<DayPhotoPanel {...photo} />
+										:	null}
+									</Fragment>
+								);
+							})}
+						</div>
+					</div>
+				</div>
 
-        {horizontal ? (
-          <div className="mt-8 flex items-center gap-4 px-10">
-            <span className="shrink-0 text-xs font-medium uppercase tracking-[0.14em] text-mist-300/80">
-              Keep scrolling
-            </span>
-            {/* The rail. Scaled from the same timeline that moves the track, so
+				{horizontal ?
+					<div className="mt-8 flex items-center gap-4 px-10">
+						<span className="shrink-0 text-xs font-medium uppercase tracking-[0.14em] text-mist-300/80">
+							Keep scrolling
+						</span>
+						{/* The rail. Scaled from the same timeline that moves the track, so
                 it reports the scene's own progress rather than an approximation
                 of it. */}
-            <span
-              className="relative h-px flex-1 overflow-hidden bg-mist-50/15"
-              aria-hidden="true"
-            >
-              <span ref={railRef} className="absolute inset-0 block bg-orange-300/70" />
-            </span>
-          </div>
-        ) : null}
-      </div>
-    </section>
-  )
+						<span
+							className="relative h-px flex-1 overflow-hidden bg-mist-50/15"
+							aria-hidden="true">
+							<span
+								ref={railRef}
+								className="absolute inset-0 block bg-orange-300/70"
+							/>
+						</span>
+					</div>
+				:	null}
+			</div>
+		</section>
+	);
 }
 
 /** A picture in the track, captioned over its own foot. */
 function DayPhotoPanel({
-  name,
-  title,
-  kicker,
+	name,
+	title,
+	kicker,
 }: {
-  name: 'working-together' | 'art-hands-painting'
-  title: string
-  kicker: string
+	name: "working-together" | "art-hands-painting";
+	title: string;
+	kicker: string;
 }) {
-  return (
-    <div className="relative w-[20rem] shrink-0 overflow-hidden rounded-[1.75rem] rounded-br-md shadow-lift ring-1 ring-mist-50/15 lg:min-h-[21rem]">
-      <ShapedPhoto
-        name={name}
-        shape="rounded"
-        fill
-        interactive
-        focus="50% 45%"
-        sizes="20rem"
-        className="h-full rounded-none"
-      />
-      <span
-        className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-brand-700 via-brand-700/70 to-transparent p-6 pt-20"
-        aria-hidden="true"
-      >
-        <span className="block font-display text-h4 font-semibold text-mist-50">{title}</span>
-        <span className="mt-1 block text-xs font-medium uppercase tracking-[0.14em] text-orange-300">
-          {kicker}
-        </span>
-      </span>
-    </div>
-  )
+	return (
+		<div className="relative w-[20rem] shrink-0 overflow-hidden rounded-[1.75rem] rounded-br-md shadow-lift ring-1 ring-mist-50/15 lg:min-h-[21rem]">
+			<ShapedPhoto
+				name={name}
+				shape="rounded"
+				fill
+				interactive
+				focus="50% 45%"
+				sizes="20rem"
+				className="h-full rounded-none"
+			/>
+			<span
+				className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-brand-700 via-brand-700/70 to-transparent p-6 pt-20"
+				aria-hidden="true">
+				<span className="block font-display text-h4 font-semibold text-mist-50">
+					{title}
+				</span>
+				<span className="mt-1 block text-xs font-medium uppercase tracking-[0.14em] text-orange-300">
+					{kicker}
+				</span>
+			</span>
+		</div>
+	);
 }
 
 /* ========================================================================== */
@@ -639,194 +688,224 @@ function DayPhotoPanel({
  * either, because this band's height is its content's to give.
  */
 function DayNotesSection() {
-  return (
-    <section className="relative bg-brand-700 text-mist-100">
-      {/* Half the usual space above. This band opens on the same navy the
+	return (
+		<section className="relative bg-brand-700 text-mist-100">
+			{/* Half the usual space above. This band opens on the same navy the
           pinned scene closes on, so a full section's worth of padding here is
           not a gap between two things; it is a hole in the middle of one. */}
-      <Container size="wide" className="pb-section pt-12 sm:pt-14">
-        <div className="grid gap-5 lg:grid-cols-2 lg:gap-6">
-          {/* Carded, in the same two accents as the blocks above. Two headings
+			<Container
+				size="wide"
+				className="pb-section pt-12 sm:pt-14">
+				<div className="grid gap-5 lg:grid-cols-2 lg:gap-6">
+					{/* Carded, in the same two accents as the blocks above. Two headings
               floating on bare navy underneath a row of solid cards read as
               leftovers rather than as the end of the scene. */}
-          <Reveal>
-            <div className="relative isolate h-full overflow-hidden rounded-[1.75rem] rounded-tl-md bg-brand-600 p-7 shadow-lift ring-1 ring-sky-300/30">
-              <CalendarDays
-                className="pointer-events-none absolute -bottom-8 -right-7 -z-10 size-40 text-sky-300/[0.18]"
-                strokeWidth={1.1}
-                aria-hidden="true"
-              />
-              <span
-                className="grid size-11 place-items-center rounded-2xl bg-sky-300 text-brand-800 shadow-soft"
-                aria-hidden="true"
-              >
-                <CalendarDays className="size-5" strokeWidth={1.9} />
-              </span>
-              <h3 className="mt-5 font-display text-h4 font-semibold text-mist-50">
-                Saturday is not a school day
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-mist-200/90">
-                {programmeDuration.saturday}
-              </p>
-            </div>
-          </Reveal>
+					<Reveal>
+						<div className="relative isolate h-full overflow-hidden rounded-[1.75rem] rounded-tl-md bg-brand-600 p-7 shadow-lift ring-1 ring-sky-300/30">
+							<CalendarDays
+								className="pointer-events-none absolute -bottom-8 -right-7 -z-10 size-40 text-sky-300/[0.18]"
+								strokeWidth={1.1}
+								aria-hidden="true"
+							/>
+							<span
+								className="grid size-11 place-items-center rounded-2xl bg-sky-300 text-brand-800 shadow-soft"
+								aria-hidden="true">
+								<CalendarDays
+									className="size-5"
+									strokeWidth={1.9}
+								/>
+							</span>
+							<h3 className="mt-5 font-display text-h4 font-semibold text-mist-50">
+								Saturday is not a school day
+							</h3>
+							<p className="mt-3 text-sm leading-relaxed text-mist-200/90">
+								{programmeDuration.saturday}
+							</p>
+						</div>
+					</Reveal>
 
-          <Reveal delay={0.06}>
-            <div className="relative isolate h-full overflow-hidden rounded-[1.75rem] rounded-br-md bg-brand-600 p-7 shadow-lift ring-1 ring-orange-300/30">
-              <Gauge
-                className="pointer-events-none absolute -bottom-8 -right-7 -z-10 size-40 text-orange-300/[0.18]"
-                strokeWidth={1.1}
-                aria-hidden="true"
-              />
-              <span
-                className="grid size-11 place-items-center rounded-2xl bg-orange-300 text-brand-800 shadow-soft"
-                aria-hidden="true"
-              >
-                <Gauge className="size-5" strokeWidth={1.9} />
-              </span>
-              <h3 className="mt-5 font-display text-h4 font-semibold text-mist-50">
-                How the day is paced
-              </h3>
-              <ul className="mt-3 space-y-2">
-                {planningPrinciples.map((principle) => (
-                  <li
-                    key={principle}
-                    className="flex gap-2.5 text-sm leading-relaxed text-mist-200/90"
-                  >
-                    <Grain className="mt-1.5 shrink-0 text-orange-300" />
-                    <span>{principle}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-        </div>
-      </Container>
+					<Reveal delay={0.06}>
+						<div className="relative isolate h-full overflow-hidden rounded-[1.75rem] rounded-br-md bg-brand-600 p-7 shadow-lift ring-1 ring-orange-300/30">
+							<Gauge
+								className="pointer-events-none absolute -bottom-8 -right-7 -z-10 size-40 text-orange-300/[0.18]"
+								strokeWidth={1.1}
+								aria-hidden="true"
+							/>
+							<span
+								className="grid size-11 place-items-center rounded-2xl bg-orange-300 text-brand-800 shadow-soft"
+								aria-hidden="true">
+								<Gauge
+									className="size-5"
+									strokeWidth={1.9}
+								/>
+							</span>
+							<h3 className="mt-5 font-display text-h4 font-semibold text-mist-50">
+								How the day is paced
+							</h3>
+							<ul className="mt-3 space-y-2">
+								{planningPrinciples.map((principle) => (
+									<li
+										key={principle}
+										className="flex gap-2.5 text-sm leading-relaxed text-mist-200/90">
+										<Grain className="mt-1.5 shrink-0 text-orange-300" />
+										<span>{principle}</span>
+									</li>
+								))}
+							</ul>
+						</div>
+					</Reveal>
+				</div>
+			</Container>
 
-      <SectionDivider type="wave" to="white" />
-    </section>
-  )
+			<SectionDivider
+				type="wave"
+				to="white"
+			/>
+		</section>
+	);
 }
 
 /* ========================================================================== */
 
 function NoExamsSection() {
-  return (
-    <Section tone="white" id="no-examinations" labelledBy="exams-title" divider={{ type: 'blob', to: 'sky' }}>
-      <Container size="wide">
-        <SectionHeader
-          id="exams-title"
-          eyebrow={trackingGrowth.eyebrow}
-          title={trackingGrowth.headline}
-          standfirst={trackingGrowth.body}
-        />
+	return (
+		<Section
+			tone="white"
+			id="no-examinations"
+			labelledBy="exams-title"
+			divider={{ type: "blob", to: "sky" }}>
+			<Container size="wide">
+				<SectionHeader
+					id="exams-title"
+					eyebrow={trackingGrowth.eyebrow}
+					title={trackingGrowth.headline}
+					standfirst={trackingGrowth.body}
+				/>
 
-        <RevealGroup className="mt-block grid gap-5 md:grid-cols-3">
-          {attainmentLevels.map((level, i) => (
-            <RevealItem key={level.level} className="h-full">
-              <Card
-                className="flex h-full flex-col"
-                tone={['green', 'orange', 'sky'][i] as 'green'}
-                object={level.level}
-                shape={cardShapeCycle[i % cardShapeCycle.length]}
-                backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}
-              >
-                <Marker tone={['green', 'orange', 'sky'][i] as 'green'} size="sm">
-                  {i + 1}
-                </Marker>
-                <h3 className="mt-4 font-display text-h3 font-semibold text-brand-700">
-                  {level.level}
-                </h3>
-                <p className="mt-2 text-body text-ink-500">{level.definition}</p>
+				<RevealGroup className="mt-block grid gap-5 md:grid-cols-3">
+					{attainmentLevels.map((level, i) => (
+						<RevealItem
+							key={level.level}
+							className="h-full">
+							<Card
+								className="flex h-full flex-col"
+								tone={["green", "orange", "sky"][i] as "green"}
+								object={level.level}
+								shape={cardShapeCycle[i % cardShapeCycle.length]}
+								backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}>
+								<Marker
+									tone={["green", "orange", "sky"][i] as "green"}
+									size="sm">
+									{i + 1}
+								</Marker>
+								<h3 className="mt-4 font-display text-h3 font-semibold text-brand-700">
+									{level.level}
+								</h3>
+								<p className="mt-2 text-body text-ink-500">
+									{level.definition}
+								</p>
 
-                {/* Three levels are a scale, and printing them as three
+								{/* Three levels are a scale, and printing them as three
                     separate cards hides that. The filled segments say where
                     this one sits on it, and they sit on `mt-auto`, so the slack
                     left by the shorter definitions is carrying something
                     instead of being white. */}
-                <span
-                  className="mt-auto flex items-center gap-1.5 pt-6"
-                  aria-hidden="true"
-                >
-                  {[0, 1, 2].map((step) => (
-                    <span
-                      key={step}
-                      className={cn(
-                        'h-1 flex-1 rounded-full transition-colors duration-300',
-                        step <= i
-                          ? ['bg-green-400', 'bg-orange-400', 'bg-sky-400'][i]
-                          : 'bg-brand-700/10',
-                      )}
-                    />
-                  ))}
-                </span>
-              </Card>
-            </RevealItem>
-          ))}
-        </RevealGroup>
+								<span
+									className="mt-auto flex items-center gap-1.5 pt-6"
+									aria-hidden="true">
+									{[0, 1, 2].map((step) => (
+										<span
+											key={step}
+											className={cn(
+												"h-1 flex-1 rounded-full transition-colors duration-300",
+												step <= i ?
+													["bg-green-400", "bg-orange-400", "bg-sky-400"][i]
+												:	"bg-brand-700/10",
+											)}
+										/>
+									))}
+								</span>
+							</Card>
+						</RevealItem>
+					))}
+				</RevealGroup>
 
-        {/* The two text blocks now share a column and the photograph takes the
+				{/* The two text blocks now share a column and the photograph takes the
             other one whole. Before this the list sat alone on the left while
             the picture and the card stacked on the right, and the left column
             ran out 362px above the right: a third of a screen of white beside a
             bulleted list. Stacked together they are also the better pairing,
             since what assessment is and what it never becomes are two halves of
             one answer. */}
-        <div className="mt-block grid gap-10 lg:grid-cols-12 lg:gap-14">
-          <div className="flex flex-col lg:col-span-7">
-            <Eyebrow className="mb-5">How assessment works</Eyebrow>
-            <ul className="space-y-3">
-              {assessmentPrinciples.map((principle) => (
-                <li key={principle} className="flex gap-3 text-body text-ink-500">
-                  <Grain className="mt-1.5 shrink-0 text-sky-500" />
-                  <span>{principle}</span>
-                </li>
-              ))}
-            </ul>
+				<div className="mt-block grid gap-10 lg:grid-cols-12 lg:gap-14">
+					<div className="flex flex-col lg:col-span-7">
+						<Eyebrow className="mb-5">How assessment works</Eyebrow>
+						<ul className="space-y-3">
+							{assessmentPrinciples.map((principle) => (
+								<li
+									key={principle}
+									className="flex gap-3 text-body text-ink-500">
+									<Grain className="mt-1.5 shrink-0 text-sky-500" />
+									<span>{principle}</span>
+								</li>
+							))}
+						</ul>
 
-            <Card
-              tone="mist"
-              object="curriculum-never-see"
-              backdrop="blob-duo"
-              className="mt-8"
-            >
-              <h3 className="font-display text-h4 font-semibold text-brand-700">
-                What you will never see
-              </h3>
-              {/* Two columns from `sm` up: four short struck-out phrases in a
+						<Card
+							tone="mist"
+							object="curriculum-never-see"
+							backdrop="blob-duo"
+							className="mt-8">
+							<h3 className="font-display text-h4 font-semibold text-brand-700">
+								What you will never see
+							</h3>
+							{/* Two columns from `sm` up: four short struck-out phrases in a
                   single file is a tall thin list with a lot of air to its
                   right. */}
-              <ul className="mt-4 grid gap-x-8 gap-y-2.5 text-body text-ink-500 sm:grid-cols-2">
-                {['A mark', 'A grade', 'A rank against other children', 'A written test'].map(
-                  (item) => (
-                    <li key={item} className="flex items-center gap-3">
-                      <span className="h-px w-4 shrink-0 bg-coral-400" aria-hidden="true" />
-                      <span className="line-through decoration-coral-400/60">{item}</span>
-                    </li>
-                  ),
-                )}
-              </ul>
-            </Card>
-          </div>
+							<ul className="mt-4 grid gap-x-8 gap-y-2.5 text-body text-ink-500 sm:grid-cols-2">
+								{[
+									"A mark",
+									"A grade",
+									"A rank against other children",
+									"A written test",
+								].map((item) => (
+									<li
+										key={item}
+										className="flex items-center gap-3">
+										<span
+											className="h-px w-4 shrink-0 bg-coral-400"
+											aria-hidden="true"
+										/>
+										<span className="line-through decoration-coral-400/60">
+											{item}
+										</span>
+									</li>
+								))}
+							</ul>
+						</Card>
+					</div>
 
-          {/* Height from the grid row rather than an aspect ratio, so the
+					{/* Height from the grid row rather than an aspect ratio, so the
               picture closes whatever gap the column beside it leaves. */}
-          <Reveal direction="left" tier="lead" className="lg:col-span-5">
-            <div className="h-72 sm:h-96 lg:h-full lg:min-h-[22rem]">
-              <ShapedPhoto
-                name="hands-painting"
-                shape="crest"
-                fill
-                interactive
-                focus="50% 45%"
-                sizes="(min-width: 1024px) 38vw, 92vw"
-              />
-            </div>
-          </Reveal>
-        </div>
-      </Container>
-    </Section>
-  )
+					<Reveal
+						direction="left"
+						tier="lead"
+						className="lg:col-span-5">
+						<div className="h-72 sm:h-96 lg:h-full lg:min-h-[22rem]">
+							<ShapedPhoto
+								name="hands-painting"
+								shape="crest"
+								fill
+								interactive
+								focus="50% 45%"
+								sizes="(min-width: 1024px) 38vw, 92vw"
+							/>
+						</div>
+					</Reveal>
+				</div>
+			</Container>
+		</Section>
+	);
 }
 
 /* ========================================================================== */
@@ -840,435 +919,490 @@ function NoExamsSection() {
  * without any of them being decorated.
  */
 /** One icon per reason, in the order the reasons are written. */
-const LANGUAGE_ICONS = [MessageCircle, TrendingUp, ArrowLeftRight, Heart]
+const LANGUAGE_ICONS = [MessageCircle, TrendingUp, ArrowLeftRight, Heart];
 
 /** One icon per parent-update point. */
-const UPDATE_ICONS = [Camera, ClipboardList, Send]
+const UPDATE_ICONS = [Camera, ClipboardList, Send];
 
 const POINT_ACCENTS = [
-  {
-    card: 'bg-sky-50/70 ring-sky-200/70 hover:ring-sky-300',
-    chip: 'bg-sky-100 text-sky-700 ring-sky-200',
-    mark: 'text-sky-300/[0.18]',
-    shape: 'rounded-2xl rounded-tl-sm',
-  },
-  {
-    card: 'bg-orange-100/60 ring-orange-200/70 hover:ring-orange-300',
-    chip: 'bg-orange-100 text-orange-600 ring-orange-200',
-    mark: 'text-orange-400/[0.18]',
-    shape: 'rounded-2xl rounded-br-sm',
-  },
-  {
-    card: 'bg-green-100/60 ring-green-200/70 hover:ring-green-300',
-    chip: 'bg-green-100 text-green-600 ring-green-200',
-    mark: 'text-green-400/[0.18]',
-    shape: 'rounded-2xl rounded-tr-sm',
-  },
-  {
-    card: 'bg-brand-50/70 ring-brand-200/60 hover:ring-brand-300',
-    chip: 'bg-brand-100 text-brand-700 ring-brand-200',
-    mark: 'text-brand-300/[0.18]',
-    shape: 'rounded-2xl rounded-bl-sm',
-  },
-]
+	{
+		card: "bg-sky-50/70 ring-sky-200/70 hover:ring-sky-300",
+		chip: "bg-sky-100 text-sky-700 ring-sky-200",
+		mark: "text-sky-300/[0.18]",
+		shape: "rounded-2xl rounded-tl-sm",
+	},
+	{
+		card: "bg-orange-100/60 ring-orange-200/70 hover:ring-orange-300",
+		chip: "bg-orange-100 text-orange-600 ring-orange-200",
+		mark: "text-orange-400/[0.18]",
+		shape: "rounded-2xl rounded-br-sm",
+	},
+	{
+		card: "bg-green-100/60 ring-green-200/70 hover:ring-green-300",
+		chip: "bg-green-100 text-green-600 ring-green-200",
+		mark: "text-green-400/[0.18]",
+		shape: "rounded-2xl rounded-tr-sm",
+	},
+	{
+		card: "bg-brand-50/70 ring-brand-200/60 hover:ring-brand-300",
+		chip: "bg-brand-100 text-brand-700 ring-brand-200",
+		mark: "text-brand-300/[0.18]",
+		shape: "rounded-2xl rounded-bl-sm",
+	},
+];
 
 /** One numbered point: a chip, an icon watermark, and the sentence. */
 function PointCard({
-  index,
-  icon: Icon,
-  children,
+	index,
+	icon: Icon,
+	children,
 }: {
-  index: number
-  icon: LucideIcon
-  children: React.ReactNode
+	index: number;
+	icon: LucideIcon;
+	children: React.ReactNode;
 }) {
-  const accent = POINT_ACCENTS[index % POINT_ACCENTS.length]
-  return (
-    <div
-      className={cn(
-        'group/point relative isolate flex gap-5 overflow-hidden p-6 ring-1',
-        'transition-[transform,box-shadow] duration-300 ease-out-soft hover:-translate-y-1',
-        'motion-reduce:transition-none motion-reduce:hover:translate-y-0',
-        accent.card,
-        accent.shape,
-      )}
-    >
-      <Icon
-        className={cn(
-          'pointer-events-none absolute -bottom-5 -right-4 -z-10 size-28',
-          'transition-transform duration-500 ease-out-soft group-hover/point:scale-110 motion-reduce:transition-none',
-          accent.mark,
-        )}
-        strokeWidth={1.1}
-        aria-hidden="true"
-      />
-      <span
-        className={cn(
-          'font-numeral grid size-10 shrink-0 place-items-center rounded-xl text-sm font-semibold ring-1',
-          accent.chip,
-        )}
-        aria-hidden="true"
-      >
-        {String(index + 1).padStart(2, '0')}
-      </span>
-      <p className="text-body text-ink-500">{children}</p>
-    </div>
-  )
+	const accent = POINT_ACCENTS[index % POINT_ACCENTS.length];
+	return (
+		<div
+			className={cn(
+				"group/point relative isolate flex gap-5 overflow-hidden p-6 ring-1",
+				"transition-[transform,box-shadow] duration-300 ease-out-soft hover:-translate-y-1",
+				"motion-reduce:transition-none motion-reduce:hover:translate-y-0",
+				accent.card,
+				accent.shape,
+			)}>
+			<Icon
+				className={cn(
+					"pointer-events-none absolute -bottom-5 -right-4 -z-10 size-28",
+					"transition-transform duration-500 ease-out-soft group-hover/point:scale-110 motion-reduce:transition-none",
+					accent.mark,
+				)}
+				strokeWidth={1.1}
+				aria-hidden="true"
+			/>
+			<span
+				className={cn(
+					"font-numeral grid size-10 shrink-0 place-items-center rounded-xl text-sm font-semibold ring-1",
+					accent.chip,
+				)}
+				aria-hidden="true">
+				{String(index + 1).padStart(2, "0")}
+			</span>
+			<p className="text-body text-ink-500">{children}</p>
+		</div>
+	);
 }
 
 function LanguageSection() {
-  return (
-    <Section tone="sky" id="mother-tongue" labelledBy="language-title" divider={{ type: 'scallop', to: 'mist' }}>
-      <Container size="wide">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="flex flex-col lg:col-span-5">
-            <SectionHeader
-              id="language-title"
-              eyebrow={languageAtLbsKidz.eyebrow}
-              title={languageAtLbsKidz.headline}
-              standfirst={languageAtLbsKidz.body}
-            />
+	return (
+		<Section
+			tone="sky"
+			id="mother-tongue"
+			labelledBy="language-title"
+			divider={{ type: "scallop", to: "mist" }}>
+			<Container size="wide">
+				<div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+					<div className="flex flex-col lg:col-span-5">
+						<SectionHeader
+							id="language-title"
+							eyebrow={languageAtLbsKidz.eyebrow}
+							title={languageAtLbsKidz.headline}
+							standfirst={languageAtLbsKidz.body}
+						/>
 
-            {/* A child reading Devanagari is this section's argument as a
+						{/* A child reading Devanagari is this section's argument as a
                 picture, and it fills a column that was otherwise a heading with
                 two hundred pixels of empty tinted band under it. Height comes
                 from the grid row, so it closes whatever gap the list beside it
                 leaves. */}
-            <Reveal className="mt-10 lg:flex-1" direction="right" tier="lead">
-              <div className="h-64 sm:h-80 lg:h-full lg:min-h-[14rem]">
-                <ShapedPhoto
-                  name="reading-devanagari"
-                  shape="leaf"
-                  fill
-                  interactive
-                  focus="50% 40%"
-                  sizes="(min-width: 1024px) 38vw, 92vw"
-                />
-              </div>
-            </Reveal>
-          </div>
+						<Reveal
+							className="mt-10 lg:flex-1"
+							direction="right"
+							tier="lead">
+							<div className="h-64 sm:h-80 lg:h-full lg:min-h-[14rem]">
+								<ShapedPhoto
+									name="reading-devanagari"
+									shape="leaf"
+									fill
+									interactive
+									focus="50% 40%"
+									sizes="(min-width: 1024px) 38vw, 92vw"
+								/>
+							</div>
+						</Reveal>
+					</div>
 
-          <div className="lg:col-span-7">
-            <RevealGroup className="space-y-4" each={0.06}>
-              {languagePosition.reasons.map((reason, i) => (
-                <RevealItem key={reason}>
-                  <PointCard index={i} icon={LANGUAGE_ICONS[i % LANGUAGE_ICONS.length]}>
-                    {reason}
-                  </PointCard>
-                </RevealItem>
-              ))}
-            </RevealGroup>
-          </div>
-        </div>
-      </Container>
-    </Section>
-  )
+					<div className="lg:col-span-7">
+						<RevealGroup
+							className="space-y-4"
+							each={0.06}>
+							{languagePosition.reasons.map((reason, i) => (
+								<RevealItem key={reason}>
+									<PointCard
+										index={i}
+										icon={LANGUAGE_ICONS[i % LANGUAGE_ICONS.length]}>
+										{reason}
+									</PointCard>
+								</RevealItem>
+							))}
+						</RevealGroup>
+					</div>
+				</div>
+			</Container>
+		</Section>
+	);
 }
 
 /* ========================================================================== */
 
 function GoalsSection() {
-  return (
-    <Section tone="mist" id="curricular-goals" labelledBy="goals-title" divider={{ type: 'tight-wave', to: 'white' }}>
-      <Container size="wide">
-        <SectionHeader
-          id="goals-title"
-          eyebrow="Curricular goals"
-          title="Thirteen goals, across six areas of development"
-          standfirst="These are the national curricular goals for the Foundational Stage. Our activities are built to move children along them."
-        />
+	return (
+		<Section
+			tone="mist"
+			id="curricular-goals"
+			labelledBy="goals-title"
+			divider={{ type: "tight-wave", to: "white" }}>
+			<Container size="wide">
+				<SectionHeader
+					id="goals-title"
+					eyebrow="Curricular goals"
+					title="Thirteen goals, across six areas of development"
+					standfirst="These are the national curricular goals for the Foundational Stage. Our activities are built to move children along them."
+				/>
 
-        <RevealGroup className="mt-block grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {curricularDomains.map((domain, i) => (
-            <RevealItem key={domain.slug} className="h-full">
-              <Card
-                className="flex h-full flex-col"
-                object={domain.slug}
-                shape={cardShapeCycle[i % cardShapeCycle.length]}
-                backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}
-              >
-                <h3 className="font-display text-h4 font-semibold text-brand-700">
-                  {domain.domain}
-                </h3>
-                <ul className="mt-4 space-y-3">
-                  {domain.goals.map((goal) => (
-                    <li key={goal.id} className="flex gap-3">
-                      <span className="font-numeral shrink-0 text-xs font-semibold text-brand-500">
-                        {goal.id}
-                      </span>
-                      <span className="text-sm leading-relaxed text-ink-500">{goal.text}</span>
-                    </li>
-                  ))}
-                </ul>
+				<RevealGroup className="mt-block grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+					{curricularDomains.map((domain, i) => (
+						<RevealItem
+							key={domain.slug}
+							className="h-full">
+							<Card
+								className="flex h-full flex-col"
+								object={domain.slug}
+								shape={cardShapeCycle[i % cardShapeCycle.length]}
+								backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}>
+								<h3 className="font-display text-h4 font-semibold text-brand-700">
+									{domain.domain}
+								</h3>
+								<ul className="mt-4 space-y-3">
+									{domain.goals.map((goal) => (
+										<li
+											key={goal.id}
+											className="flex gap-3">
+											<span className="font-numeral shrink-0 text-xs font-semibold text-brand-500">
+												{goal.id}
+											</span>
+											<span className="text-sm leading-relaxed text-ink-500">
+												{goal.text}
+											</span>
+										</li>
+									))}
+								</ul>
 
-                {/* The domains carry between one and four goals each, and the
+								{/* The domains carry between one and four goals each, and the
                     cards stretch to the tallest in their row, so the short ones
                     ended on a block of empty paper. The count sits on `mt-auto`
                     and closes the card off, and it is worth saying anyway: the
                     thirteen in the heading has to add up somewhere. */}
-                <p className="mt-auto flex items-center gap-2 pt-6 text-xs font-medium uppercase tracking-[0.12em] text-ink-400">
-                  <span className="h-px w-6 bg-mist-400" aria-hidden="true" />
-                  {domain.goals.length} {domain.goals.length === 1 ? 'goal' : 'goals'}
-                </p>
-              </Card>
-            </RevealItem>
-          ))}
-        </RevealGroup>
+								<p className="mt-auto flex items-center gap-2 pt-6 text-xs font-medium uppercase tracking-[0.12em] text-ink-400">
+									<span
+										className="h-px w-6 bg-mist-400"
+										aria-hidden="true"
+									/>
+									{domain.goals.length}{" "}
+									{domain.goals.length === 1 ? "goal" : "goals"}
+								</p>
+							</Card>
+						</RevealItem>
+					))}
+				</RevealGroup>
 
-        <Reveal className="mt-block">
-          <MotifDivider />
-        </Reveal>
+				<Reveal className="mt-block">
+					<MotifDivider />
+				</Reveal>
 
-        <div className="mt-block grid gap-10 lg:grid-cols-12 lg:gap-16">
-          <div className="flex flex-col lg:col-span-5">
-            <Eyebrow className="mb-4">Where the framework comes from</Eyebrow>
-            <h3 className="font-display text-h2 font-semibold text-brand-700">
-              Panchakosha, mapped onto developmental science
-            </h3>
+				<div className="mt-block grid gap-10 lg:grid-cols-12 lg:gap-16">
+					<div className="flex flex-col lg:col-span-5">
+						<Eyebrow className="mb-4">Where the framework comes from</Eyebrow>
+						<h3 className="font-display text-h2 font-semibold text-brand-700">
+							Panchakosha, mapped onto developmental science
+						</h3>
 
-            {/* A heading and nothing else left most of this column empty beside
+						{/* A heading and nothing else left most of this column empty beside
                 a five-row table. Height comes from the grid row, so the picture
                 closes exactly the gap the table leaves. */}
-            <Reveal className="mt-8 lg:flex-1" direction="right">
-              <div className="h-56 sm:h-72 lg:h-full lg:min-h-[13rem]">
-                <ShapedPhoto
-                  name="child-sorting-board"
-                  shape="cut"
-                  fill
-                  interactive
-                  focus="40% 50%"
-                  sizes="(min-width: 1024px) 38vw, 92vw"
-                />
-              </div>
-            </Reveal>
+						<Reveal
+							className="mt-8 lg:flex-1"
+							direction="right">
+							<div className="h-56 sm:h-72 lg:h-full lg:min-h-[13rem]">
+								<ShapedPhoto
+									name="child-sorting-board"
+									shape="cut"
+									fill
+									interactive
+									focus="40% 50%"
+									sizes="(min-width: 1024px) 38vw, 92vw"
+								/>
+							</div>
+						</Reveal>
 
-            {/* Visible attribution, which this photograph requires: it is
+						{/* Visible attribution, which this photograph requires: it is
                 CC BY 2.0, not one of the no-credit stock licences the rest of
                 the site's pictures carry. */}
-            <p className="mt-3 text-2xs leading-relaxed text-ink-400">
-              Photograph by Shixart1985,{' '}
-              <a
-                href="https://creativecommons.org/licenses/by/2.0"
-                className="underline decoration-ink-400/40 underline-offset-2 hover:text-ink-500"
-                rel="license noopener noreferrer"
-                target="_blank"
-              >
-                CC BY 2.0
-              </a>
-              , via Wikimedia Commons.
-            </p>
-          </div>
+						<p className="mt-3 text-2xs leading-relaxed text-ink-400">
+							Photograph by Shixart1985,{" "}
+							<a
+								href="https://creativecommons.org/licenses/by/2.0"
+								className="underline decoration-ink-400/40 underline-offset-2 hover:text-ink-500"
+								rel="license noopener noreferrer"
+								target="_blank">
+								CC BY 2.0
+							</a>
+							, via Wikimedia Commons.
+						</p>
+					</div>
 
-          <div className="lg:col-span-7">
-            <RevealGroup className="overflow-hidden rounded-xl hairline">
-              <div className="hidden bg-mist-200 px-6 py-3 text-xs font-semibold uppercase tracking-wide text-ink-500 sm:grid sm:grid-cols-2">
-                <span>Kosha</span>
-                <span>Modern domain</span>
-              </div>
-              {panchakosha.map((row) => (
-                <RevealItem key={row.transliteration}>
-                  <div className="grid gap-1 border-t border-mist-300 bg-mist-50 px-6 py-4 sm:grid-cols-2 sm:items-center sm:gap-4">
-                    <div>
-                      <span className="font-deva text-base text-brand-700">{row.kosha}</span>
-                      <span className="ml-2 text-sm text-ink-400">
-                        {row.transliteration}
-                      </span>
-                      <span className="block text-xs text-ink-400">{row.gloss}</span>
-                    </div>
-                    <span className="text-sm font-medium text-ink-600">{row.domain}</span>
-                  </div>
-                </RevealItem>
-              ))}
-            </RevealGroup>
-          </div>
-        </div>
-      </Container>
-    </Section>
-  )
+					<div className="lg:col-span-7">
+						<RevealGroup className="overflow-hidden rounded-xl hairline">
+							<div className="hidden bg-mist-200 px-6 py-3 text-xs font-semibold uppercase tracking-wide text-ink-500 sm:grid sm:grid-cols-2">
+								<span>Kosha</span>
+								<span>Modern domain</span>
+							</div>
+							{panchakosha.map((row) => (
+								<RevealItem key={row.transliteration}>
+									<div className="grid gap-1 border-t border-mist-300 bg-mist-50 px-6 py-4 sm:grid-cols-2 sm:items-center sm:gap-4">
+										<div>
+											<span className="font-deva text-base text-brand-700">
+												{row.kosha}
+											</span>
+											<span className="ml-2 text-sm text-ink-400">
+												{row.transliteration}
+											</span>
+											<span className="block text-xs text-ink-400">
+												{row.gloss}
+											</span>
+										</div>
+										<span className="text-sm font-medium text-ink-600">
+											{row.domain}
+										</span>
+									</div>
+								</RevealItem>
+							))}
+						</RevealGroup>
+					</div>
+				</div>
+			</Container>
+		</Section>
+	);
 }
 
 /* ========================================================================== */
 
 function PrinciplesSection() {
-  return (
-    <Section tone="white" id="principles" labelledBy="principles-title" divider={{ type: 'reverse', to: 'green' }}>
-      <Container size="wide">
-        <SectionHeader
-          id="principles-title"
-          eyebrow="Design principles"
-          title="Ten principles we treat as non-negotiable"
-          standfirst="Taken directly from NCERT’s Guidelines for Preschool Education. Everything else on this page follows from them."
-        />
+	return (
+		<Section
+			tone="white"
+			id="principles"
+			labelledBy="principles-title"
+			divider={{ type: "reverse", to: "green" }}>
+			<Container size="wide">
+				<SectionHeader
+					id="principles-title"
+					eyebrow="Design principles"
+					title="Ten principles we treat as non-negotiable"
+					standfirst="Taken directly from NCERT’s Guidelines for Preschool Education. Everything else on this page follows from them."
+				/>
 
-        {/* Ten hairline rules down a page is a table of contents, not ten
+				{/* Ten hairline rules down a page is a table of contents, not ten
             things a school will not compromise on. Each principle now sits on
             its own tinted ground with its number in a chip, and the grounds
             rotate so the column reads as ten items rather than one block. */}
-        <RevealGroup className="mt-block grid gap-4 sm:grid-cols-2" each={0.04}>
-          {guidingPrinciples.map((principle, i) => (
-            <RevealItem key={principle} className="h-full">
-              {(() => {
-                const accent = POINT_ACCENTS[i % POINT_ACCENTS.length]
-                return (
-                  <div
-                    className={cn(
-                      'group/point flex h-full items-start gap-4 p-5 ring-1',
-                      'transition-[transform,box-shadow] duration-300 ease-out-soft hover:-translate-y-1',
-                      'motion-reduce:transition-none motion-reduce:hover:translate-y-0',
-                      accent.card,
-                      accent.shape,
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        'font-numeral grid size-9 shrink-0 place-items-center rounded-lg text-xs font-semibold ring-1',
-                        accent.chip,
-                      )}
-                      aria-hidden="true"
-                    >
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <p className="text-body text-ink-600">{principle}</p>
-                  </div>
-                )
-              })()}
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </Container>
-    </Section>
-  )
+				<RevealGroup
+					className="mt-block grid gap-4 sm:grid-cols-2"
+					each={0.04}>
+					{guidingPrinciples.map((principle, i) => (
+						<RevealItem
+							key={principle}
+							className="h-full">
+							{(() => {
+								const accent = POINT_ACCENTS[i % POINT_ACCENTS.length];
+								return (
+									<div
+										className={cn(
+											"group/point flex h-full items-start gap-4 p-5 ring-1",
+											"transition-[transform,box-shadow] duration-300 ease-out-soft hover:-translate-y-1",
+											"motion-reduce:transition-none motion-reduce:hover:translate-y-0",
+											accent.card,
+											accent.shape,
+										)}>
+										<span
+											className={cn(
+												"font-numeral grid size-9 shrink-0 place-items-center rounded-lg text-xs font-semibold ring-1",
+												accent.chip,
+											)}
+											aria-hidden="true">
+											{String(i + 1).padStart(2, "0")}
+										</span>
+										<p className="text-body text-ink-600">{principle}</p>
+									</div>
+								);
+							})()}
+						</RevealItem>
+					))}
+				</RevealGroup>
+			</Container>
+		</Section>
+	);
 }
 
 /* ========================================================================== */
 
 function EthicsSection() {
-  return (
-    <Section tone="green" id="ethics" labelledBy="ethics-title" divider={{ type: 'cloud', to: 'mist' }}>
-      <Container size="wide">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="flex flex-col lg:col-span-6">
-            <SectionHeader
-              id="ethics-title"
-              eyebrow="Values, taught as reasoning"
-              title="Two questions, asked instead of a rule"
-              standfirst="Character education here is not a list of rules recited at children. It is a habit of asking themselves something before they act."
-            />
+	return (
+		<Section
+			tone="green"
+			id="ethics"
+			labelledBy="ethics-title"
+			divider={{ type: "cloud", to: "mist" }}>
+			<Container size="wide">
+				<div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+					<div className="flex flex-col lg:col-span-6">
+						<SectionHeader
+							id="ethics-title"
+							eyebrow="Values, taught as reasoning"
+							title="Two questions, asked instead of a rule"
+							standfirst="Character education here is not a list of rules recited at children. It is a habit of asking themselves something before they act."
+						/>
 
-            {/* A child mid-thought, which is the whole claim of this section:
+						{/* A child mid-thought, which is the whole claim of this section:
                 the pause before acting, not a rule recited at them. It also
                 fills a column that was a heading and three lines of standfirst
                 against two large quotations. */}
-            <Reveal className="mt-10 lg:flex-1" direction="right" tier="lead">
-              <div className="h-64 sm:h-80 lg:h-full lg:min-h-[13rem]">
-                <ShapedPhoto
-                  name="toddler-focused"
-                  shape="leaf-alt"
-                  fill
-                  interactive
-                  focus="50% 40%"
-                  sizes="(min-width: 1024px) 46vw, 92vw"
-                />
-              </div>
-            </Reveal>
-          </div>
+						<Reveal
+							className="mt-10 lg:flex-1"
+							direction="right"
+							tier="lead">
+							<div className="h-64 sm:h-80 lg:h-full lg:min-h-[13rem]">
+								<ShapedPhoto
+									name="toddler-focused"
+									shape="leaf-alt"
+									fill
+									interactive
+									focus="50% 40%"
+									sizes="(min-width: 1024px) 46vw, 92vw"
+								/>
+							</div>
+						</Reveal>
+					</div>
 
-          {/* The two questions grow to meet the column opposite instead of
+					{/* The two questions grow to meet the column opposite instead of
               sitting at the top of it. They are the loudest thing in the
               section and they were the smallest: two short panels with a third
               of the band empty underneath them. Given the height, they read as
               the two things a child is asked to weigh. */}
-          <div className="flex flex-col lg:col-span-6">
-            <RevealGroup className="flex flex-1 flex-col gap-4">
-              {ethicsQuestions.map((q) => (
-                <RevealItem key={q} className="flex-1">
-                  <div className="flex h-full items-center rounded-xl bg-mist-50 p-8 hairline">
-                    <p className="font-display text-h2 leading-snug text-brand-700">“{q}”</p>
-                  </div>
-                </RevealItem>
-              ))}
-            </RevealGroup>
-            <Reveal className="mt-6">
-              <TextLink to={routes.lbsWay}>
-                How this runs through Shastri Sanskaar and SIMPLE
-              </TextLink>
-            </Reveal>
-          </div>
-        </div>
-      </Container>
-    </Section>
-  )
+					<div className="flex flex-col lg:col-span-6">
+						<RevealGroup className="flex flex-1 flex-col gap-4">
+							{ethicsQuestions.map((q) => (
+								<RevealItem
+									key={q}
+									className="flex-1">
+									<div className="flex h-full items-center rounded-xl bg-mist-50 p-8 hairline">
+										<p className="font-display text-h2 leading-snug text-brand-700">
+											“{q}”
+										</p>
+									</div>
+								</RevealItem>
+							))}
+						</RevealGroup>
+						<Reveal className="mt-6">
+							<TextLink to={routes.lbsWay}>
+								How this runs through Shastri Sanskaar and SIMPLE
+							</TextLink>
+						</Reveal>
+					</div>
+				</div>
+			</Container>
+		</Section>
+	);
 }
 
 /* ========================================================================== */
 
 function WhatYouSeeSection() {
-  return (
-    <Section
-      tone="mist"
-      id="what-you-see"
-      labelledBy="see-title"
-      /* Hands over to A Deeper Story below. It was filled with the coral of the
+	return (
+		<Section
+			tone="mist"
+			id="what-you-see"
+			labelledBy="see-title"
+			/* Hands over to A Deeper Story below. It was filled with the coral of the
          site-wide CTA band, which is suppressed on this route. */
-      divider={{ type: 'layered', to: 'brand' }}
-    >
-      <Container size="wide">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="flex flex-col lg:col-span-5">
-            <SectionHeader
-              id="see-title"
-              eyebrow="What reaches you"
-              title={parentUpdates.headline}
-              standfirst="Assessment without exams only means something if you can see it. Here is what you get."
-            />
+			divider={{ type: "layered", to: "brand" }}>
+			<Container size="wide">
+				<div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+					<div className="flex flex-col lg:col-span-5">
+						<SectionHeader
+							id="see-title"
+							eyebrow="What reaches you"
+							title={parentUpdates.headline}
+							standfirst="Assessment without exams only means something if you can see it. Here is what you get."
+						/>
 
-            {/* The people the updates are for. Same reason as the language
+						{/* The people the updates are for. Same reason as the language
                 band: the heading alone left most of this column empty. */}
-            <Reveal className="mt-10 lg:flex-1" direction="right" tier="lead">
-              <div className="h-64 sm:h-80 lg:h-full lg:min-h-[16rem]">
-                <ShapedPhoto
-                  name="family-at-home"
-                  shape="cut-alt"
-                  fill
-                  interactive
-                  focus="50% 35%"
-                  sizes="(min-width: 1024px) 38vw, 92vw"
-                />
-              </div>
-            </Reveal>
-          </div>
+						<Reveal
+							className="mt-10 lg:flex-1"
+							direction="right"
+							tier="lead">
+							<div className="h-64 sm:h-80 lg:h-full lg:min-h-[16rem]">
+								<ShapedPhoto
+									name="family-at-home"
+									shape="cut-alt"
+									fill
+									interactive
+									focus="50% 35%"
+									sizes="(min-width: 1024px) 38vw, 92vw"
+								/>
+							</div>
+						</Reveal>
+					</div>
 
-          <div className="lg:col-span-7">
-            <RevealGroup className="space-y-4">
-              {parentUpdates.points.map((point, i) => (
-                <RevealItem key={point}>
-                  <PointCard index={i} icon={UPDATE_ICONS[i % UPDATE_ICONS.length]}>
-                    {point}
-                  </PointCard>
-                </RevealItem>
-              ))}
-            </RevealGroup>
+					<div className="lg:col-span-7">
+						<RevealGroup className="space-y-4">
+							{parentUpdates.points.map((point, i) => (
+								<RevealItem key={point}>
+									<PointCard
+										index={i}
+										icon={UPDATE_ICONS[i % UPDATE_ICONS.length]}>
+										{point}
+									</PointCard>
+								</RevealItem>
+							))}
+						</RevealGroup>
 
-            <Reveal className="mt-8">
-              <Card tone="mist" object="curriculum-family" backdrop="mint-semi">
-                <h3 className="font-display text-h4 font-semibold text-brand-700">
-                  {familyInvolvement.principle}
-                </h3>
-                <ul className="mt-4 space-y-2">
-                  {familyInvolvement.practices.map((p) => (
-                    <li key={p} className="flex gap-3 text-sm leading-relaxed text-ink-500">
-                      <Grain className="mt-1.5 shrink-0 text-green-400" />
-                      <span>{p}</span>
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            </Reveal>
-          </div>
-        </div>
-      </Container>
-    </Section>
-  )
+						<Reveal className="mt-8">
+							<Card
+								tone="mist"
+								object="curriculum-family"
+								backdrop="mint-semi">
+								<h3 className="font-display text-h4 font-semibold text-brand-700">
+									{familyInvolvement.principle}
+								</h3>
+								<ul className="mt-4 space-y-2">
+									{familyInvolvement.practices.map((p) => (
+										<li
+											key={p}
+											className="flex gap-3 text-sm leading-relaxed text-ink-500">
+											<Grain className="mt-1.5 shrink-0 text-green-400" />
+											<span>{p}</span>
+										</li>
+									))}
+								</ul>
+							</Card>
+						</Reveal>
+					</div>
+				</div>
+			</Container>
+		</Section>
+	);
 }
 
 /* ========================================================================== */
@@ -1287,25 +1421,25 @@ function WhatYouSeeSection() {
  * Fees are absent by design: this page's schema is scoped to curriculum, and
  * the fee questions carry their own markup on the Fees page.
  */
-const schemaFaqs = curriculumFaqs.filter((f) => f.schema)
+const schemaFaqs = curriculumFaqs.filter((f) => f.schema);
 
 /** One icon per growth area. */
 const GROWTH_ICONS: Record<string, LucideIcon> = {
-  moving: Footprints,
-  feeling: Heart,
-  thinking: Puzzle,
-  talking: MessageCircle,
-  creating: Palette,
-}
+	moving: Footprints,
+	feeling: Heart,
+	thinking: Puzzle,
+	talking: MessageCircle,
+	creating: Palette,
+};
 
 /** One tone per card, so five neighbours never share a ground. */
 const GROWTH_TONES = [
-  'bg-sky-100 text-sky-700 ring-sky-200/70',
-  'bg-orange-100 text-orange-600 ring-orange-200/70',
-  'bg-sky-100 text-sky-600 ring-sky-200/70',
-  'bg-green-100 text-green-600 ring-green-200/70',
-  'bg-sky-100 text-brand-700 ring-sky-200/70',
-] as const
+	"bg-sky-100 text-sky-700 ring-sky-200/70",
+	"bg-orange-100 text-orange-600 ring-orange-200/70",
+	"bg-sky-100 text-sky-600 ring-sky-200/70",
+	"bg-green-100 text-green-600 ring-green-200/70",
+	"bg-sky-100 text-brand-700 ring-sky-200/70",
+] as const;
 
 /**
  * Section 2 of the specification: Five Ways Your Child Grows.
@@ -1320,64 +1454,66 @@ const GROWTH_TONES = [
  * interrupt the plain language above it.
  */
 function GrowthWaysSection() {
-  return (
-    <Section
-      tone="mist"
-      id="how-your-child-grows"
-     
-      labelledBy="growth-title"
-      divider={{ type: 'gentle', to: 'white' }}
-    >
-      <Container size="wide">
-        <SectionHeader
-          id="growth-title"
-          eyebrow={growthWaysIntro.eyebrow}
-          title={growthWaysIntro.headline}
-          standfirst={growthWaysIntro.standfirst}
-        />
+	return (
+		<Section
+			tone="mist"
+			id="how-your-child-grows"
+			labelledBy="growth-title"
+			divider={{ type: "gentle", to: "white" }}>
+			<Container size="wide">
+				<SectionHeader
+					id="growth-title"
+					eyebrow={growthWaysIntro.eyebrow}
+					title={growthWaysIntro.headline}
+					standfirst={growthWaysIntro.standfirst}
+				/>
 
-        {/* Five across only from `xl`, where five columns still leave a
+				{/* Five across only from `xl`, where five columns still leave a
             readable measure; three then two below that, which is what a
             five-item grid does gracefully. A flat `lg:grid-cols-5` at 1024
             gives each card a 26-character line. */}
-        <RevealGroup
-          className="mt-block grid gap-gutter sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
-          each={0.06}
-        >
-          {growthWays.map((way, i) => {
-            const Icon = GROWTH_ICONS[way.icon] ?? Sprout
-            return (
-              <RevealItem key={way.slug} className="h-full">
-                <Card
-                  tone="paper"
-                  className="flex h-full flex-col"
-                  shape={cardShapeCycle[i % cardShapeCycle.length]}
-                  backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}
-                >
-                  <span
-                    className={cn(
-                      'grid size-12 shrink-0 place-items-center rounded-2xl ring-1',
-                      GROWTH_TONES[i % GROWTH_TONES.length],
-                    )}
-                    aria-hidden="true"
-                  >
-                    <Icon className="size-5" strokeWidth={1.9} />
-                  </span>
-                  <h3 className="mt-5 font-display text-h4 font-semibold text-brand-700">
-                    {way.title}
-                  </h3>
-                  <p className="mt-2 flex-1 text-small leading-relaxed text-ink-600">{way.body}</p>
-                  <p className="mt-4 border-t border-mist-300 pt-3 text-2xs uppercase tracking-[0.12em] text-ink-400">
-                    {way.domain}
-                  </p>
-                </Card>
-              </RevealItem>
-            )
-          })}
-        </RevealGroup>
-      </Container>
-    </Section>
-  )
+				<RevealGroup
+					className="mt-block grid gap-gutter sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+					each={0.06}>
+					{growthWays.map((way, i) => {
+						const Icon = GROWTH_ICONS[way.icon] ?? Sprout;
+						return (
+							<RevealItem
+								key={way.slug}
+								className="h-full">
+								<Card
+									tone="paper"
+									className="flex h-full flex-col"
+									shape={cardShapeCycle[i % cardShapeCycle.length]}
+									backdrop={cardBackdropCycle[i % cardBackdropCycle.length]}>
+									<span
+										className={cn(
+											"grid size-12 shrink-0 place-items-center rounded-2xl ring-1",
+											GROWTH_TONES[i % GROWTH_TONES.length],
+										)}
+										aria-hidden="true">
+										<Icon
+											className="size-5"
+											strokeWidth={1.9}
+										/>
+									</span>
+									<h3 className="mt-5 font-display text-h4 font-semibold text-brand-700">
+										{way.title}
+									</h3>
+									<p className="mt-2 flex-1 text-small leading-relaxed text-ink-600">
+										{way.body}
+									</p>
+									<p className="mt-4 border-t border-mist-300 pt-3 text-2xs uppercase tracking-[0.12em] text-ink-400">
+										{way.domain}
+									</p>
+								</Card>
+							</RevealItem>
+						);
+					})}
+				</RevealGroup>
+			</Container>
+		</Section>
+	);
 }
 
 /**
@@ -1390,46 +1526,49 @@ function GrowthWaysSection() {
  * be the emotional pitch this page is written to avoid.
  */
 function DeeperStorySection() {
-  return (
-    <Section
-      tone="brand"
-      id="a-deeper-story"
-     
-      labelledBy="deeper-story-title"
-      size="sm"
-      divider={{ type: 'tight-wave', to: 'white' }}
-    >
-      <Container size="wide">
-        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-7">
-            <SectionHeader
-              id="deeper-story-title"
-              eyebrow={deeperStory.eyebrow}
-              title={deeperStory.headline}
-              standfirst={deeperStory.body}
-              onDark
-            />
-            <Reveal className="mt-8">
-              <ButtonLink to={routes.lbsWay} variant="onDark" withArrow>
-                {deeperStory.linkLabel}
-              </ButtonLink>
-            </Reveal>
-          </div>
+	return (
+		<Section
+			tone="brand"
+			id="a-deeper-story"
+			labelledBy="deeper-story-title"
+			size="sm"
+			divider={{ type: "tight-wave", to: "white" }}>
+			<Container size="wide">
+				<div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+					<div className="lg:col-span-7">
+						<SectionHeader
+							id="deeper-story-title"
+							eyebrow={deeperStory.eyebrow}
+							title={deeperStory.headline}
+							standfirst={deeperStory.body}
+							onDark
+						/>
+						<Reveal className="mt-8">
+							<ButtonLink
+								to={routes.lbsWay}
+								variant="onDark"
+								withArrow>
+								{deeperStory.linkLabel}
+							</ButtonLink>
+						</Reveal>
+					</div>
 
-          <Reveal className="lg:col-span-5" delay={0.1}>
-            <ShapedPhoto
-              name="circle-storytime"
-              shape="crest"
-              interactive
-              sizes="(min-width: 1024px) 38vw, 90vw"
-              ratio="4 / 3"
-              focus="50% 40%"
-            />
-          </Reveal>
-        </div>
-      </Container>
-    </Section>
-  )
+					<Reveal
+						className="lg:col-span-5"
+						delay={0.1}>
+						<ShapedPhoto
+							name="circle-storytime"
+							shape="crest"
+							interactive
+							sizes="(min-width: 1024px) 38vw, 90vw"
+							ratio="4 / 3"
+							focus="50% 40%"
+						/>
+					</Reveal>
+				</div>
+			</Container>
+		</Section>
+	);
 }
 
 /**
@@ -1445,49 +1584,54 @@ function DeeperStorySection() {
  * thing resembling a call to action anywhere on this page.
  */
 function CurriculumFaqSection() {
-  return (
-    <Section
-      tone="white"
-      id="common-questions"
-      labelledBy="curriculum-faq-title"
-      divider={{ type: 'layered', fill: 'var(--color-brand-800)' }}
-    >
-      <Container size="wide">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-5">
-            <div className="lg:sticky lg:top-28">
-              <SectionHeader
-                id="curriculum-faq-title"
-                eyebrow={curriculumFaqIntro.eyebrow}
-                title={curriculumFaqIntro.headline}
-                standfirst={curriculumFaqIntro.standfirst}
-              />
+	return (
+		<Section
+			tone="white"
+			id="common-questions"
+			labelledBy="curriculum-faq-title"
+			divider={{ type: "layered", fill: "var(--color-brand-800)" }}>
+			<Container size="wide">
+				<div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+					<div className="lg:col-span-5">
+						<div className="lg:sticky lg:top-28">
+							<SectionHeader
+								id="curriculum-faq-title"
+								eyebrow={curriculumFaqIntro.eyebrow}
+								title={curriculumFaqIntro.headline}
+								standfirst={curriculumFaqIntro.standfirst}
+							/>
 
-              <Reveal className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col lg:items-start">
-                <ButtonLink to={routes.programs} variant="outline" withArrow>
-                  View Programs &amp; Classes
-                </ButtonLink>
-                <ButtonLink to={routes.faqs} variant="ghost" withArrow>
-                  Every question, answered
-                </ButtonLink>
-              </Reveal>
-            </div>
-          </div>
+							<Reveal className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col lg:items-start">
+								<ButtonLink
+									to={routes.programs}
+									variant="outline"
+									withArrow>
+									View Programs &amp; Classes
+								</ButtonLink>
+								<ButtonLink
+									to={routes.faqs}
+									variant="ghost"
+									withArrow>
+									Every question, answered
+								</ButtonLink>
+							</Reveal>
+						</div>
+					</div>
 
-          <div className="lg:col-span-7">
-            <Reveal>
-              <Accordion
-                items={schemaFaqs.map((f) => ({ title: f.q, body: f.a }))}
-                defaultOpen={0}
-              />
-            </Reveal>
-          </div>
-        </div>
-      </Container>
-    </Section>
-  )
+					<div className="lg:col-span-7">
+						<Reveal>
+							<Accordion
+								items={schemaFaqs.map((f) => ({ title: f.q, body: f.a }))}
+								defaultOpen={0}
+							/>
+						</Reveal>
+					</div>
+				</div>
+			</Container>
+		</Section>
+	);
 }
 
 /* ========================================================================== */
 
-export default CurriculumPage
+export default CurriculumPage;

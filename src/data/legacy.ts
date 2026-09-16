@@ -14,6 +14,8 @@
  * is doing. No wording is changed and no meaning is altered.
  */
 
+import type { PhotoName } from './media'
+
 /* -------------------------------------------------------------------------
  * Home page, Section 2 — the Legacy strip.
  * Source: Home Page Content S3, Section 2.
@@ -104,7 +106,7 @@ export const legacyToValues = {
 export const wheatMotif = {
   headline: 'The wheat stalk',
   body:
-    'A quiet line-drawn wheat stalk runs through this site. It stands for food respect and gratitude to the farmer, which is where the Shastri legacy and our Empathy pillar meet. It is used quietly, and never literally or politically.',
+    'A quiet line-drawn wheat stalk runs through this site. It stands for food respect and gratitude to the farmer, which is where Shastri Ji’s legacy and our Empathy pillar meet. It is used quietly, and never literally or politically.',
   ncertNote:
     'CG-5, a positive attitude towards productive work and service, and CG-6, positive regard for the natural environment, are national curricular goals in NCF-FS. Our food-gratitude content sits directly on them.',
 }
@@ -119,6 +121,42 @@ export const familyMessageIntro = {
   eyebrow: 'A message from our family',
   headline: 'A Message from Our Family',
   standfirst: 'In the words of Shri Anil Shastri Ji, son of Shri Lal Bahadur Shastri Ji',
+}
+
+/**
+ * The family group photograph.
+ *
+ * D12 §8 lists this first of the five outstanding pictures, "a family group
+ * photo for the hero", and until now it was the only one of the five with
+ * nowhere to go: the four portraits each had a slot on the page and the group
+ * photograph had none, so the picture the specification asks for first would
+ * have had to be wedged in on the day it arrived. The frame now exists, at the
+ * size the print will be.
+ *
+ * `photo` stays null until the real photograph is received, and nothing stands
+ * in for it in the meantime — `Photo.tsx` records that the two Shastri family
+ * pages take no stock photography at all.
+ * See docs/decisions-and-todos.md item T-03.
+ */
+export const familyPortrait: {
+  eyebrow: string
+  caption: string
+  photo: PhotoName | null
+  reservedLabel: string
+  reservedNote: string
+} = {
+  eyebrow: 'The family',
+  caption: 'The Lal Bahadur Shastri family',
+  photo: null,
+  reservedLabel: 'Family photograph to follow',
+  /**
+   * Shown only while `photo` is null, and deliberately says nothing about what
+   * the photograph will contain. Nobody here has seen it, and a line describing
+   * who stands in a picture that has not been taken would be the one invented
+   * thing on a page whose whole claim is that nothing on it was invented.
+   */
+  reservedNote:
+    'A photograph of the family is being arranged with them, and will be published here once it is received.',
 }
 
 export type FamilyMember = {

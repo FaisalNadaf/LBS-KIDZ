@@ -488,8 +488,18 @@ calls "the one place on the site where a real photo, not illustration, is essent
 still to be requested through him. Every slot draws a reserved state at the size the real picture
 will be, so the page does not reflow when they land.
 
-**Fix:** `src/data/legacy.ts` → `familyMembers[].photo`, `lalitaShastriTribute.photo`,
-`founder.photo`.
+**The group photograph now has one of those slots (16 Sep 2026).** It did not before: the four
+portraits each had a place on the page and the picture D12 §8 lists *first* had none at all, so it
+would have had to be wedged in on the day it arrived. It is now a mounted 3:2 frame opening the
+Family Message page, directly under the header. It is not *in* the header, because `PageHeader`
+renders photographs by name out of the generated manifest, this picture is not in that manifest, and
+under C-04 nothing may stand in for it — the two Shastri family pages take no stock photography at
+all. The reserved state says the photograph is being arranged and deliberately says nothing about
+what it will show; the frame is the same size either way.
+
+**Fix:** `src/data/legacy.ts` → `familyPortrait.photo`, `familyMembers[].photo`,
+`lalitaShastriTribute.photo`, `founder.photo`. Setting `familyPortrait.photo` to a manifest name is
+the whole change: the reserved note and its dashed fillet disappear on their own.
 
 Owner: Adarsh Shastri to coordinate (as recorded in Decisions Log §10).
 
