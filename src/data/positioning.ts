@@ -329,7 +329,7 @@ export const deliberateChoices = [
     instead: 'An empty space, until there is something true to put in it.',
   },
   {
-    avoided: 'Business and franchise messaging mixed into parent pages',
-    instead: 'Parent-facing and business-facing kept completely separate.',
+    avoided: 'Children scored, ranked or compared against one another',
+    instead: 'Each child’s growth observed at their own pace, and never turned into a score.',
   },
 ]

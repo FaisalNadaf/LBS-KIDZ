@@ -94,15 +94,19 @@ export function LogoArt({
  * turns white as soon as the reader scrolls. `onDark` is kept so a future
  * treatment has somewhere to go without touching the call sites.
  *
- * Sized a step up from the first build so the logo holds its own against the
- * navigation beside it: 44px on phones and tablets, 52px from `xl`. Between
- * 1024 and 1279 it stays at 40px, because that is where the full desktop menu
- * first appears and a wider logo pushed "For Parents" onto two lines.
+ * Sized 25% up from the previous build, by client direction (6 Oct 2026), so
+ * the logo holds its own against the navigation beside it: 55px on phones and
+ * tablets, 50px from 1100, 65px from `xl`. Between 1024 and 1099 it stays at
+ * 40px: that is where the full desktop menu first appears, and anything larger
+ * is squeezed by the menu, squashing the artwork and hiding the dropdown
+ * chevrons. Measured: 50px first fits whole at 1088. The 40px band is a closed
+ * range rather than a plain `lg:` because Tailwind emits arbitrary breakpoints
+ * before named ones, so `lg:h-10` would beat `min-[1100px]:h-12.5`.
  */
 export function Logo({
   className,
   variant = 'wordmark',
-  sizeClassName = 'h-11 lg:h-10 xl:h-13',
+  sizeClassName = 'h-13.75 lg:max-[1100px]:h-10 min-[1100px]:h-12.5 xl:h-16.25',
 }: {
   className?: string
   /** Accepted and currently unused: the mark is identical on every ground. */
